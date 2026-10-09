@@ -21,6 +21,8 @@ export interface Caller {
   accessKeyId: string;
   /** Where the credentials end up. */
   delivered: L;
+  /** Chapter that explains this caller's path in depth. */
+  next: { href: string; label: L };
 }
 
 export const CALLERS: Caller[] = [
@@ -39,6 +41,13 @@ export const CALLERS: Caller[] = [
     arn: "arn:aws:sts::210987654321:assumed-role/deploy/alice",
     accessKeyId: "ASIAQEXAMPLEDEVKEY01",
     delivered: { en: "~/.aws/cli/cache", ja: "~/.aws/cli/cache" },
+    next: {
+      href: "#trust",
+      label: {
+        en: "Why both accounts must agree",
+        ja: "両方のアカウントが許可する必要がある理由",
+      },
+    },
   },
   {
     id: "ci",
@@ -55,6 +64,10 @@ export const CALLERS: Caller[] = [
     arn: "arn:aws:sts::123456789012:assumed-role/gha-deploy/GitHubActions",
     accessKeyId: "ASIAQEXAMPLEGHAKEY02",
     delivered: { en: "Job environment variables", ja: "ジョブの環境変数" },
+    next: {
+      href: "#paths",
+      label: { en: "Follow the GitHub OIDC flow", ja: "GitHub OIDC の流れを追う" },
+    },
   },
   {
     id: "sso",
@@ -71,6 +84,10 @@ export const CALLERS: Caller[] = [
     arn: "arn:aws:sts::123456789012:assumed-role/Engineer/alice@example.com",
     accessKeyId: "ASIAQEXAMPLESAMLKY03",
     delivered: { en: "The console session", ja: "コンソールのセッション" },
+    next: {
+      href: "#paths",
+      label: { en: "Follow the SAML sign-in", ja: "SAML サインインの流れを追う" },
+    },
   },
   {
     id: "ec2",
@@ -89,6 +106,10 @@ export const CALLERS: Caller[] = [
     delivered: {
       en: "Instance metadata (IMDSv2)",
       ja: "インスタンスメタデータ (IMDSv2)",
+    },
+    next: {
+      href: "#paths",
+      label: { en: "See how IMDS hands keys over", ja: "IMDS がキーを渡す流れを見る" },
     },
   },
   {
@@ -109,6 +130,13 @@ export const CALLERS: Caller[] = [
     arn: "arn:aws:iam::123456789012:user/alice",
     accessKeyId: "ASIAQEXAMPLEMFAKEY05",
     delivered: { en: "A named CLI profile", ja: "CLI の名前付きプロファイル" },
+    next: {
+      href: "#api",
+      label: {
+        en: "Compare GetSessionToken with the rest",
+        ja: "GetSessionToken を他の API と比べる",
+      },
+    },
   },
   {
     id: "root",
@@ -125,6 +153,10 @@ export const CALLERS: Caller[] = [
     arn: "root user of 444455556666, one task only",
     accessKeyId: "ASIAQEXAMPLEROOTKY06",
     delivered: { en: "Your shell, for one task", ja: "1 タスク分だけシェルに" },
+    next: {
+      href: "#api",
+      label: { en: "Read the AssumeRoot rules", ja: "AssumeRoot のルールを読む" },
+    },
   },
 ];
 
