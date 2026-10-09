@@ -101,12 +101,52 @@ export function Callout({
 }) {
   const { t } = useLang();
   const c = CALLOUT[kind];
+  // Three different paper objects, not one tinted box in three colours:
+  // a margin note, a rejection slip with a stamp, an amendment slip.
+  if (kind === "note")
+    return (
+      <aside className="prose-col border-l-2 py-1 pl-4" style={{ borderColor: c.color }}>
+        <strong className="mr-2" style={{ color: c.color }}>
+          {t(c.label)}
+        </strong>
+        {rich(t(children))}
+      </aside>
+    );
+  if (kind === "warn")
+    return (
+      <aside
+        className="prose-col relative mt-3 rounded-lg border-2 border-dashed bg-[var(--surface)] px-4 pt-5 pb-3"
+        style={{ borderColor: `color-mix(in oklab, ${c.color} 55%, transparent)` }}
+      >
+        <strong
+          className="absolute -top-3 left-3 -rotate-2 rounded-md border-2 bg-[var(--surface)] px-2 font-display text-sm leading-6"
+          style={{ color: c.color, borderColor: c.color }}
+        >
+          {t(c.label)}
+        </strong>
+        {rich(t(children))}
+      </aside>
+    );
   return (
-    <aside
-      className="prose-col rounded-xl border-l-4 bg-[var(--sunk)] px-4 py-3"
-      style={{ borderColor: c.color }}
-    >
-      <strong className="mr-2" style={{ color: c.color }}>
+    <aside className="guilloche prose-col relative overflow-hidden rounded-lg border border-[var(--line)] px-4 pt-4 pb-3">
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-1.5"
+        style={{
+          backgroundImage: `radial-gradient(circle, var(--paper) 2px, transparent 2.5px)`,
+          backgroundSize: "10px 6px",
+          backgroundPosition: "center -3px",
+        }}
+      />
+      <strong
+        className="mr-2 inline-flex items-center gap-1.5"
+        style={{ color: c.color }}
+      >
+        <span
+          aria-hidden
+          className="size-2.5 rounded-full"
+          style={{ background: c.color }}
+        />
         {t(c.label)}
       </strong>
       {rich(t(children))}

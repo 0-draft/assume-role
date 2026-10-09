@@ -7,6 +7,10 @@ import { Code } from "./index";
 import { actorVar, type Actor } from "@/lib/actor";
 import { rich } from "@/lib/rich";
 
+/** Row height and arrow baseline: room for a two-line label above each arrow. */
+const ROW = 62;
+const LINE = 42;
+
 export interface Lane {
   id: string;
   label: L;
@@ -122,7 +126,7 @@ export function Sequence({
                 >
                   <div className="text-sm leading-tight font-bold">{t(l.label)}</div>
                   {l.sub && (
-                    <div className="mt-0.5 truncate font-mono text-[0.68rem] text-[var(--muted)]">
+                    <div className="mt-0.5 font-mono text-[0.68rem] leading-tight break-all text-[var(--muted)]">
                       {l.sub}
                     </div>
                   )}
@@ -130,7 +134,7 @@ export function Sequence({
               ))}
             </div>
             {/* Lifelines + messages */}
-            <div className="relative mt-1" style={{ height: steps.length * 46 + 16 }}>
+            <div className="relative mt-1" style={{ height: steps.length * ROW + 16 }}>
               {lanes.map((l) => (
                 <div
                   key={l.id}
@@ -156,16 +160,16 @@ export function Sequence({
                     key={n}
                     className="absolute transition-opacity duration-300"
                     style={{
-                      top: n * 46 + 8,
+                      top: n * ROW + 8,
                       left: `${left}%`,
                       width: `${width}%`,
-                      height: 40,
+                      height: ROW - 6,
                       opacity: visible ? 1 : 0,
                       visibility: visible ? "visible" : "hidden",
                     }}
                   >
                     <div
-                      className="absolute right-0 left-0 truncate px-2 text-center font-mono text-[0.74rem] font-semibold"
+                      className="absolute right-0 left-0 line-clamp-2 px-2 text-center font-mono text-[0.74rem] leading-tight font-semibold"
                       style={{ top: 0, color: active ? "var(--ink)" : "var(--muted)" }}
                     >
                       {t(s.label)}
@@ -174,7 +178,7 @@ export function Sequence({
                       <div
                         className="absolute left-0 rounded-r-lg border-2 border-l-0"
                         style={{
-                          top: 18,
+                          top: LINE - 9,
                           width: "100%",
                           height: 16,
                           borderColor: color,
@@ -186,15 +190,16 @@ export function Sequence({
                         <div
                           className="absolute right-1 left-1"
                           style={{
-                            top: 27,
-                            borderTop: `2px ${s.reply ? "dashed" : "solid"} ${color}`,
+                            top: LINE,
+                            borderTop: `${active ? 3 : 2}px ${s.reply ? "dashed" : "solid"} ${color}`,
+                            filter: active ? `drop-shadow(0 0 4px ${color})` : undefined,
                             opacity: active ? 1 : 0.45,
                           }}
                         />
                         <div
                           className="absolute"
                           style={{
-                            top: 22,
+                            top: LINE - 5,
                             [rtl ? "left" : "right"]: 0,
                             width: 0,
                             height: 0,
@@ -211,7 +216,7 @@ export function Sequence({
                         key={i}
                         className="absolute size-3 rounded-full shadow"
                         style={{
-                          top: 22,
+                          top: LINE - 5,
                           background: color,
                           boxShadow: `0 0 0 4px color-mix(in oklab, ${color} 30%, transparent)`,
                           animation: `seq-${rtl ? "rtl" : "ltr"} 650ms cubic-bezier(.3,.7,.2,1) both`,
