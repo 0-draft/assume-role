@@ -41,8 +41,8 @@ Action=GetCallerIdentity&Version=2011-06-15`}
       </Code>
       <Callout kind="note">
         {{
-          en: "STS still speaks the 2011 Query protocol: form-encoded `Action=...&Version=2011-06-15` in, XML out. SDKs hide this, but you will see it in CloudTrail and in `--debug` output.",
-          ja: "STS は今も 2011 年版の Query プロトコルです。リクエストはフォームエンコードの `Action=...&Version=2011-06-15`、レスポンスは XML。SDK が隠してくれますが、CloudTrail や `--debug` の出力で目にします。",
+          en: "STS still speaks the 2011 Query protocol: form-encoded `Action=...&Version=2011-06-15` in, XML out. SDKs hide this, but you will see it in `--debug` output.",
+          ja: "STS は今も 2011 年版の Query プロトコルです。リクエストはフォームエンコードの `Action=...&Version=2011-06-15`、レスポンスは XML。SDK が隠してくれますが、`--debug` の出力で目にします。",
         }}
       </Callout>
       <p className="prose-col text-sm text-[var(--muted)]">
@@ -92,8 +92,8 @@ function Anatomy() {
       long: null,
       temp: "2026-10-10T10:00:00Z",
       note: {
-        en: "15 minutes to 36 hours depending on the API.",
-        ja: "API によって 15 分から 36 時間。",
+        en: "From minutes to 36 hours depending on the API (most start at 15 minutes).",
+        ja: "API によって数分から 36 時間 (多くは最短 15 分)。",
       },
     },
   ];

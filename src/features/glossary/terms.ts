@@ -306,8 +306,8 @@ export const TERMS: Term[] = [
     term: "sts_regional_endpoints",
     aka: ["AWS_STS_REGIONAL_ENDPOINTS"],
     def: {
-      en: "SDK/CLI setting, `legacy` or `regional`. On 31 July 2025 the SDKs that still defaulted to `legacy` (boto3, CLI v1, PHP, C++, .NET, PowerShell) switched to `regional`.",
-      ja: "SDK/CLI の設定で値は `legacy` か `regional`。2025 年 7 月 31 日、まだ `legacy` が既定だった SDK (boto3、CLI v1、PHP、C++、.NET、PowerShell) が `regional` に切り替わった。",
+      en: "SDK/CLI setting, `legacy` or `regional`. On 31 July 2025 the SDKs that still sent STS calls to the global endpoint by default (boto3, CLI v1, PHP, C++, .NET, PowerShell) switched to Regional.",
+      ja: "SDK/CLI の設定で値は `legacy` か `regional`。2025 年 7 月 31 日、既定でまだグローバルエンドポイントに送っていた SDK (boto3、CLI v1、PHP、C++、.NET、PowerShell) がリージョナルに切り替わった。",
     },
     chapter: "endpoints",
   },

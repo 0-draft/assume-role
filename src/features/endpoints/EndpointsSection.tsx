@@ -234,8 +234,8 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
         </h3>
         <Callout kind="warn">
           {{
-            en: "**Region-deny SCPs block global STS.** Global calls always carry `aws:RequestedRegion = us-east-1`. AWS's sample Region-deny SCP exempts `iam:*`, `organizations:*`, `route53:*` and others, but not `sts:*`. An EU-only SCP denies `sts:AssumeRole` sent to `sts.amazonaws.com`. Better fix: move callers to Regional endpoints in allowed Regions.",
-            ja: "**リージョン制限 SCP がグローバル STS を止める。** グローバル呼び出しは常に `aws:RequestedRegion = us-east-1`。AWS のサンプル SCP は `iam:*` や `organizations:*`、`route53:*` などは除外しているが `sts:*` は除外していない。EU 限定の SCP は `sts.amazonaws.com` への `sts:AssumeRole` を拒否する。根本対策は呼び出し側を許可リージョンのリージョナルに移すこと。",
+            en: "**Region-deny policies block global STS.** Global calls always carry `aws:RequestedRegion = us-east-1`. The IAM User Guide's sample Region-deny policy exempts `cloudfront:*`, `iam:*`, `organizations:*`, `route53:*` and `support:*`, but not `sts:*`. Copy it into an EU-only SCP and `sts:AssumeRole` sent to `sts.amazonaws.com` is denied. (Control Tower's Region-deny SCP does exempt `sts:*`.) Better fix: move callers to Regional endpoints in allowed Regions.",
+            ja: "**リージョン制限ポリシーがグローバル STS を止める。** グローバル呼び出しは常に `aws:RequestedRegion = us-east-1`。IAM ユーザーガイドのサンプル (リージョン制限ポリシー) は `cloudfront:*`・`iam:*`・`organizations:*`・`route53:*`・`support:*` を除外しているが `sts:*` は除外していない。これを EU 限定の SCP に流用すると `sts.amazonaws.com` への `sts:AssumeRole` が拒否される (Control Tower のリージョン拒否 SCP は `sts:*` を除外している)。根本対策は呼び出し側を許可リージョンのリージョナルに移すこと。",
           }}
         </Callout>
         <Callout kind="warn">

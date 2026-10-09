@@ -19,8 +19,8 @@ export function Hero() {
           className="text-[2.6rem] leading-[1.02] font-bold sm:text-6xl"
         >
           {t({
-            en: "Every AWS credential you didn't type was printed by STS.",
-            ja: "自分で打ち込んでいない AWS の認証情報は、すべて STS が発行している。",
+            en: "Almost every AWS credential you didn't type was printed by STS.",
+            ja: "自分で打ち込んでいない AWS の認証情報は、ほぼすべて STS が発行している。",
           })}
         </h1>
         <p className="prose-col mt-5 text-lg text-[var(--muted)]">

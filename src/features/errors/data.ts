@@ -115,7 +115,13 @@ export const ERRORS: StsError[] = [
     id: "region-disabled",
     code: "RegionDisabled",
     http: 403,
-    apis: [...ASSUME, "AssumeRoot", "GetFederationToken", "GetSessionToken"],
+    apis: [
+      ...ASSUME,
+      "AssumeRoot",
+      "GetFederationToken",
+      "GetSessionToken",
+      "GetDelegatedAccessToken",
+    ],
     symptom: {
       en: "RegionDisabledException: STS is not activated in the requested region for the account that is being asked to generate credentials",
       ja: "RegionDisabledException: STS is not activated in the requested region for the account that is being asked to generate credentials",

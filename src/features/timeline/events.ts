@@ -294,7 +294,10 @@ export const EVENTS: TimelineEvent[] = [
   {
     date: "2025-07-31",
     category: "endpoints",
-    title: { en: "Every SDK defaults to Regional", ja: "全 SDK がリージョナル既定に" },
+    title: {
+      en: "Remaining SDKs and CLI v1 default to Regional",
+      ja: "残りの SDK と CLI v1 がリージョナル既定に",
+    },
     detail: {
       en: "Python (boto3 1.40.0), CLI v1 1.42.0, PHP, C++, .NET and PowerShell switch their default to Regional endpoints.",
       ja: "Python (boto3 1.40.0)、CLI v1 1.42.0、PHP、C++、.NET、PowerShell が既定をリージョナルに切り替え。",

@@ -102,8 +102,8 @@ export function buildHostname(
         return {
           kind: "none",
           reason: {
-            en: "Only the commercial partition has a global endpoint. China, GovCloud and the European Sovereign Cloud must use Regional endpoints.",
-            ja: "グローバルエンドポイントは商用パーティションにしかありません。中国・GovCloud・European Sovereign Cloud はリージョナルエンドポイント必須です。",
+            en: "China, GovCloud and the European Sovereign Cloud must use Regional endpoints; AWS documents no global STS endpoint for them.",
+            ja: "中国・GovCloud・European Sovereign Cloud はリージョナルエンドポイント必須です。これらにグローバルの STS エンドポイントは文書化されていません。",
           },
         };
       const segments: Segment[] = [

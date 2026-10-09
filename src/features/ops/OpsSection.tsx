@@ -22,8 +22,8 @@ const THREATS: Threat[] = [
       ja: "IMDSv1 への SSRF や CI ログに出た認証情報が、別の場所から使われる。",
     },
     control: {
-      en: "Enforce IMDSv2. GuardDuty raises `InstanceCredentialExfiltration.OutsideAWS` / `.InsideAWS`. SCPs comparing `aws:EC2InstanceSourceVPC` with `aws:SourceVpc` pin credentials to their instance.",
-      ja: "IMDSv2 を強制する。GuardDuty が `InstanceCredentialExfiltration.OutsideAWS` / `.InsideAWS` を検知する。`aws:EC2InstanceSourceVPC` と `aws:SourceVpc` を比べる SCP で、認証情報を発行元インスタンスに縛れる。",
+      en: "Enforce IMDSv2. GuardDuty raises `InstanceCredentialExfiltration.OutsideAWS` / `.InsideAWS`. SCPs comparing `aws:EC2InstanceSourceVPC` with `aws:SourceVpc` (and `aws:EC2InstanceSourcePrivateIPv4` with `aws:VpcSourceIp`) pin credentials to their instance.",
+      ja: "IMDSv2 を強制する。GuardDuty が `InstanceCredentialExfiltration.OutsideAWS` / `.InsideAWS` を検知する。`aws:EC2InstanceSourceVPC` と `aws:SourceVpc` (さらに `aws:EC2InstanceSourcePrivateIPv4` と `aws:VpcSourceIp`) を比べる SCP で、認証情報を発行元インスタンスに縛れる。",
     },
     source:
       "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-iam.html",
@@ -140,8 +140,8 @@ const CHECKLIST: L[] = [
     ja: "`aws:TokenIssueTime`・`aws:userid`・`aws:SourceIdentity` による拒否で無効化を練習しておく。",
   },
   {
-    en: "Watch `SessionTokenUtilization` in CloudWatch `AWS/STS`.",
-    ja: "CloudWatch の `AWS/STS` で `SessionTokenUtilization` を見張る。",
+    en: "Alarm on `SessionTokenSize` vs `SessionTokenMaxSize` in CloudWatch `AWS/STS`, and log `SessionTokenUtilization` from responses.",
+    ja: "CloudWatch の `AWS/STS` で `SessionTokenSize` と `SessionTokenMaxSize` にアラームを設定し、レスポンスの `SessionTokenUtilization` も記録する。",
   },
 ];
 

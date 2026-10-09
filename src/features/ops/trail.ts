@@ -205,7 +205,7 @@ export const SCENARIOS: Scenario[] = [
             provider: `arn:aws:iam::${ROLE}:oidc-provider/token.actions.githubusercontent.com`,
             audience: "sts.amazonaws.com",
             sessionTokenSize: 1012,
-            sessionTokenUtilization: 24.7,
+            sessionTokenUtilization: 25,
           },
           additionalEventData: {
             identityProviderConnectionVerificationMethod: "IAMTrustStore",
