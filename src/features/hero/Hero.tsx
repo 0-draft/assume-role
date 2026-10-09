@@ -61,7 +61,7 @@ function Pass({ caller }: { caller: Caller }) {
 
   const rows: [string, string][] = [
     ["AccessKeyId", caller.accessKeyId],
-    ["SecretAccessKey", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"],
+    ["SecretAccessKey", "wJalrXUtnFEMI/K7MDENG/bPxRfi…"],
     ["SessionToken", "AQoEXAMPLEH4aoAH0gNCAPy…"],
     [t({ en: "Identity", ja: "ID" }), caller.arn],
   ];
@@ -142,7 +142,7 @@ function Pass({ caller }: { caller: Caller }) {
         </div>
         <span
           aria-hidden
-          className="stamp-in pointer-events-none absolute top-16 right-14 rounded-md border-[3px] px-2 py-0.5 font-display text-lg font-bold text-[var(--deny)] opacity-80 sm:right-48"
+          className="stamp-in pointer-events-none absolute top-[44%] right-6 rounded-md border-[3px] px-2 py-0.5 font-display text-lg font-bold text-[var(--deny)] opacity-80 sm:right-44"
           style={{ borderColor: "var(--deny)" }}
         >
           {t({ en: "TEMPORARY", ja: "一時発行" })}

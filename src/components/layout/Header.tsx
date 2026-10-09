@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { NAV } from "@/data/nav";
 import { useLang } from "@/i18n/useLang";
+import { useActiveSection } from "@/hooks/useActiveSection";
+
+const IDS = NAV.map((n) => n.id);
 
 type Theme = "light" | "dark";
 const THEME_KEY = "assume-role:theme";
@@ -15,6 +18,8 @@ export function Header() {
   const { lang, setLang, t } = useLang();
   const [theme, setTheme] = useState<Theme>(() => currentTheme());
   const [open, setOpen] = useState(false);
+  const active = useActiveSection(IDS);
+  const current = NAV.find((n) => n.id === active);
 
   useEffect(() => {
     if (!open) return;
@@ -46,20 +51,17 @@ export function Header() {
             sts:<span className="text-[var(--sts)]">AssumeRole</span>
           </span>
         </a>
-        <nav
-          aria-label={t({ en: "Chapters", ja: "章" })}
-          className="ml-4 hidden flex-1 items-center gap-0.5 overflow-hidden lg:flex"
-        >
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className="rounded-md px-2 py-1 text-[0.82rem] font-medium whitespace-nowrap text-[var(--muted)] hover:bg-[var(--sunk)] hover:text-[var(--ink)]"
-            >
-              {t(n.label)}
-            </a>
-          ))}
-        </nav>
+        {current && (
+          <a
+            href={`#${current.id}`}
+            className="ml-3 hidden min-w-0 items-center gap-2 truncate border-l border-[var(--line)] pl-3 text-sm text-[var(--muted)] md:flex"
+          >
+            <span className="font-mono text-xs text-[var(--sts)] tabular-nums">
+              {String(NAV.indexOf(current) + 1).padStart(2, "0")}
+            </span>
+            <span className="truncate">{t(current.label)}</span>
+          </a>
+        )}
         <div className="ml-auto flex items-center gap-2">
           <div
             role="group"
@@ -113,9 +115,10 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((o) => !o)}
-            className="grid size-9 place-items-center rounded-lg border border-[var(--line)] lg:hidden"
+            className="flex h-9 items-center gap-2 rounded-lg border border-[var(--line)] px-2.5 text-sm font-semibold"
           >
-            <span className="sr-only">{t({ en: "Chapters", ja: "章" })}</span>
+            <span className="hidden sm:inline">{t({ en: "Chapters", ja: "目次" })}</span>
+            <span className="sr-only sm:hidden">{t({ en: "Chapters", ja: "目次" })}</span>
             <svg viewBox="0 0 24 24" className="size-4" aria-hidden>
               <path
                 d={open ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"}
@@ -131,15 +134,16 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label={t({ en: "Chapters", ja: "章" })}
-          className="border-t border-[var(--line)] bg-[var(--paper)] lg:hidden"
+          className="border-t border-[var(--line)] bg-[var(--paper)]"
         >
-          <ol className="mx-auto grid max-w-6xl grid-cols-2 gap-1 px-4 py-3 sm:grid-cols-3">
+          <ol className="mx-auto grid max-w-6xl grid-cols-2 gap-1 px-4 py-3 sm:grid-cols-3 lg:grid-cols-5">
             {NAV.map((n, i) => (
               <li key={n.id}>
                 <a
                   href={`#${n.id}`}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-10 items-center gap-2 rounded-md px-2 text-sm font-medium hover:bg-[var(--sunk)]"
+                  aria-current={n.id === active ? "location" : undefined}
+                  className="flex min-h-10 items-center gap-2 rounded-md px-2 text-sm font-medium hover:bg-[var(--sunk)] aria-[current]:bg-[var(--sunk)] aria-[current]:text-[var(--sts)]"
                 >
                   <span className="w-5 font-mono text-xs text-[var(--sts)] tabular-nums">
                     {i + 1}
