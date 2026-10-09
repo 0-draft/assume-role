@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { useLang } from "@/i18n/useLang";
 import { Hero } from "@/features/hero/Hero";
 import { WhySection } from "@/features/why/WhySection";
+import { EndpointsSection } from "@/features/endpoints/EndpointsSection";
 import { ApiSection } from "@/features/api/ApiSection";
 import { PathsSection } from "@/features/paths/PathsSection";
 import { SessionsSection } from "@/features/sessions/SessionsSection";
@@ -27,6 +28,7 @@ export default function App() {
         <span id="top" />
         <Hero />
         <WhySection />
+        <EndpointsSection />
         <ApiSection />
         <PathsSection />
         <SessionsSection />

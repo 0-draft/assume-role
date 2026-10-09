@@ -148,7 +148,7 @@ kbd,
   border-radius: 0.35em;
   background: var(--sunk);
   border: 1px solid var(--line);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 /* Security-paper background for credential passes. */
