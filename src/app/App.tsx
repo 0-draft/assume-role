@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { useLang } from "@/i18n/useLang";
 import { Hero } from "@/features/hero/Hero";
+import { WhySection } from "@/features/why/WhySection";
 
 export default function App() {
   const { t } = useLang();
@@ -17,6 +18,7 @@ export default function App() {
       <main id="main" className="mx-auto max-w-6xl px-4 sm:px-6">
         <span id="top" />
         <Hero />
+        <WhySection />
       </main>
       <Footer />
     </>
