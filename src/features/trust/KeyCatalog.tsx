@@ -68,7 +68,7 @@ export function KeyCatalog() {
             style={{ borderLeftColor: FAMILY[k.family].color }}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-              <code className="font-mono text-[0.82rem] font-semibold break-all">
+              <code className="min-w-0 font-mono text-[0.82rem] font-semibold break-all">
                 {k.key}
               </code>
               <span className="font-mono text-xs text-[var(--muted)]">{k.type}</span>

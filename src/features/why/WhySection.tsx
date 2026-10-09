@@ -130,7 +130,7 @@ function Anatomy() {
               {parts.map((p) => {
                 const v = p[kind];
                 return (
-                  <div key={p.k} className={v ? "" : "opacity-40"}>
+                  <div key={p.k} className={v ? "" : "text-[var(--muted)]"}>
                     <dt className="font-mono text-[0.7rem] text-[var(--muted)]">{p.k}</dt>
                     <dd className="font-mono text-[0.8rem] break-all">
                       {v ?? t({ en: "(none)", ja: "(なし)" })}

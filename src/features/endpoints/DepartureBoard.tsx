@@ -61,7 +61,15 @@ export function DepartureBoard() {
         />
       </div>
 
-      <div className="scroll-x mt-4 max-h-[32rem] overflow-y-auto rounded-xl border border-[var(--line)] bg-[var(--sunk)]">
+      <div
+        tabIndex={0}
+        role="region"
+        aria-label={t({
+          en: "STS endpoints by Region",
+          ja: "リージョン別 STS エンドポイント",
+        })}
+        className="scroll-x mt-4 max-h-[32rem] overflow-y-auto rounded-xl border border-[var(--line)] bg-[var(--sunk)]"
+      >
         <table className="w-full border-collapse font-mono text-[0.8rem]">
           <caption className="sr-only">
             {t({

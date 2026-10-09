@@ -213,7 +213,7 @@ function WhoCallsMatrix() {
         ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えない。見えるのはキーが置かれた場所だけ。",
       }}
     >
-      <div className="scroll-x">
+      <div tabIndex={0} className="scroll-x">
         <table className="w-full min-w-[760px] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b-2 border-[var(--line)] text-[var(--muted)]">
@@ -388,8 +388,10 @@ function ChainLab() {
                         : "var(--line)",
                     background: win
                       ? "color-mix(in oklab, var(--resource) 12%, var(--surface))"
-                      : "var(--surface)",
-                    opacity: skipped && !shadow ? 0.45 : 1,
+                      : skipped && !shadow
+                        ? "var(--sunk)"
+                        : "var(--surface)",
+                    borderStyle: skipped && !shadow ? "dashed" : "solid",
                   }}
                 >
                   <span className="w-6 font-mono text-sm text-[var(--muted)] tabular-nums">

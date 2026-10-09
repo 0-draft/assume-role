@@ -26,12 +26,12 @@
   --on-color: #ffffff;
 
   /* Actors */
-  --caller: #a65f00; /* who asks: user, workload, CI job */
-  --sts: #0e7c86; /* the token service itself */
-  --idp: #6b4fbb; /* OIDC / SAML identity providers */
-  --role: #1d5fbf; /* the role being assumed, target account */
-  --resource: #2e7d4f; /* the API you finally call */
-  --deny: #c0265e; /* expiry, denial, errors */
+  --caller: #8a4d00; /* who asks: user, workload, CI job */
+  --sts: #0a6870; /* the token service itself */
+  --idp: #5a3fa6; /* OIDC / SAML identity providers */
+  --role: #1a52a6; /* the role being assumed, target account */
+  --resource: #22673f; /* the API you finally call */
+  --deny: #ad1d51; /* expiry, denial, errors */
 
   --guilloche: rgb(14 124 134 / 0.13);
   --shadow: 0 1px 0 rgb(22 33 62 / 0.06), 0 8px 24px -12px rgb(22 33 62 / 0.25);
@@ -103,11 +103,17 @@ body {
   font-size: 1.0625rem;
   line-height: 1.65;
   overflow-x: hidden;
+  /* Long ARNs, hostnames and claim strings break instead of widening the page. */
+  overflow-wrap: break-word;
 }
 
-:lang(ja) body,
-:lang(ja) {
+html:lang(ja) body {
   line-height: 1.85;
+}
+
+/* Phrase-aware line breaks for Japanese headings only; on body text it would
+   override break-all on long ARNs and hostnames. */
+html:lang(ja) :is(h1, h2, h3) {
   word-break: auto-phrase;
 }
 
@@ -236,5 +242,13 @@ kbd,
   }
   to {
     left: 0;
+  }
+}
+
+/* Grid items default to min-width:auto, so one long ARN or hostname would push a
+   whole column wider than a phone. Utilities still override this. */
+@layer base {
+  .grid > * {
+    min-width: 0;
   }
 }

@@ -178,7 +178,10 @@ function RecordView({
       <div className="border-b border-[var(--line)] px-4 py-1.5 font-mono text-xs text-[var(--muted)]">
         {t({ en: "Record in", ja: "記録先" })} {acct} / {record.region}
       </div>
-      <pre className="scroll-x px-4 py-3 font-mono text-[0.78rem] leading-relaxed">
+      <pre
+        tabIndex={0}
+        className="scroll-x px-4 py-3 font-mono text-[0.78rem] leading-relaxed"
+      >
         <JsonNode
           value={record.body}
           path=""

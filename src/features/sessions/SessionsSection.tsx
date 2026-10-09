@@ -207,7 +207,7 @@ export function SessionsSection() {
           ja: "入手経路ごとのセッション期間",
         }}
       >
-        <div className="scroll-x">
+        <div tabIndex={0} className="scroll-x">
           <table className="w-full min-w-[480px] text-left text-sm">
             <thead>
               <tr className="border-b border-[var(--line)] text-[var(--muted)]">
@@ -318,7 +318,7 @@ export function SessionsSection() {
         }}
         wide
       >
-        <div className="scroll-x">
+        <div tabIndex={0} className="scroll-x">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
               <tr className="border-b border-[var(--line)] text-[var(--muted)]">

@@ -404,11 +404,9 @@ export function RouterSim() {
             {t(r.tokenWorksInOptIn ? yes : no)}
           </span>
         </Row>
-        <div className="sm:col-span-2">
-          <Row label={{ en: "Throttling bucket", ja: "スロットリングの枠" }}>
-            {t(r.quota)}
-          </Row>
-        </div>
+        <Row label={{ en: "Throttling bucket", ja: "スロットリングの枠" }} wide>
+          {t(r.quota)}
+        </Row>
       </dl>
 
       {r.warnings.length > 0 && (
@@ -428,10 +426,18 @@ export function RouterSim() {
   );
 }
 
-function Row({ label, children }: { label: L; children: ReactNode }) {
+function Row({
+  label,
+  children,
+  wide = false,
+}: {
+  label: L;
+  children: ReactNode;
+  wide?: boolean;
+}) {
   const { t } = useLang();
   return (
-    <div className="min-w-0">
+    <div className={wide ? "min-w-0 sm:col-span-2" : "min-w-0"}>
       <dt className="text-xs font-semibold text-[var(--muted)]">{t(label)}</dt>
       <dd className="mt-0.5 break-words">{children}</dd>
     </div>

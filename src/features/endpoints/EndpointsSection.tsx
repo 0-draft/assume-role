@@ -294,7 +294,7 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
         <h3 className="font-display text-2xl font-bold">
           {t({ en: "How the front doors changed", ja: "入口の変遷" })}
         </h3>
-        <div className="scroll-x mt-4 pb-2">
+        <div tabIndex={0} className="scroll-x mt-4 pb-2">
           <ol className="flex min-w-max gap-0">
             {CHANGES.map((c, i) => (
               <li key={c.date} className="relative w-56 shrink-0 pr-4">

@@ -165,7 +165,7 @@ export function SdkExplorer() {
             ja: "全 SDK のデフォルト一覧",
           }}
         >
-          <div className="scroll-x">
+          <div tabIndex={0} className="scroll-x">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[var(--line)] text-left text-xs text-[var(--muted)]">

@@ -80,10 +80,11 @@ export function Sequence({
             return (
               <li
                 key={n}
-                className="rounded-lg border px-3 py-2 text-sm transition-opacity"
+                className="rounded-lg border px-3 py-2 text-sm"
                 style={{
                   borderColor: n === i ? actorVar(a.actor) : "var(--line)",
-                  opacity: n > i ? 0.28 : 1,
+                  borderStyle: n > i ? "dashed" : "solid",
+                  background: n > i ? "var(--sunk)" : "var(--surface)",
                 }}
               >
                 <div className="flex flex-wrap items-center gap-1 text-xs font-semibold">
@@ -103,7 +104,7 @@ export function Sequence({
           })}
         </ol>
       ) : (
-        <div className="scroll-x">
+        <div tabIndex={0} className="scroll-x">
           <div className="relative min-w-[640px]" aria-hidden>
             {/* Lane heads */}
             <div
@@ -159,7 +160,8 @@ export function Sequence({
                       left: `${left}%`,
                       width: `${width}%`,
                       height: 40,
-                      opacity: visible ? (active ? 1 : 0.45) : 0,
+                      opacity: visible ? 1 : 0,
+                      visibility: visible ? "visible" : "hidden",
                     }}
                   >
                     <div
@@ -171,7 +173,13 @@ export function Sequence({
                     {self ? (
                       <div
                         className="absolute left-0 rounded-r-lg border-2 border-l-0"
-                        style={{ top: 18, width: "100%", height: 16, borderColor: color }}
+                        style={{
+                          top: 18,
+                          width: "100%",
+                          height: 16,
+                          borderColor: color,
+                          opacity: active ? 1 : 0.45,
+                        }}
                       />
                     ) : (
                       <>
@@ -180,6 +188,7 @@ export function Sequence({
                           style={{
                             top: 27,
                             borderTop: `2px ${s.reply ? "dashed" : "solid"} ${color}`,
+                            opacity: active ? 1 : 0.45,
                           }}
                         />
                         <div
@@ -192,6 +201,7 @@ export function Sequence({
                             borderTop: "6px solid transparent",
                             borderBottom: "6px solid transparent",
                             [rtl ? "borderRight" : "borderLeft"]: `9px solid ${color}`,
+                            opacity: active ? 1 : 0.45,
                           }}
                         />
                       </>

@@ -212,7 +212,11 @@ export function Code({ children, label }: { children: string; label?: string }) 
           {label}
         </div>
       )}
-      <pre className="scroll-x px-4 py-3 font-mono text-[0.82rem] leading-relaxed">
+      <pre
+        tabIndex={0}
+        aria-label={label}
+        className="scroll-x px-4 py-3 font-mono text-[0.82rem] leading-relaxed"
+      >
         <code>{children}</code>
       </pre>
       <button

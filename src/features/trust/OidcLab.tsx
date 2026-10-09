@@ -56,7 +56,10 @@ function Jwt({ claims }: { claims: Claims }) {
         </span>
         <span className="font-mono">RS256</span>
       </div>
-      <dl className="scroll-x px-3 py-2 font-mono text-[0.76rem] leading-relaxed">
+      <dl
+        tabIndex={0}
+        className="scroll-x px-3 py-2 font-mono text-[0.76rem] leading-relaxed"
+      >
         {CLAIM_ORDER.filter((k) => claims[k] !== undefined).map((k) => (
           <div key={k} className="flex gap-2 whitespace-nowrap">
             <dt className="w-32 shrink-0 text-[var(--muted)]">{k}</dt>

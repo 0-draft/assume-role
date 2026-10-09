@@ -80,7 +80,7 @@ export function PermissionsLab() {
 
   return (
     <div>
-      <div className="scroll-x">
+      <div tabIndex={0} className="scroll-x">
         <div
           role="table"
           aria-label={t({

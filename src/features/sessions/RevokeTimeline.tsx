@@ -99,7 +99,7 @@ export function RevokeTimeline() {
         </button>
       </div>
 
-      <div className="scroll-x">
+      <div tabIndex={0} className="scroll-x">
         <div className="min-w-[560px]">
           <div
             className="relative mr-[4.5rem] ml-28 h-6 text-[0.68rem] text-[var(--muted)]"

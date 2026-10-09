@@ -124,7 +124,8 @@ function Pass({ r, index }: { r: HopResult; index: number }) {
       className="guilloche relative flex overflow-hidden rounded-xl border-2 shadow-[var(--shadow)] transition-opacity"
       style={{
         borderColor: failed ? "var(--deny)" : "var(--role)",
-        opacity: r.blocked ? 0.35 : 1,
+        filter: r.blocked ? "grayscale(1)" : undefined,
+        borderStyle: r.blocked ? "dashed" : "solid",
       }}
     >
       <div className="min-w-0 flex-1 p-3">
