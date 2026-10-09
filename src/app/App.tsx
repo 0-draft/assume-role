@@ -3,6 +3,14 @@ import { Footer } from "@/components/layout/Footer";
 import { useLang } from "@/i18n/useLang";
 import { Hero } from "@/features/hero/Hero";
 import { WhySection } from "@/features/why/WhySection";
+import { ApiSection } from "@/features/api/ApiSection";
+import { PathsSection } from "@/features/paths/PathsSection";
+import { SessionsSection } from "@/features/sessions/SessionsSection";
+import { TrustSection } from "@/features/trust/TrustSection";
+import { OpsSection } from "@/features/ops/OpsSection";
+import { ErrorsSection } from "@/features/errors/ErrorsSection";
+import { TimelineSection } from "@/features/timeline/TimelineSection";
+import { GlossarySection } from "@/features/glossary/GlossarySection";
 
 export default function App() {
   const { t } = useLang();
@@ -19,6 +27,14 @@ export default function App() {
         <span id="top" />
         <Hero />
         <WhySection />
+        <ApiSection />
+        <PathsSection />
+        <SessionsSection />
+        <TrustSection />
+        <OpsSection />
+        <ErrorsSection />
+        <TimelineSection />
+        <GlossarySection />
       </main>
       <Footer />
     </>
