@@ -12,6 +12,7 @@ export default defineConfig(
     "coverage",
     "playwright-report",
     "test-results",
+    "scripts-tmp",
   ]),
   js.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
