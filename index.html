@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>assume-role: AWS STS, drawn</title>
+    <meta
+      name="description"
+      content="AWS Security Token Service, drawn: global and regional endpoints, every STS API, every way a workload or a human ends up holding temporary credentials, session policies, role chaining and the errors you will meet. Bilingual (EN/JA)."
+    />
+    <meta name="theme-color" content="#0e7c86" />
+    <script>
+      // Apply a saved theme before first paint so it never flashes.
+      try {
+        const t = localStorage.getItem("assume-role:theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

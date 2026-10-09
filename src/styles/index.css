@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/*
+ * Visual language: STS is a ticket office. Every credential it issues is drawn
+ * as a printed pass on security paper (guilloche, perforated stub, expiry
+ * stamp). One hue per actor, used identically in every diagram, always paired
+ * with a label or shape so colour is never the only signal.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "IBM Plex Sans", "IBM Plex Sans JP", system-ui, sans-serif;
+  --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans JP", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+:root {
+  color-scheme: light;
+  --paper: #f4f6fb;
+  --surface: #ffffff;
+  --sunk: #e9edf5;
+  --ink: #16213e;
+  --muted: #56607a;
+  --line: #d3d9e6;
+  --on-color: #ffffff;
+
+  /* Actors */
+  --caller: #a65f00; /* who asks: user, workload, CI job */
+  --sts: #0e7c86; /* the token service itself */
+  --idp: #6b4fbb; /* OIDC / SAML identity providers */
+  --role: #1d5fbf; /* the role being assumed, target account */
+  --resource: #2e7d4f; /* the API you finally call */
+  --deny: #c0265e; /* expiry, denial, errors */
+
+  --guilloche: rgb(14 124 134 / 0.13);
+  --shadow: 0 1px 0 rgb(22 33 62 / 0.06), 0 8px 24px -12px rgb(22 33 62 / 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0c1220;
+    --surface: #131b2d;
+    --sunk: #0f1626;
+    --ink: #e6ebf5;
+    --muted: #98a2b9;
+    --line: #26324a;
+    --on-color: #0c1220;
+    --caller: #f0a646;
+    --sts: #45c6cf;
+    --idp: #a88ef2;
+    --role: #6aa5ff;
+    --resource: #5fcf8c;
+    --deny: #f2668f;
+    --guilloche: rgb(69 198 207 / 0.12);
+    --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -14px rgb(0 0 0 / 0.8);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0c1220;
+  --surface: #131b2d;
+  --sunk: #0f1626;
+  --ink: #e6ebf5;
+  --muted: #98a2b9;
+  --line: #26324a;
+  --on-color: #0c1220;
+  --caller: #f0a646;
+  --sts: #45c6cf;
+  --idp: #a88ef2;
+  --role: #6aa5ff;
+  --resource: #5fcf8c;
+  --deny: #f2668f;
+  --guilloche: rgb(69 198 207 / 0.12);
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -14px rgb(0 0 0 / 0.8);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+:lang(ja) body,
+:lang(ja) {
+  line-height: 1.85;
+  word-break: auto-phrase;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+code,
+kbd,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sts);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--sts) 30%, transparent);
+}
+
+/* Inline API / key names inside prose. */
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 0.05em 0.4em;
+  border-radius: 0.35em;
+  background: var(--sunk);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+/* Security-paper background for credential passes. */
+.guilloche {
+  background-color: var(--surface);
+  background-image:
+    repeating-radial-gradient(
+      circle at 0% 100%,
+      transparent 0 9px,
+      var(--guilloche) 9px 10px
+    ),
+    repeating-radial-gradient(
+      circle at 100% 0%,
+      transparent 0 13px,
+      var(--guilloche) 13px 14px
+    );
+}
+
+/* Perforation between a pass and its stub. */
+.perforated {
+  background-image: radial-gradient(circle, var(--line) 1.4px, transparent 1.6px);
+  background-size: 2px 10px;
+  background-repeat: repeat-y;
+  background-position: center;
+}
+
+/* Prose width for long-form text inside sections. */
+.prose-col {
+  max-width: 68ch;
+}
+
+/* Wide tables and diagrams scroll inside themselves, never the page. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes print-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-6px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp {
+  0% {
+    transform: scale(1.6) rotate(-14deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-8deg);
+    opacity: 1;
+  }
+}
+
+.print-in {
+  animation: print-in 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.stamp-in {
+  animation: stamp 420ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+
+/* Token travelling along a sequence-diagram arrow. */
+@keyframes seq-ltr {
+  from {
+    left: 0;
+  }
+  to {
+    left: calc(100% - 12px);
+  }
+}
+
+@keyframes seq-rtl {
+  from {
+    left: calc(100% - 12px);
+  }
+  to {
+    left: 0;
+  }
+}
