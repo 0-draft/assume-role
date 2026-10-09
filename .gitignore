@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+.vite/
+.playwright-mcp/
+.claude/
+playwright-report/
+test-results/
