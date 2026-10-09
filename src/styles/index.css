@@ -17,64 +17,70 @@
 
 :root {
   color-scheme: light;
-  --paper: #f4f6fb;
-  --surface: #ffffff;
-  --sunk: #e9edf5;
-  --ink: #16213e;
-  --muted: #56607a;
-  --line: #d3d9e6;
+  --paper: #ecefe4;
+  --surface: #fbfcf6;
+  --sunk: #e2e6d8;
+  --ink: #1d1626;
+  --muted: #575266;
+  --line: #cdd2c0;
   --on-color: #ffffff;
 
   /* Actors */
-  --caller: #8a4d00; /* who asks: user, workload, CI job */
-  --sts: #0a6870; /* the token service itself */
-  --idp: #5a3fa6; /* OIDC / SAML identity providers */
-  --role: #1a52a6; /* the role being assumed, target account */
-  --resource: #22673f; /* the API you finally call */
-  --deny: #ad1d51; /* expiry, denial, errors */
+  --caller: #6e4d00; /* who asks: user, workload, CI job */
+  --sts: #8a1538; /* the token service itself: passport oxblood */
+  --idp: #5b2a9e; /* OIDC / SAML identity providers: visa-stamp violet */
+  --role: #1f4e8c; /* the role being assumed: prussian blue */
+  --resource: #2c6534; /* the API you finally call: banknote green */
+  --deny: #a3221a; /* expiry, denial, errors: stamp red */
 
-  --guilloche: rgb(14 124 134 / 0.13);
-  --shadow: 0 1px 0 rgb(22 33 62 / 0.06), 0 8px 24px -12px rgb(22 33 62 / 0.25);
+  --guilloche: rgb(138 21 56 / 0.1);
+  --guilloche-2: rgb(31 78 140 / 0.08);
+  --foil-a: #d9a441;
+  --shadow: 0 1px 0 rgb(29 22 38 / 0.06), 0 10px 28px -14px rgb(29 22 38 / 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --paper: #0c1220;
-    --surface: #131b2d;
-    --sunk: #0f1626;
-    --ink: #e6ebf5;
-    --muted: #98a2b9;
-    --line: #26324a;
-    --on-color: #0c1220;
-    --caller: #f0a646;
-    --sts: #45c6cf;
-    --idp: #a88ef2;
-    --role: #6aa5ff;
-    --resource: #5fcf8c;
-    --deny: #f2668f;
-    --guilloche: rgb(69 198 207 / 0.12);
-    --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -14px rgb(0 0 0 / 0.8);
+    --paper: #16111d;
+    --surface: #201a29;
+    --sunk: #1a1522;
+    --ink: #f1ece2;
+    --muted: #a9a1b4;
+    --line: #362d44;
+    --on-color: #16111d;
+    --caller: #e6b850;
+    --sts: #f07ba0;
+    --idp: #b9a0f7;
+    --role: #86adf2;
+    --resource: #86d096;
+    --deny: #ff8a6b;
+    --guilloche: rgb(240 123 160 / 0.1);
+    --guilloche-2: rgb(134 173 242 / 0.08);
+    --foil-a: #e6b850;
+    --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 32px -14px rgb(0 0 0 / 0.85);
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #0c1220;
-  --surface: #131b2d;
-  --sunk: #0f1626;
-  --ink: #e6ebf5;
-  --muted: #98a2b9;
-  --line: #26324a;
-  --on-color: #0c1220;
-  --caller: #f0a646;
-  --sts: #45c6cf;
-  --idp: #a88ef2;
-  --role: #6aa5ff;
-  --resource: #5fcf8c;
-  --deny: #f2668f;
-  --guilloche: rgb(69 198 207 / 0.12);
-  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -14px rgb(0 0 0 / 0.8);
+  --paper: #16111d;
+  --surface: #201a29;
+  --sunk: #1a1522;
+  --ink: #f1ece2;
+  --muted: #a9a1b4;
+  --line: #362d44;
+  --on-color: #16111d;
+  --caller: #e6b850;
+  --sts: #f07ba0;
+  --idp: #b9a0f7;
+  --role: #86adf2;
+  --resource: #86d096;
+  --deny: #ff8a6b;
+  --guilloche: rgb(240 123 160 / 0.1);
+  --guilloche-2: rgb(134 173 242 / 0.08);
+  --foil-a: #e6b850;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 32px -14px rgb(0 0 0 / 0.85);
 }
 
 html {
@@ -111,10 +117,16 @@ html:lang(ja) body {
   line-height: 1.85;
 }
 
-/* Phrase-aware line breaks for Japanese headings only; on body text it would
-   override break-all on long ARNs and hostnames. */
-html:lang(ja) :is(h1, h2, h3) {
-  word-break: auto-phrase;
+/* Phrase-aware line breaks for Japanese text, so words like オペレーション never
+   split mid-word. Code keeps its own rules: long ARNs and hostnames must still
+   wrap anywhere. Kept in the base layer so Tailwind utilities can override it. */
+@layer base {
+  html:lang(ja) :is(h1, h2, h3, p, li, dd, dt, figcaption, summary, label, td, th) {
+    word-break: auto-phrase;
+  }
+  html:lang(ja) :is(code, pre, .chip, .mono) {
+    word-break: normal;
+  }
 }
 
 h1,
@@ -169,7 +181,7 @@ kbd,
     repeating-radial-gradient(
       circle at 100% 0%,
       transparent 0 13px,
-      var(--guilloche) 13px 14px
+      var(--guilloche-2) 13px 14px
     );
 }
 
