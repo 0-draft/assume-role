@@ -25,7 +25,7 @@ This timeline lists the AWS Security Token Service (STS) launches and behavior c
 | 2024-11 | RCPs support STS; `AssumeRoot` | Org-wide trust guardrails; scoped root sessions |
 | 2025-01 | Global endpoint regionalization announced | Preview of the 2025 change |
 | 2025-04 | Global endpoint served in-Region for default-enabled Regions | Resilience for legacy callers |
-| 2025-07 | Remaining SDKs and CLI v1 switch default to Regional endpoints | Global endpoint no longer the default anywhere |
+| 2025-07 | Remaining SDKs and CLI v1 switch default to Regional endpoints | Python, CLI v1, PHP, C++, .NET and PowerShell stop using the global endpoint by default; older majors such as Go V1, Java 1.x and JS v2 still default to `legacy` |
 | 2025-11 | IPv6 dual-stack, `GetWebIdentityToken`, `GetDelegatedAccessToken` | IPv6; outbound OIDC; partner delegation |
 | 2026-02 | IdP-specific OIDC claims as condition keys | Fine-grained GitHub, Google, CircleCI, OCI trust |
 | 2026-08 | Outbound identity federation in the AWS European Sovereign Cloud | Sovereign Region support |

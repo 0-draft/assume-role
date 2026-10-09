@@ -52,7 +52,7 @@ The [Actions page of the STS API Reference](https://docs.aws.amazon.com/STS/late
 | 1 | `AssumeRole` | Role session (credentials) | Original API (2011-06-15 API version) |
 | 2 | `AssumeRoleWithSAML` | Role session via SAML 2.0 federation | Original-era API |
 | 3 | `AssumeRoleWithWebIdentity` | Role session via OIDC / OAuth 2.0 federation | Original-era API |
-| 4 | `AssumeRoot` | Task-scoped root session in an Organizations member account | 2024-11-14 ([What's New](https://aws.amazon.com/about-aws/whats-new/2024/11/manage-root-access-aws-identity-access-management/), [AWS News Blog 2024-11-15](https://aws.amazon.com/blogs/aws/centrally-managing-root-access-for-customers-using-aws-organizations/)) |
+| 4 | `AssumeRoot` | Task-scoped root session in an Organizations member account | 2024-11-15 ([What's New](https://aws.amazon.com/about-aws/whats-new/2024/11/manage-root-access-aws-identity-access-management/), [AWS News Blog 2024-11-15](https://aws.amazon.com/blogs/aws/centrally-managing-root-access-for-customers-using-aws-organizations/)) |
 | 5 | `DecodeAuthorizationMessage` | Utility | Original-era API |
 | 6 | `GetAccessKeyInfo` | Utility | Original-era API (exact date unverified) |
 | 7 | `GetCallerIdentity` | Utility (whoami) | Original-era API (exact date unverified) |

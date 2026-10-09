@@ -227,7 +227,7 @@ Temporary credentials (`ASIA...` access key ID, secret key, and session token) a
 - [ ] Run a multi-Region, organization-wide CloudTrail trail. Search `us-east-1` for global-endpoint STS events.
 - [ ] Alert on first-seen `GetCallerIdentity` and `GetAccessKeyInfo` callers and on `AssumeRoot` (`assumedRoot: true`).
 - [ ] Rehearse revocation (`aws:TokenIssueTime`, `aws:userid`, `aws:SourceIdentity` denies).
-- [ ] Monitor `SessionTokenUtilization` (CloudWatch `AWS/STS`), and test proxies with `MinimumSessionTokenSize`.
+- [ ] Alarm on `SessionTokenSize` against `SessionTokenMaxSize` (CloudWatch `AWS/STS`), log `SessionTokenUtilization` from responses, and test proxies with `MinimumSessionTokenSize`.
 - [ ] Centralize root access and use `AssumeRoot` for member-account root tasks instead of root passwords.
 
 ## Sources
