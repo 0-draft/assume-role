@@ -27,7 +27,16 @@ export function rich(s: string, keyPrefix = ""): ReactNode[] {
           {body}
         </code>,
       );
-    } else out.push(<strong key={key}>{rich(tok.slice(2, -2), `${key}-`)}</strong>);
+    } else {
+      const body = tok.slice(2, -2);
+      // A short bold token with no spaces (a date, a Region) stays on one line.
+      const nowrap = !/\s/.test(body) && body.length <= NOWRAP_MAX;
+      out.push(
+        <strong key={key} className={nowrap ? "whitespace-nowrap" : undefined}>
+          {rich(body, `${key}-`)}
+        </strong>,
+      );
+    }
     last = m.index + tok.length;
   }
   if (last < s.length) out.push(s.slice(last));

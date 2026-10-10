@@ -264,3 +264,21 @@ kbd,
     min-width: 0;
   }
 }
+
+/* Scroll shadows on wide tables: a soft edge appears only on the side that has
+   more content, so the table says "scroll me" without a hint line. Tables sit
+   on --surface figures, which the fade colour assumes. Kept in the components
+   layer so a utility background on the same element still wins. */
+@layer components {
+  .scroll-x:has(> table) {
+    background:
+      linear-gradient(to right, var(--surface) 40%, transparent) left / 32px 100%
+        no-repeat local,
+      linear-gradient(to left, var(--surface) 40%, transparent) right / 32px 100%
+        no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.16), transparent) left / 12px
+        100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.16), transparent) right /
+        12px 100% no-repeat scroll;
+  }
+}

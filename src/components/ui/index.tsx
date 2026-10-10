@@ -255,7 +255,7 @@ export function Code({ children, label }: { children: string; label?: string }) 
       <pre
         tabIndex={0}
         aria-label={label}
-        className="scroll-x px-4 py-3 font-mono text-[0.82rem] leading-relaxed"
+        className="scroll-x px-4 py-3 font-mono text-[0.82rem] leading-relaxed whitespace-pre-wrap [overflow-wrap:anywhere]"
       >
         <code>{children}</code>
       </pre>

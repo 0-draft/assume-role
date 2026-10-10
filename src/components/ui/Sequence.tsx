@@ -95,7 +95,7 @@ export function Sequence({
                   <span className="tabular-nums text-[var(--muted)]">{n + 1}.</span>
                   <span style={{ color: actorVar(a.actor) }}>{t(a.label)}</span>
                   <span aria-hidden className="text-[var(--muted)]">
-                    {s.reply ? "⇠" : "⇢"}
+                    →
                   </span>
                   <span className="sr-only">{t({ en: "to", ja: "から" })}</span>
                   <span style={{ color: actorVar(b.actor) }}>{t(b.label)}</span>
@@ -155,6 +155,39 @@ export function Sequence({
                 const rtl = !self && b < a;
                 const visible = n <= i;
                 const active = n === i;
+                // Steps still to come stay on the canvas as faint dashed slots,
+                // so the diagram shows its whole shape from the first step.
+                if (!visible)
+                  return (
+                    <div
+                      key={n}
+                      className="absolute"
+                      style={{
+                        top: n * ROW + 8,
+                        left: `${left}%`,
+                        width: `${width}%`,
+                        height: ROW - 6,
+                      }}
+                    >
+                      <span
+                        className="absolute left-1/2 -translate-x-1/2 font-mono text-[0.7rem] text-[var(--muted)] tabular-nums"
+                        style={{ top: LINE - 22 }}
+                      >
+                        {n + 1}
+                      </span>
+                      {self ? (
+                        <div
+                          className="absolute left-0 rounded-r-lg border-2 border-l-0 border-dashed border-[var(--line)]"
+                          style={{ top: LINE - 9, width: "100%", height: 16 }}
+                        />
+                      ) : (
+                        <div
+                          className="absolute right-1 left-1 border-t-2 border-dashed border-[var(--line)]"
+                          style={{ top: LINE }}
+                        />
+                      )}
+                    </div>
+                  );
                 return (
                   <div
                     key={n}
@@ -164,8 +197,6 @@ export function Sequence({
                       left: `${left}%`,
                       width: `${width}%`,
                       height: ROW - 6,
-                      opacity: visible ? 1 : 0,
-                      visibility: visible ? "visible" : "hidden",
                     }}
                   >
                     <div
