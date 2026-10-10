@@ -27,6 +27,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
+    // Whole-chapter render tests are slow under coverage instrumentation.
+    testTimeout: 20_000,
     // Browser tests in e2e/ run under Playwright, not Vitest.
     include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: ["./src/test-setup.ts"],
@@ -34,6 +36,8 @@ export default defineConfig({
       provider: "v8",
       include: ["src/**/*.{ts,tsx}"],
       exclude: ["src/**/*.test.{ts,tsx}", "src/main.tsx", "src/test-setup.ts"],
+      // The pure models behind the labs carry the facts; keep them tested.
+      thresholds: { lines: 80, functions: 70, branches: 75, statements: 80 },
     },
   },
 });
