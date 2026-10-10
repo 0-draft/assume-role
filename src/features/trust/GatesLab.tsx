@@ -78,7 +78,7 @@ function Arrow({ ok }: { ok: boolean }) {
 function Box({ children, color }: { children: ReactNode; color: string }) {
   return (
     <div
-      className="rounded-xl border-2 px-3 py-3 text-center sm:w-32"
+      className="rounded-xl border-2 px-3 py-3 text-center sm:w-36"
       style={{
         borderColor: color,
         background: `color-mix(in oklab, ${color} 10%, var(--surface))`,

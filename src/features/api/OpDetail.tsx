@@ -63,7 +63,7 @@ export function OpDetail({ op }: { op: Op }) {
           </dl>
         </div>
         <aside
-          className="flex flex-col justify-center gap-2 border-t-2 border-dashed p-4 sm:border-t-0 sm:border-l-2"
+          className="flex flex-col justify-start gap-2 border-t-2 border-dashed p-4 sm:border-t-0 sm:border-l-2 sm:pt-6"
           style={{
             borderColor: `color-mix(in oklab, ${family.color} 45%, transparent)`,
             background: `color-mix(in oklab, ${family.color} 8%, var(--surface))`,

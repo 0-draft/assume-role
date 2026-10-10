@@ -258,12 +258,20 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
                     {i + 1}
                   </span>
                   <span className="flex-1 font-semibold">{rich(t(p.head))}</span>
-                  <span
+                  <svg
                     aria-hidden
-                    className="text-sm text-[var(--muted)] transition-transform group-open:rotate-90"
+                    viewBox="0 0 16 16"
+                    className="size-4 shrink-0 text-[var(--muted)] transition-transform group-open:rotate-90"
                   >
-                    ▸
-                  </span>
+                    <path
+                      d="M6 3l5 5-5 5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </summary>
                 <p className="prose-col px-4 pb-3 pl-11 text-sm">{rich(t(p.body))}</p>
               </details>

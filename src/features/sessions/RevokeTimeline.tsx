@@ -86,7 +86,7 @@ export function RevokeTimeline() {
           type="button"
           aria-disabled={added >= MAX_NEW}
           onClick={issue}
-          className="min-h-10 rounded-lg bg-[var(--sts)] px-3 text-sm font-bold text-[var(--on-color)] aria-disabled:opacity-40"
+          className="min-h-10 rounded-lg border-2 border-[var(--role)] px-3 text-sm font-bold text-[var(--role)] aria-disabled:opacity-40"
         >
           {t({
             en: "Two minutes pass, a new session is issued",

@@ -109,7 +109,9 @@ export function GlossarySection() {
                 className="flex flex-col rounded-xl border border-t-4 border-[var(--line)] bg-[var(--surface)] p-4"
                 style={{ borderTopColor: color }}
               >
-                <dt className="font-mono text-[0.95rem] font-semibold">{term.term}</dt>
+                <dt className="font-display text-lg leading-snug font-bold">
+                  {term.term}
+                </dt>
                 <dd className="mt-1.5 flex-1 text-[0.92rem]">{rich(t(term.def))}</dd>
                 {nav && (
                   <dd className="mt-3">

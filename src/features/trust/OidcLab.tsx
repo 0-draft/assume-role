@@ -61,13 +61,15 @@ function Jwt({ claims }: { claims: Claims }) {
         className="scroll-x px-3 py-2 font-mono text-[0.76rem] leading-relaxed"
       >
         {CLAIM_ORDER.filter((k) => claims[k] !== undefined).map((k) => (
-          <div key={k} className="flex gap-2 whitespace-nowrap">
-            <dt className="w-32 shrink-0 text-[var(--muted)]">{k}</dt>
+          <div key={k} className="flex gap-2">
+            <dt className="w-[7.5rem] shrink-0 break-all text-[var(--muted)] sm:w-32">
+              {k}
+            </dt>
             <dd
               className={
                 k === "sub" || k === "aud"
-                  ? "rounded bg-[color-mix(in_oklab,var(--idp)_16%,transparent)] px-1 font-semibold"
-                  : ""
+                  ? "min-w-0 rounded bg-[color-mix(in_oklab,var(--idp)_16%,transparent)] px-1 font-semibold break-all"
+                  : "min-w-0 break-all"
               }
             >
               {claims[k]}
@@ -272,7 +274,7 @@ export function OidcLab() {
                     className="size-2.5 shrink-0 rounded-full"
                     style={{ background: x.mine ? "var(--caller)" : "var(--deny)" }}
                   />
-                  <span className="truncate">{t(x.label)}</span>
+                  <span className="min-w-0">{t(x.label)}</span>
                 </span>
                 <span
                   className="shrink-0 font-mono text-xs font-bold"

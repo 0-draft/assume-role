@@ -180,7 +180,7 @@ function RecordView({
       </div>
       <pre
         tabIndex={0}
-        className="scroll-x px-4 py-3 font-mono text-[0.78rem] leading-relaxed"
+        className="scroll-x px-4 py-3 font-mono text-[0.78rem] leading-relaxed whitespace-pre-wrap [overflow-wrap:anywhere]"
       >
         <JsonNode
           value={record.body}

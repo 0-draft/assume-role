@@ -238,6 +238,64 @@ function PassStrip({ path }: { path: PathDef }) {
 
 function WhoCallsMatrix() {
   const { t } = useLang();
+  const narrow = useNarrow();
+  const callerTag = (p: (typeof PATHS)[number]) => (
+    <span
+      className="inline-flex items-center gap-1.5 font-semibold whitespace-nowrap"
+      style={{ color: p.stsCaller === "you" ? "var(--caller)" : "var(--role)" }}
+    >
+      <span
+        aria-hidden
+        className="size-2 shrink-0 rounded-full"
+        style={{ background: p.stsCaller === "you" ? "var(--caller)" : "var(--role)" }}
+      />
+      {t(CALLER_LABEL[p.stsCaller])}
+    </span>
+  );
+  // Five columns do not fit a phone; each path becomes a small slip instead.
+  if (narrow)
+    return (
+      <Figure
+        title={{
+          en: "Who calls STS, path by path",
+          ja: "経路ごとの「STS を呼ぶのは誰か」",
+        }}
+        hint={{
+          en: "When an AWS service calls STS for you, your code never sees the call; it only sees where the keys were left.",
+          ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけ。",
+        }}
+      >
+        <ul className="space-y-2">
+          {PATHS.map((p) => (
+            <li
+              key={p.id}
+              className="rounded-lg border border-l-4 border-[var(--line)] px-3 py-2 text-sm"
+              style={{
+                borderLeftColor: p.stsCaller === "you" ? "var(--caller)" : "var(--role)",
+              }}
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+                <span className="font-semibold">{t(p.name)}</span>
+                {callerTag(p)}
+              </div>
+              <div className="mt-1 font-mono text-[0.76rem] text-[var(--muted)]">
+                {p.stsApi}
+              </div>
+              <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 text-[0.8rem]">
+                <dt className="text-[var(--muted)]">
+                  {t({ en: "Keys", ja: "置き場所" })}
+                </dt>
+                <dd>{t(p.delivery)}</dd>
+                <dt className="text-[var(--muted)]">
+                  {t({ en: "Lifetime", ja: "有効期間" })}
+                </dt>
+                <dd>{t(p.duration)}</dd>
+              </dl>
+            </li>
+          ))}
+        </ul>
+      </Figure>
+    );
   return (
     <Figure
       title={{

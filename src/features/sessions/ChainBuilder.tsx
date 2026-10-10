@@ -234,7 +234,7 @@ export function ChainBuilder() {
       />
 
       <ol className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
-        <li className="flex shrink-0 items-center gap-2 lg:w-28 lg:flex-col lg:justify-center">
+        <li className="flex shrink-0 items-center gap-2 lg:w-36 lg:self-start lg:pt-16">
           <span
             className="rounded-xl border-2 px-3 py-2 text-center text-xs font-semibold"
             style={{
