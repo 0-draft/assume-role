@@ -70,7 +70,7 @@ Credential identity and condition keys attached to instance-role sessions:
 | `aws:EC2InstanceSourceVPC` | VPC the credentials were delivered into |
 | `aws:EC2InstanceSourcePrivateIPv4` | Primary private IPv4 of the instance |
 
-Comparing `aws:EC2InstanceSourceVPC` with `aws:SourceVpc` and `aws:EC2InstanceSourcePrivateIPv4` with `aws:VpcSourceIp` in an SCP stops stolen instance credentials from working outside the instance (via VPC endpoints) ([AWS Security Blog](https://aws.amazon.com/blogs/security/how-to-use-policies-to-restrict-where-ec2-instance-credentials-can-be-used-from/)). The role session name is the instance ID, so the caller ARN looks like `arn:aws:sts::111122223333:assumed-role/<role>/i-0abc...` (widely observed; unverified in a single doc page).
+Comparing `aws:EC2InstanceSourceVPC` with `aws:SourceVpc` and `aws:EC2InstanceSourcePrivateIPv4` with `aws:VpcSourceIp` in an SCP stops stolen instance credentials from working outside the instance (via VPC endpoints) ([AWS Security Blog](https://aws.amazon.com/blogs/security/how-to-use-policies-to-restrict-where-ec2-instance-credentials-can-be-used-from/)). The role session name is the instance ID, so the caller ARN looks like `arn:aws:sts::111122223333:assumed-role/<role>/i-0abc...` (confirmed by an AWS Knowledge Center example, [re:Post](https://repost.aws/knowledge-center/iam-ec2-user-role-credentials)).
 
 Pitfalls:
 

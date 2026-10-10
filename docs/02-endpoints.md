@@ -131,7 +131,7 @@ aws iam set-security-token-service-preferences --global-endpoint-token-version v
 aws iam get-account-summary --query 'SummaryMap.GlobalEndpointTokenVersion'
 ```
 
-On token size: AWS does not publish a fixed byte length for either version (unverified). CloudTrail records `sessionTokenSize` and `sessionTokenUtilization` in `responseElements`. Documentation examples show values such as 1096, 1428, 1536 and 1652 characters, but these depend on session policies and tags as well as the token version ([IAM: CloudTrail integration](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)). Systems that store tokens in fixed-width columns, cookies or headers should not assume a maximum length.
+On token size: since 2026-09-15 STS enforces a single 4,096-byte session-token limit and reports `SessionTokenSize` (bytes) and `SessionTokenUtilization` (percent of 4,096) in every response; AWS calls 4,096 "the current maximum, not a permanent ceiling". A new optional `MinimumSessionTokenSize` parameter (0–4096) pads tokens so you can test downstream systems, and CloudWatch publishes `SessionTokenSize` and `SessionTokenMaxSize` in the `AWS/STS` namespace ([AWS Security Blog, 2026-09-15](https://aws.amazon.com/blogs/security/aws-sts-simplifies-session-token-size-limits-and-adds-session-token-size-monitoring/), [Knowledge Center](https://repost.aws/knowledge-center/sts-test-max-session-token-size)). AWS does not publish separate sizes for v1 and v2 tokens; the IAM API reference only says v2 tokens "are longer" (unverified beyond that). CloudTrail records `sessionTokenSize` and `sessionTokenUtilization` in `responseElements`. Documentation examples show values such as 1096, 1428, 1536 and 1652 characters, but these depend on session policies and tags as well as the token version ([IAM: CloudTrail integration](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)). Systems that store tokens in fixed-width columns, cookies or headers should allow the full 4,096 bytes.
 
 ## SDK and CLI configuration
 
@@ -185,7 +185,12 @@ Notes and discrepancies:
 
 - **The July 31, 2025 flip.** AWS announced that "the AWS SDKs for Python, PHP, C++, .NET and the AWS Tools for PowerShell still use the global service endpoint" and that on July 31, 2025 their default would change to `regional`. CLI v1 was named as "the exception" among the remaining tools ([AWS Developer Tools Blog, 2025-02-10](https://aws.amazon.com/blogs/developer/updating-aws-sdk-defaults-aws-sts-service-endpoint-and-retry-strategy/)). The official announcements confirm **Boto3 v1.40.0** ([boto/boto3#4583](https://github.com/boto/boto3/issues/4583)) and **AWS CLI v1.42.0** ([aws/aws-cli#9634](https://github.com/aws/aws-cli/issues/9634)), both on 2025-07-31. To revert, set `sts_regional_endpoints = legacy` or `AWS_STS_REGIONAL_ENDPOINTS=legacy`.
 - **Stale rows.** The SDK Reference table still lists CLI v1 as `legacy` and Boto3, .NET 3.x, PHP and PowerShell as "Global endpoint" targets despite a `regional` default value. The [CLI v1 config-vars page](https://docs.aws.amazon.com/cli/v1/topic/config-vars.html), at version 1.46.1, also still says "By default, this configuration option is set to `legacy`". Both contradict the 2025-07-31 announcements. Trust the release announcements for current versions, and check your exact SDK version.
-- Version-specific minimums for PHP, C++, .NET and PowerShell were not found in an official source (unverified).
+- **Per-SDK flip versions** (from each SDK's changelog, all 2025-07-31 unless noted):
+  - **PHP:** 3.351.12, "`Aws\Sts` - Updates STS default endpoint configuration to `regional`" ([aws-sdk-php CHANGELOG](https://github.com/aws/aws-sdk-php/blob/master/CHANGELOG.md)).
+  - **.NET V3:** AWSSDK.Core 3.7.500.0 (bundle 3.7.1092.0), "Changed Legacy configuration defaults for StsRegionalEndpoints to StsRegionalEndpointsValue.Regional" ([aws-sdk-net v3.7 changelog](https://github.com/aws/aws-sdk-net/blob/aws-sdk-net-v3.7/changelogs/SDK.CHANGELOG.ALL.md)).
+  - **.NET V4:** regional since 4.0.0 GA; STS credential providers "will always use the regional endpoint" and the `StsRegionalEndpointsValue` enum was removed ([aws-sdk-net changelog](https://github.com/aws/aws-sdk-net/blob/main/changelogs/SDK.CHANGELOG.ALL.md)).
+  - **C++:** has no `sts_regional_endpoints` setting. Release 1.11.617 includes commit [bd9e3be4aa](https://github.com/aws/aws-sdk-cpp/commit/bd9e3be4aa), which makes the web-identity credentials provider use the client's configured Region instead of `AWS_DEFAULT_REGION`/profile with a us-east-1 fallback.
+  - **PowerShell:** V5 (5.0.0 GA 2025-06-23) is built on .NET SDK V4 and inherits its always-regional behaviour; no V4 release after 4.1.845 (2025-06-20) was found, so the exact PowerShell flip version is unverified ([aws-tools-for-powershell changelog](https://github.com/aws/aws-tools-for-powershell/blob/main/changelogs/CHANGELOG.2025.md)).
 - **Opting out of the "new major version" defaults.** "New SDK major versions might remove this setting and use `regional` behavior" ([SDK Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html)). Several modern SDKs (CLI v2, Go V2, Java 2.x, JS v3, Rust, Swift, Kotlin, .NET 4.x) do not read the setting at all. To reach the global endpoint from them, use Region `aws-global` or an explicit endpoint URL.
 
 ### Region resolution (`AWS_REGION`)
@@ -269,7 +274,7 @@ Credentials never cross partitions. The AWS European Sovereign Cloud landing-zon
 | --- | --- | --- | --- | --- | --- |
 | `aws-cn` (China) | `cn-north-1`, `cn-northwest-1` | `sts.cn-north-1.amazonaws.com.cn`, `sts.cn-northwest-1.amazonaws.com.cn` | `sts.<region>.api.amazonwebservices.com.cn` | None published | [IAM table](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_region-endpoints.html), [IAM dual-stack](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_dual-stack_endpoint_support.html) |
 | `aws-us-gov` (GovCloud) | `us-gov-west-1`, `us-gov-east-1` | `sts.us-gov-west-1.amazonaws.com`, `sts.us-gov-east-1.amazonaws.com` | `sts.<region>.api.aws` | The standard endpoint is the FIPS variant | [General Reference](https://docs.aws.amazon.com/general/latest/gr/sts.html), [botocore rule set](https://github.com/boto/botocore/blob/develop/botocore/data/sts/2011-06-15/endpoint-rule-set-1.json) |
-| `aws-eusc` (European Sovereign Cloud) | `eusc-de-east-1` | `sts.eusc-de-east-1.amazonaws.eu` (derived from SDK partition data) | `sts.eusc-de-east-1.api.amazonwebservices.eu` (derived, unverified) | Unverified | [botocore partitions.json](https://github.com/boto/botocore/blob/develop/botocore/data/partitions.json), [ESC landing zone blog](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/) |
+| `aws-eusc` (European Sovereign Cloud) | `eusc-de-east-1` | `sts.eusc-de-east-1.amazonaws.eu` (derived from SDK partition data) | `sts.eusc-de-east-1.api.amazonwebservices.eu` (derived from `dualStackDnsSuffix`; not in an AWS doc page) | Not in `endpoints.json` (unverified) | [botocore partitions.json](https://github.com/boto/botocore/blob/develop/botocore/data/partitions.json), [ESC landing zone blog](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/) |
 | `aws-iso` | `us-iso-east-1`, `us-iso-west-1` | `sts.<region>.c2s.ic.gov` (derived) | Not documented | Not documented | [botocore partitions.json](https://github.com/boto/botocore/blob/develop/botocore/data/partitions.json) |
 | `aws-iso-b` | `us-isob-east-1`, `us-isob-west-1` | `sts.<region>.sc2s.sgov.gov` (derived) | Not documented | Not documented | Same |
 | `aws-iso-e` | `eu-isoe-west-1` | `sts.<region>.cloud.adc-e.uk` (derived) | Not documented | Not documented | Same |
@@ -277,7 +282,7 @@ Credentials never cross partitions. The AWS European Sovereign Cloud landing-zon
 
 Hostnames marked "derived" come from `https://sts.{Region}.{dnsSuffix}` in the SDK endpoint rule set combined with each partition's `dnsSuffix`. AWS does not publish them in public STS docs, and they could not be checked against a live endpoint here. ESC STS API availability (`STS+AssumeRole` in `eusc-de-east-1`) is confirmed by the AWS regional availability catalog (queried through the AWS Knowledge MCP `get_regional_availability` tool on 2026-10-10). Outbound identity federation reached ESC in August 2026 ([What's New](https://aws.amazon.com/about-aws/whats-new/2026/08/aws-iam-european-sovereign-cloud/)).
 
-Both GovCloud and China use partition-scoped global pseudo-Regions in SDK metadata (`aws-us-gov-global`, `aws-cn-global`), but there is no public `sts.amazonaws.com`-style global STS endpoint documented for them ([botocore partitions.json](https://github.com/boto/botocore/blob/develop/botocore/data/partitions.json); absence of a public global endpoint: unverified).
+Both GovCloud and China use partition-scoped global pseudo-Regions in SDK metadata (`aws-us-gov-global`, `aws-cn-global`), but there is no public `sts.amazonaws.com`-style global STS endpoint documented for them. In botocore `endpoints.json`, only the `aws` partition's `sts` service has `partitionEndpoint: aws-global` (mapped to `sts.amazonaws.com`); `aws-cn` and `aws-us-gov` list Regional endpoints only ([botocore partitions.json](https://github.com/boto/botocore/blob/develop/botocore/data/partitions.json), [botocore endpoints.json](https://github.com/boto/botocore/blob/develop/botocore/data/endpoints.json); no AWS documentation page states the absence explicitly).
 
 ## Commercial Region endpoint table
 
@@ -304,13 +309,13 @@ There are 34 commercial Regions: 17 default-enabled and 17 opt-in. The Region li
 | `ap-southeast-2` | Asia Pacific (Sydney) | Default | `sts.ap-southeast-2.amazonaws.com` | `sts.ap-southeast-2.api.aws` | None | Yes | Yes |
 | `af-south-1` | Africa (Cape Town) | Opt-in | `sts.af-south-1.amazonaws.com` | `sts.af-south-1.api.aws` | None | No (always on once Region enabled) | Yes |
 | `ap-east-1` | Asia Pacific (Hong Kong) | Opt-in | `sts.ap-east-1.amazonaws.com` | `sts.ap-east-1.api.aws` | None | No | Yes |
-| `ap-east-2` | Asia Pacific (Taipei) | Opt-in | `sts.ap-east-2.amazonaws.com` | `sts.ap-east-2.api.aws` | None | No (by opt-in rule; Region missing from IAM table) | Not listed (unverified) |
+| `ap-east-2` | Asia Pacific (Taipei) | Opt-in | `sts.ap-east-2.amazonaws.com` | `sts.ap-east-2.api.aws` | None | No (by opt-in rule; Region missing from IAM table) | Not listed |
 | `ap-south-2` | Asia Pacific (Hyderabad) | Opt-in | `sts.ap-south-2.amazonaws.com` | `sts.ap-south-2.api.aws` | None | No | Yes |
 | `ap-southeast-3` | Asia Pacific (Jakarta) | Opt-in | `sts.ap-southeast-3.amazonaws.com` | `sts.ap-southeast-3.api.aws` | None | No | Yes |
 | `ap-southeast-4` | Asia Pacific (Melbourne) | Opt-in | `sts.ap-southeast-4.amazonaws.com` | `sts.ap-southeast-4.api.aws` | None | No | Yes |
-| `ap-southeast-5` | Asia Pacific (Malaysia) | Opt-in | `sts.ap-southeast-5.amazonaws.com` | `sts.ap-southeast-5.api.aws` | None | No | Not listed (unverified) |
-| `ap-southeast-6` | Asia Pacific (New Zealand) | Opt-in | `sts.ap-southeast-6.amazonaws.com` | `sts.ap-southeast-6.api.aws` | None | No (by opt-in rule; Region missing from IAM table) | Not listed (unverified) |
-| `ap-southeast-7` | Asia Pacific (Thailand) | Opt-in | `sts.ap-southeast-7.amazonaws.com` | `sts.ap-southeast-7.api.aws` | None | No | Not listed (unverified) |
+| `ap-southeast-5` | Asia Pacific (Malaysia) | Opt-in | `sts.ap-southeast-5.amazonaws.com` | `sts.ap-southeast-5.api.aws` | None | No | Not listed |
+| `ap-southeast-6` | Asia Pacific (New Zealand) | Opt-in | `sts.ap-southeast-6.amazonaws.com` | `sts.ap-southeast-6.api.aws` | None | No (by opt-in rule; Region missing from IAM table) | Not listed |
+| `ap-southeast-7` | Asia Pacific (Thailand) | Opt-in | `sts.ap-southeast-7.amazonaws.com` | `sts.ap-southeast-7.api.aws` | None | No | Not listed |
 | `ca-west-1` | Canada West (Calgary) | Opt-in | `sts.ca-west-1.amazonaws.com` | `sts.ca-west-1.api.aws` | `sts-fips.ca-west-1.amazonaws.com` | No | Yes |
 | `eu-central-2` | Europe (Zurich) | Opt-in | `sts.eu-central-2.amazonaws.com` | `sts.eu-central-2.api.aws` | None | No | Yes |
 | `eu-south-1` | Europe (Milan) | Opt-in | `sts.eu-south-1.amazonaws.com` | `sts.eu-south-1.api.aws` | None | No | Yes |
@@ -318,12 +323,12 @@ There are 34 commercial Regions: 17 default-enabled and 17 opt-in. The Region li
 | `il-central-1` | Israel (Tel Aviv) | Opt-in | `sts.il-central-1.amazonaws.com` | `sts.il-central-1.api.aws` | None | No | Yes |
 | `me-central-1` | Middle East (UAE) | Opt-in | `sts.me-central-1.amazonaws.com` | `sts.me-central-1.api.aws` | None | No | Yes |
 | `me-south-1` | Middle East (Bahrain) | Opt-in | `sts.me-south-1.amazonaws.com` | `sts.me-south-1.api.aws` | None | No | Yes |
-| `mx-central-1` | Mexico (Central) | Opt-in | `sts.mx-central-1.amazonaws.com` | `sts.mx-central-1.api.aws` | None | No | Not listed (unverified) |
+| `mx-central-1` | Mexico (Central) | Opt-in | `sts.mx-central-1.amazonaws.com` | `sts.mx-central-1.api.aws` | None | No | Not listed |
 
 Notes:
 
 - The IAM "AWS STS Regions and endpoints" table, as published on 2026-10-10, omits `ap-east-2` (Taipei) and `ap-southeast-6` (New Zealand). The General Reference includes both, and the Account Management guide lists both as opt-in.
-- "Not listed" means the Region is absent from the IAM User Guide's STS VPC endpoint list. The list may simply be stale, because the PrivateLink service catalog lists `com.amazonaws.{region}.sts` without Region restrictions ([PrivateLink: AWS services that integrate](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)). Check with `aws ec2 describe-vpc-endpoint-services` in the target Region.
+- "Not listed" means the Region is absent from the IAM User Guide's STS VPC endpoint list, which names 33 Regions as of 2026-10-10 ([IAM: interface VPC endpoints](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_interface_vpc_endpoints.html)). Whether those five Regions actually offer the endpoint is unverified. The list may simply be stale, because the PrivateLink service catalog lists `com.amazonaws.{region}.sts` without Region restrictions ([PrivateLink: AWS services that integrate](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)). Check with `aws ec2 describe-vpc-endpoint-services` in the target Region.
 - FIPS dual-stack hostnames (`sts-fips.<region>.api.aws`) exist for the same six Regions that have FIPS.
 
 ## VPC interface endpoints (AWS PrivateLink)
@@ -336,7 +341,7 @@ Notes:
 | `com.amazonaws.<region>.sts-fips` | FIPS STS API | [PrivateLink service list](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html) |
 | `com.amazonaws.<region>.sts-oidc` | OIDC discovery for outbound identity federation only (`/.well-known/openid-configuration` and `/.well-known/jwks.json`) | [IAM: STS OIDC discovery VPC endpoint](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sts_oidc_vpc_endpoint_create.html) |
 
-Which Regions offer `sts-fips` is not listed separately in IAM docs. Presumably they are the FIPS Regions above (unverified).
+Which Regions offer `sts-fips` is not listed separately in IAM docs. The nearest primary statement is that "FIPS endpoints only apply to US and Canada regions" ([IAM: dual-stack endpoint support](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_dual-stack_endpoint_support.html)); the exact `sts-fips` VPC endpoint Region list is unverified.
 
 ### Private DNS and the global endpoint
 

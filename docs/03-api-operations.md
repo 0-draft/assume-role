@@ -54,8 +54,8 @@ The [Actions page of the STS API Reference](https://docs.aws.amazon.com/STS/late
 | 3 | `AssumeRoleWithWebIdentity` | Role session via OIDC / OAuth 2.0 federation | Original-era API |
 | 4 | `AssumeRoot` | Task-scoped root session in an Organizations member account | 2024-11-15 ([What's New](https://aws.amazon.com/about-aws/whats-new/2024/11/manage-root-access-aws-identity-access-management/), [AWS News Blog 2024-11-15](https://aws.amazon.com/blogs/aws/centrally-managing-root-access-for-customers-using-aws-organizations/)) |
 | 5 | `DecodeAuthorizationMessage` | Utility | Original-era API |
-| 6 | `GetAccessKeyInfo` | Utility | Original-era API (exact date unverified) |
-| 7 | `GetCallerIdentity` | Utility (whoami) | Original-era API (exact date unverified) |
+| 6 | `GetAccessKeyInfo` | Utility | Added to the SDK models on 2019-07-24 ([botocore](https://github.com/boto/botocore/blob/develop/CHANGELOG.rst)); no announcement found |
+| 7 | `GetCallerIdentity` | Utility (whoami) | Added to the SDK models on 2016-04-05 (botocore 1.4.9: "Added support for GetCallerIdentity", [CHANGELOG](https://github.com/boto/botocore/blob/develop/CHANGELOG.rst)); no announcement found |
 | 8 | `GetDelegatedAccessToken` | Credentials for AWS Partners via IAM temporary delegation | 2025-11-19 ([What's New](https://aws.amazon.com/about-aws/whats-new/2025/11/streamline-integration-partner-products-iam-delegation/)) |
 | 9 | `GetFederationToken` | Federated user session (custom broker) | Original API |
 | 10 | `GetSessionToken` | MFA-backed session for IAM user / root | Original API |
@@ -120,14 +120,14 @@ Durations are min / default / max. "Temp creds OK" means the operation can be ca
 | `AssumeRole` | IAM user or role session (also AWS services) | SigV4 | Yes (role chaining caps at 1 h) | 900 s / 3600 s / role `MaxSessionDuration` (1 h to 12 h, 43200 s) | Yes (`SerialNumber`, `TokenCode`) | Yes (1 inline + up to 10 ARNs) | Yes (up to 50, transitive) | Credentials, AssumedRoleUser, SourceIdentity, size fields | `arn:aws:sts::ACCT:assumed-role/ROLE/SESSION` |
 | `AssumeRoleWithSAML` | Anyone holding a SAML response from a trusted IdP | None (unsigned) | Not applicable | 900 s / 3600 s / min(role max, `SessionNotOnOrAfter`) | No | Yes | Yes (via SAML attributes) | Credentials, AssumedRoleUser, Issuer, Audience, Subject, SubjectType, NameQualifier, SourceIdentity | `arn:aws:sts::ACCT:assumed-role/ROLE/SESSION` |
 | `AssumeRoleWithWebIdentity` | Anyone holding an OIDC ID token / OAuth 2.0 token | None (unsigned) | Not applicable | 900 s / 3600 s / role max (12 h) | No | Yes | Yes (via token claim) | Credentials, AssumedRoleUser, SubjectFromWebIdentityToken, Audience, Provider, SourceIdentity | `arn:aws:sts::ACCT:assumed-role/ROLE/SESSION` |
-| `AssumeRoot` | Principal in the Organizations management account or IAM delegated admin account (not root) | SigV4, regional endpoint only | Yes (unverified; any non-root principal with `sts:AssumeRoot`) | 0 s (API range) / 900 s / 900 s | No | Task policy only (`TaskPolicyArn`, 1 of 5 AWS managed `root-task` policies) | No | Credentials, SourceIdentity, size fields | Member account root (format unverified) |
+| `AssumeRoot` | Principal in the Organizations management account or IAM delegated admin account (not root) | SigV4, regional endpoint only | Yes (a CloudTrail example shows an `AssumedRole` session calling it, [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html)) | 0 s (API range) / 900 s / 900 s | No | Task policy only (`TaskPolicyArn`, 1 of 5 AWS managed `root-task` policies) | No | Credentials, SourceIdentity, size fields | Actions in the session are logged as `type: Root`, `arn:aws:iam::MEMBER:root` |
 | `GetSessionToken` | IAM user (or root, not recommended) | SigV4, long-term keys | No | IAM user 900 s / 43200 s / 129600 s; root 900 s / 3600 s / 3600 s | Yes | No | No | Credentials, size fields | Same as calling IAM user (unverified) |
 | `GetFederationToken` | IAM user (or root, not recommended), typically a broker | SigV4, long-term keys | No | IAM user 900 s / 43200 s / 129600 s; root 900 s / 3600 s / 3600 s | No | Yes (effectively required) | Yes (up to 50) | Credentials, FederatedUser, size fields | `arn:aws:sts::ACCT:federated-user/NAME` |
 | `GetDelegatedAccessToken` | Onboarded AWS Partner account | SigV4 | Unverified | Fixed by delegation request `SessionDuration` (300 s to 43200 s), counted from token release | No | Fixed by partner policy template | No | Credentials, AssumedPrincipal | `AssumedPrincipal` ARN (format unverified) |
 | `GetWebIdentityToken` | IAM role or IAM user (workload) | SigV4, regional endpoint only | Yes (token can't outlive session) | 60 s / 300 s / 3600 s (JWT lifetime) | No | No | Custom claims via `Tags` (up to 50) | `WebIdentityToken` (JWT), `Expiration` | Not applicable (JWT `sub` is principal ARN) |
 | `GetCallerIdentity` | Any authenticated principal | SigV4 | Yes | Not applicable | No | No | No | Account, Arn, UserId | Not applicable |
-| `GetAccessKeyInfo` | Any principal with permission | SigV4 | Yes (unverified) | Not applicable | No | No | No | Account | Not applicable |
-| `DecodeAuthorizationMessage` | Any principal with permission | SigV4 | Yes (unverified) | Not applicable | No | No | No | DecodedMessage (JSON string) | Not applicable |
+| `GetAccessKeyInfo` | Any principal with permission | SigV4 | Role sessions yes; not with `GetSessionToken` or `GetFederationToken` credentials | Not applicable | No | No | No | Account | Not applicable |
+| `DecodeAuthorizationMessage` | Any principal with permission | SigV4 | Role sessions yes; not with `GetSessionToken` or `GetFederationToken` credentials | Not applicable | No | No | No | DecodedMessage (JSON string) | Not applicable |
 
 Sources: per-operation API Reference pages (linked in each section), [Compare AWS STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html), [IAM temporary delegation building guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/temporary-delegation-building-integration.html), [CreateDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateDelegationRequest.html).
 
@@ -425,7 +425,7 @@ aws sts assume-role-with-web-identity \
 }
 ```
 
-The `Provider` value here is illustrative and **(unverified)**. The API Reference says that for OIDC tokens `Provider` "contains the value of the `iss` field", but the CLI output that the SDKs commonly show for OIDC providers uses the provider ARN form.
+The API Reference says that for OIDC ID tokens `Provider` "contains the value of the `iss` field"; the official CLI example shows `"Provider": "www.amazon.com"`, the `ProviderId` of an OAuth 2.0 provider ([CLI reference](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role-with-web-identity.html)). No AWS page shows an IAM provider ARN in this field.
 
 ## AssumeRoot
 
@@ -482,7 +482,7 @@ aws sts assume-root \
 }
 ```
 
-This example is adapted from the [AWS CLI STS examples](https://docs.aws.amazon.com/cli/latest/userguide/cli_sts_code_examples.html). The ARN that `GetCallerIdentity` returns inside a root session is **(unverified)**; it would presumably be `arn:aws:iam::111122223333:root`.
+This example is adapted from the [AWS CLI STS examples](https://docs.aws.amazon.com/cli/latest/userguide/cli_sts_code_examples.html). Actions taken inside an `AssumeRoot` session are logged in CloudTrail as `type: Root` with `arn:aws:iam::222222222222:root` ([IAM: track privileged tasks](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html)), and the `aws:AssumedRoot` SCP example matches these sessions with `aws:PrincipalArn` `arn:aws:iam::*:root`. The exact `GetCallerIdentity` output in such a session is not shown in AWS documentation (unverified), but it is expected to be the root ARN.
 
 ## GetSessionToken
 
@@ -546,7 +546,7 @@ aws sts get-session-token \
 }
 ```
 
-When `GetCallerIdentity` is called with these credentials, it should return the IAM user's own ARN (`arn:aws:iam::123456789012:user/alice`) **(unverified)**.
+The credentials "have the same permissions as the IAM user" ([IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)), and a deny on the user's `aws:userid` also covers them. AWS does not show `GetCallerIdentity` output for these credentials; it is expected to be the IAM user's own ARN (`arn:aws:iam::123456789012:user/alice`) **(unverified)**.
 
 ## GetFederationToken
 
@@ -851,7 +851,7 @@ aws sts decode-authorization-message --encoded-message "EXAMPLE-ENCODED-MESSAGE"
 }
 ```
 
-The structure follows the API Reference sample. The nested `items` wrapping matches typical real output and is **(unverified)** against the official sample, which shows a simplified shape.
+The structure follows the API Reference sample. The nested `items` wrapping of `matchedStatements` and `principals` matches an AWS Knowledge Center example ([re:Post](https://repost.aws/knowledge-center/organizations-troubleshoot-explicit-deny-scp)); the shape of `conditions.items` is not shown there (unverified).
 
 ## Identifier prefixes and principal ARN formats
 
@@ -890,7 +890,7 @@ Source: [IAM identifiers, Understanding unique ID prefixes](https://docs.aws.ama
 | EC2 instance role | `arn:aws:sts::123456789012:assumed-role/RoleName/i-0123456789abcdef0` | `AROA...:i-0123456789abcdef0` | role ARN | `AssumedRole` |
 | Federated user (GetFederationToken) | `arn:aws:sts::123456789012:federated-user/Bob` | `123456789012:Bob` | `arn:aws:sts::123456789012:federated-user/Bob` | `FederatedUser` |
 
-Sources: [Policy variables, principal key values](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html), [aws:PrincipalArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html), [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html). The EC2 session ARN form is inferred from the documented `aws:userid` value `role-id:ec2-instance-id` and is **(unverified)** as a full ARN. One more ARN, `arn:aws:sts::123456789012:self`, refers to the caller's own session when used as a resource, for example for `sts:SetContext`.
+Sources: [Policy variables, principal key values](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html), [aws:PrincipalArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html), [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html). The EC2 session ARN form is confirmed by an AWS Knowledge Center example: `arn:aws:sts::123456789012:assumed-role/ExampleInstanceRole/i-01773d4a8ed647342` with `UserId` `AROA…:i-01773d4a8ed647342` ([re:Post](https://repost.aws/knowledge-center/iam-ec2-user-role-credentials)). One more ARN, `arn:aws:sts::123456789012:self`, refers to the caller's own session when used as a resource, for example for `sts:SetContext`.
 
 ## Errors
 
