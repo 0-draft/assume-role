@@ -214,7 +214,7 @@ export function More({ summary, children }: { summary: L; children: ReactNode })
   return (
     <details className="group rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3">
       <summary className="cursor-pointer font-semibold marker:text-[var(--sts)]">
-        {t(summary)}
+        {rich(t(summary))}
       </summary>
       <div className="mt-3 space-y-3">{children}</div>
     </details>
