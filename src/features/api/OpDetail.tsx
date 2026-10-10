@@ -114,7 +114,7 @@ export function OpDetail({ op }: { op: Op }) {
           <span className="text-[var(--muted)]">
             {t({
               en: ". Values above are illustrative; the keys are AWS's EXAMPLE placeholders.",
-              ja: "。上の値は例示で、キーは AWS ドキュメントの EXAMPLE 値。",
+              ja: "。上の値は例示で、キーは AWS ドキュメントの EXAMPLE 値です。",
             })}
           </span>
         </p>

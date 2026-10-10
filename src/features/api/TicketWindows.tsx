@@ -54,33 +54,40 @@ export function TicketWindows() {
                       aria-pressed={on}
                       data-match={match}
                       onClick={() => setSelected(o.id)}
-                      className="relative flex h-full min-h-[4.75rem] w-full flex-col items-start gap-1.5 rounded-xl border-2 px-3 py-2.5 text-left transition-[background-color,border-color,box-shadow]"
+                      className="relative flex h-full min-h-[4.75rem] w-full flex-col items-start gap-1.5 rounded-xl border-2 px-3 py-2.5 text-left transition-[background-color,border-color,box-shadow,transform]"
                       style={{
-                        borderColor: on || match ? f.color : "var(--line)",
+                        borderColor: on
+                          ? f.color
+                          : match
+                            ? `color-mix(in oklab, ${f.color} 45%, var(--line))`
+                            : "var(--line)",
                         borderStyle: match || on ? "solid" : "dashed",
-                        background: match
-                          ? `color-mix(in oklab, ${f.color} 13%, var(--surface))`
-                          : "var(--surface)",
-                        boxShadow: on
-                          ? `0 0 0 3px color-mix(in oklab, ${f.color} 35%, transparent)`
-                          : "none",
+                        background: on
+                          ? `color-mix(in oklab, ${f.color} 20%, var(--surface))`
+                          : match
+                            ? `color-mix(in oklab, ${f.color} 7%, var(--surface))`
+                            : "var(--surface)",
+                        // Selected: pressed into the counter, with a hard print shadow.
+                        boxShadow: on ? `4px 4px 0 0 ${f.color}` : "none",
+                        transform: on ? "translate(-2px, -2px)" : "none",
                       }}
                     >
                       <span
                         className="font-mono text-[0.85rem] font-semibold [overflow-wrap:anywhere]"
-                        style={{ color: match ? "var(--ink)" : "var(--muted)" }}
+                        style={{ color: match || on ? "var(--ink)" : "var(--muted)" }}
                       >
                         {o.id}
                       </span>
                       <OpBadges op={o} />
-                      {match && (
+                      {on && (
                         <span
-                          aria-hidden
-                          className="absolute top-2 right-2 size-2.5 rounded-full"
-                          style={{ background: f.color }}
-                        />
+                          className="mt-auto text-xs font-semibold"
+                          style={{ color: f.color }}
+                        >
+                          {t({ en: "Pass printed below", ja: "下に券を発行中" })}
+                        </span>
                       )}
-                      {match && (
+                      {match && !on && (
                         <span className="sr-only">
                           {t({ en: "(fits what you hold)", ja: "(手元のもので呼べる)" })}
                         </span>
@@ -94,6 +101,15 @@ export function TicketWindows() {
         ))}
       </div>
 
+      {/* The pass feeds out of the selected window. */}
+      <div aria-hidden className="-my-3 flex justify-center">
+        <span
+          className="h-8 border-l-[3px] border-dashed"
+          style={{
+            borderColor: FAMILIES.find((f) => f.id === opById(selected).family)!.color,
+          }}
+        />
+      </div>
       <OpDetail key={selected} op={opById(selected)} />
     </div>
   );

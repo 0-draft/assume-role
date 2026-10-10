@@ -22,19 +22,19 @@ const KIND_COLOR: Record<IdKind, string> = {
 const KIND_NOTE: Record<IdKind, L> = {
   "long-term-key": {
     en: "A long-term key of an IAM user or the root user. It never expires on its own. `GetAccessKeyInfo` returns its account; the credential report tells you which user.",
-    ja: "IAM ユーザーか root の長期キー。自然には失効しない。`GetAccessKeyInfo` で持ち主のアカウントがわかり、どのユーザーかは認証情報レポートで調べる。",
+    ja: "IAM ユーザーか root の長期キーです。自然には失効しません。`GetAccessKeyInfo` で持ち主のアカウントがわかり、どのユーザーかは認証情報レポートで調べます。",
   },
   "temp-key": {
     en: "Printed by STS. On its own it is useless: it only works together with its secret key and session token. `GetAccessKeyInfo` returns its account; the STS events in CloudTrail tell you who received it.",
-    ja: "STS が発行したキー。シークレットキーとセッショントークンとセットでないと使えない。`GetAccessKeyInfo` で持ち主のアカウントがわかり、誰が受け取ったかは CloudTrail の STS イベントで追う。",
+    ja: "STS が発行したキーです。シークレットキーとセッショントークンとセットでないと使えません。`GetAccessKeyInfo` で持ち主のアカウントがわかり、誰が受け取ったかは CloudTrail の STS イベントで追えます。",
   },
   principal: {
     en: "The unique ID of a principal, not a key, so `GetAccessKeyInfo` does not apply. Trust policies store these IDs, which is why deleting and recreating a role breaks them.",
-    ja: "プリンシパルの一意 ID で、キーではないので `GetAccessKeyInfo` の対象外。信頼ポリシーは内部でこの ID を保存するので、ロールを削除して作り直すと一致しなくなる。",
+    ja: "プリンシパルの一意 ID です。キーではないので `GetAccessKeyInfo` の対象外です。信頼ポリシーは内部でこの ID を保存するため、ロールを削除して作り直すと一致しなくなります。",
   },
   other: {
     en: "Not an access key, so `GetAccessKeyInfo` does not apply.",
-    ja: "アクセスキーではないので `GetAccessKeyInfo` の対象外。",
+    ja: "アクセスキーではないので `GetAccessKeyInfo` の対象外です。",
   },
 };
 
@@ -96,7 +96,7 @@ export function IdDecoder() {
             {rich(
               t({
                 en: `\`${d.prefix}\` is not a documented prefix. AWS notes prefixes may vary with when an ID was created.`,
-                ja: `\`${d.prefix}\` はドキュメントにある接頭辞ではない。AWS は作成時期によって接頭辞が異なることがあると注記している。`,
+                ja: `\`${d.prefix}\` はドキュメントにある接頭辞ではありません。AWS は、作成時期によって接頭辞が異なることがあると注記しています。`,
               }),
             )}
           </span>
@@ -116,11 +116,11 @@ export function IdDecoder() {
                 d.name
                   ? t({
                       en: `Account \`${d.account}\`, name \`${d.name}\`. This is the shape \`GetFederationToken\` sessions take.`,
-                      ja: `アカウント \`${d.account}\`、名前 \`${d.name}\`。\`GetFederationToken\` のセッションはこの形になる。`,
+                      ja: `アカウント \`${d.account}\`、名前 \`${d.name}\`。\`GetFederationToken\` のセッションはこの形になります。`,
                     })
                   : t({
                       en: "For the root user, `aws:userid` is just this account ID.",
-                      ja: "root ユーザーの `aws:userid` はこのアカウント ID そのもの。",
+                      ja: "root ユーザーの `aws:userid` は、このアカウント ID そのものです。",
                     }),
               )}
             </span>
@@ -145,7 +145,7 @@ export function IdDecoder() {
                 {rich(
                   t({
                     en: `This is the \`aws:userid\` of a role session: role ID, a colon, then the session name \`${d.session}\`.`,
-                    ja: `ロールセッションの \`aws:userid\`。ロール ID、コロン、セッション名 \`${d.session}\` の順。`,
+                    ja: `ロールセッションの \`aws:userid\`。ロール ID、コロン、セッション名 \`${d.session}\` の順に並びます。`,
                   }),
                 )}
               </span>

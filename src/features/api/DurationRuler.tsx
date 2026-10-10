@@ -5,16 +5,14 @@ import { FAMILIES } from "./ops";
 
 const pct = (s: number) => `${(logPos(s) * 100).toFixed(2)}%`;
 
-function Axis({ className = "", lang }: { className?: string; lang: Lang }) {
+function Axis({ lang }: { lang: Lang }) {
   return (
-    <div
-      className={`relative h-5 text-[0.7rem] text-[var(--muted)] ${className}`}
-      aria-hidden
-    >
+    <div className="relative h-5 text-[0.7rem] text-[var(--muted)]" aria-hidden>
       {TICKS.map((s, i) => (
         <span
           key={s}
-          className="absolute top-0 whitespace-nowrap tabular-nums"
+          // 12 h and 36 h sit close together on a phone; keep the outer one there.
+          className={`absolute top-0 whitespace-nowrap tabular-nums ${s === 43200 ? "hidden sm:inline" : ""}`}
           style={{
             left: pct(s),
             transform:
@@ -54,8 +52,9 @@ export function DurationRuler() {
         </span>
         <span>{t({ en: "log scale", ja: "対数目盛" })}</span>
       </div>
-      <div className="hidden sm:grid sm:grid-cols-[15rem_1fr] sm:gap-4">
-        <span />
+      {/* One shared axis. On phones it sticks under the header while the rows scroll. */}
+      <div className="sticky top-14 z-10 -mx-1 mb-2 bg-[var(--surface)] px-1 py-1 sm:static sm:mx-0 sm:grid sm:grid-cols-[15rem_1fr] sm:gap-4 sm:px-0">
+        <span className="hidden sm:block" />
         <Axis lang={lang} />
       </div>
       <ul className="space-y-3">
@@ -90,7 +89,6 @@ export function DurationRuler() {
                 {r.note && <div className="text-xs text-[var(--muted)]">{t(r.note)}</div>}
               </div>
               <div>
-                <Axis className="sm:hidden" lang={lang} />
                 <div className="relative h-6" aria-hidden>
                   {TICKS.map((s) => (
                     <span

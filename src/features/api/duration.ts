@@ -23,7 +23,7 @@ export const DURATIONS: DurationRow[] = [
     max: 43200,
     note: {
       en: "Max is the role's MaxSessionDuration, 1 to 12 h.",
-      ja: "上限はロールの MaxSessionDuration (1〜12 時間)。",
+      ja: "上限はロールの MaxSessionDuration (1〜12 時間) です。",
     },
   },
   {
@@ -35,7 +35,7 @@ export const DURATIONS: DurationRow[] = [
     max: 3600,
     note: {
       en: "A role session assuming another role. Asking for more than 1 h fails.",
-      ja: "ロールセッションから別ロールを引き受ける場合。1 時間超を指定すると失敗する。",
+      ja: "ロールセッションから別のロールを引き受ける場合です。1 時間を超えて指定すると失敗します。",
     },
   },
   {
@@ -46,7 +46,7 @@ export const DURATIONS: DurationRow[] = [
     max: 43200,
     note: {
       en: "Also cut short by the assertion's SessionNotOnOrAfter.",
-      ja: "アサーションの SessionNotOnOrAfter でも打ち切られる。",
+      ja: "アサーションの SessionNotOnOrAfter でも打ち切られます。",
     },
   },
   {
@@ -64,7 +64,7 @@ export const DURATIONS: DurationRow[] = [
     max: 900,
     note: {
       en: "The API Reference lists the range as 0 to 900 s.",
-      ja: "API リファレンス上の範囲は 0〜900 秒。",
+      ja: "API リファレンス上の範囲は 0〜900 秒です。",
     },
   },
   {
@@ -106,7 +106,7 @@ export const DURATIONS: DurationRow[] = [
     max: 43200,
     note: {
       en: "No default: the delegation request's SessionDuration decides, counted from token release.",
-      ja: "デフォルトなし。委任リクエストの SessionDuration で決まり、トークンのリリース時刻から数える。",
+      ja: "デフォルトはありません。委任リクエストの SessionDuration で決まり、トークンのリリース時刻から数えます。",
     },
   },
   {

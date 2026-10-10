@@ -29,7 +29,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
     label: { en: "Credentials by becoming a role", ja: "ロールになって認証情報を得る" },
     blurb: {
       en: "You prove who you are, STS hands back keys for a role.",
-      ja: "自分が誰かを証明すると、ロールのキーが返ってくる。",
+      ja: "自分が誰かを証明すると、ロールのキーが返ってきます。",
     },
     color: "var(--role)",
   },
@@ -38,7 +38,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
     label: { en: "Credentials without a role", ja: "ロールを介さない認証情報" },
     blurb: {
       en: "Short-lived keys for an IAM user, a federated user, a member root, or a partner.",
-      ja: "IAM ユーザー、フェデレーションユーザー、メンバーアカウントの root、パートナー向けの短期キー。",
+      ja: "IAM ユーザー、フェデレーションユーザー、メンバーアカウントの root、パートナー向けの短期キーです。",
     },
     color: "var(--caller)",
   },
@@ -47,7 +47,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
     label: { en: "Tokens going out of AWS", ja: "AWS の外へ出すトークン" },
     blurb: {
       en: "AWS acts as the identity provider and signs a JWT for someone else's API.",
-      ja: "AWS が IdP 側に回り、外部サービス向けの JWT に署名する。",
+      ja: "AWS が IdP 側に回り、外部サービス向けの JWT に署名します。",
     },
     color: "var(--idp)",
   },
@@ -56,7 +56,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
     label: { en: "Introspection", ja: "調べもの" },
     blurb: {
       en: "No credentials come out. These answer questions about ones you already have.",
-      ja: "認証情報は出てこない。手元のキーやエラーについて答えるだけ。",
+      ja: "認証情報は出てきません。手元のキーやエラーについて答えるだけです。",
     },
     color: "var(--sts)",
   },
@@ -113,24 +113,24 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Get temporary credentials for an IAM role, in the same account or across accounts.",
-      ja: "IAM ロールの一時認証情報を得る。同一アカウントでもクロスアカウントでも使う。",
+      ja: "IAM ロールの一時認証情報を得ます。同一アカウントでもクロスアカウントでも使います。",
     },
     caller: {
       en: "An IAM user or a role session that already holds credentials. The role's trust policy must trust the caller; across accounts the caller's identity policy must also allow `sts:AssumeRole`.",
-      ja: "すでに認証情報を持つ IAM ユーザーかロールセッション。ロールの信頼ポリシーが呼び出し元を信頼している必要があり、クロスアカウントなら呼び出し元のアイデンティティポリシーでも `sts:AssumeRole` の許可が要る。",
+      ja: "すでに認証情報を持つ IAM ユーザーかロールセッションです。ロールの信頼ポリシーが呼び出し元を信頼している必要があり、クロスアカウントなら呼び出し元のアイデンティティポリシーでも `sts:AssumeRole` の許可が要ります。",
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role's `MaxSessionDuration` (1 to 12 h). Role chaining, meaning a role session calling AssumeRole, is capped at 1 h and asking for more fails.",
-      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの `MaxSessionDuration` (1〜12 時間)。ロールセッションから AssumeRole する「ロールチェーン」は 1 時間が上限で、それ以上を指定すると失敗する。",
+      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの `MaxSessionDuration` (1〜12 時間)。ロールセッションから AssumeRole する「ロールチェーン」は 1 時間が上限で、それ以上を指定すると失敗します。",
     },
     mfa: {
       en: "Yes: pass `SerialNumber` and a 6-digit `TokenCode`.",
-      ja: "あり: `SerialNumber` と 6 桁の `TokenCode` を渡す。",
+      ja: "あり: `SerialNumber` と 6 桁の `TokenCode` を渡します。",
     },
     sessionPolicy: SESSION_POLICY,
     tags: {
       en: "Yes: up to 50, and they can be transitive through role chaining.",
-      ja: "あり: 最大 50 個。ロールチェーンに引き継ぐ (transitive) 指定もできる。",
+      ja: "あり: 最大 50 個。ロールチェーンに引き継ぐ (transitive) 指定もできます。",
     },
     returns: [
       "Credentials",
@@ -142,7 +142,7 @@ export const OPS: Op[] = [
     ],
     restrictions: {
       en: "Can call any AWS service except STS `GetFederationToken` and `GetSessionToken`.",
-      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べる。",
+      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べます。",
     },
     cli: `aws sts assume-role \\
   --role-arn arn:aws:iam::123456789012:role/demo \\
@@ -186,24 +186,24 @@ export const OPS: Op[] = [
     auth: "unsigned",
     purpose: {
       en: "Trade a SAML 2.0 response from your enterprise IdP for role credentials.",
-      ja: "社内 IdP が出した SAML 2.0 レスポンスを、ロールの認証情報と交換する。",
+      ja: "社内 IdP が出した SAML 2.0 レスポンスを、ロールの認証情報と交換します。",
     },
     caller: {
       en: "Anyone holding a SAML response from an IdP registered as an IAM SAML provider. No AWS credentials: STS checks the assertion against the provider's metadata. Not for IAM Identity Center roles (`AWSReservedSSO_*`).",
-      ja: "IAM SAML プロバイダーに登録した IdP の SAML レスポンスを持っている人なら誰でも。AWS の認証情報は不要で、STS はプロバイダーのメタデータでアサーションを検証する。IAM Identity Center のロール (`AWSReservedSSO_*`) には使えない。",
+      ja: "IAM SAML プロバイダーに登録した IdP の SAML レスポンスを持っている人なら誰でも呼べます。AWS の認証情報は不要で、STS はプロバイダーのメタデータでアサーションを検証します。IAM Identity Center のロール (`AWSReservedSSO_*`) には使えません。",
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role maximum, and never past the assertion's `SessionNotOnOrAfter`.",
-      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの最大値。さらにアサーションの `SessionNotOnOrAfter` を超えない。",
+      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの最大値。さらにアサーションの `SessionNotOnOrAfter` を超えられません。",
     },
     mfa: {
       en: "No MFA parameters. MFA is the IdP's job.",
-      ja: "MFA パラメータなし。MFA は IdP 側の責任。",
+      ja: "MFA のパラメータはありません。MFA は IdP 側で担います。",
     },
     sessionPolicy: SESSION_POLICY,
     tags: {
       en: "Yes, from attributes in the assertion (as are `RoleSessionName` and `SourceIdentity`).",
-      ja: "あり。アサーションの属性から渡す (`RoleSessionName` や `SourceIdentity` も同様)。",
+      ja: "あり。アサーションの属性から渡します (`RoleSessionName` や `SourceIdentity` も同様)。",
     },
     returns: [
       "Credentials",
@@ -219,7 +219,7 @@ export const OPS: Op[] = [
     ],
     restrictions: {
       en: "Can call any AWS service except STS `GetFederationToken` and `GetSessionToken`.",
-      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べる。",
+      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べます。",
     },
     cli: `aws sts assume-role-with-saml \\
   --role-arn arn:aws:iam::123456789012:role/TestSaml \\
@@ -263,11 +263,11 @@ export const OPS: Op[] = [
     auth: "unsigned",
     purpose: {
       en: "Trade an OIDC ID token (GitHub Actions, EKS service accounts, Google, Cognito) for role credentials.",
-      ja: "OIDC の ID トークン (GitHub Actions、EKS のサービスアカウント、Google、Cognito など) をロールの認証情報と交換する。",
+      ja: "OIDC の ID トークン (GitHub Actions、EKS のサービスアカウント、Google、Cognito など) をロールの認証情報と交換します。",
     },
     caller: {
       en: "Anyone holding a token from an IdP the role's trust policy names. No AWS credentials required. Also accepts OAuth 2.0 access tokens from Login with Amazon and Facebook.",
-      ja: "ロールの信頼ポリシーが名指しする IdP のトークンを持っていれば誰でも。AWS の認証情報は不要。Login with Amazon と Facebook の OAuth 2.0 アクセストークンも受け付ける。",
+      ja: "ロールの信頼ポリシーが名指しする IdP のトークンを持っていれば誰でも呼べます。AWS の認証情報は不要です。Login with Amazon と Facebook の OAuth 2.0 アクセストークンも受け付けます。",
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role maximum (12 h at most).",
@@ -277,7 +277,7 @@ export const OPS: Op[] = [
     sessionPolicy: SESSION_POLICY,
     tags: {
       en: "Yes, from a claim in the token (as is `SourceIdentity`).",
-      ja: "あり。トークンのクレームから渡す (`SourceIdentity` も同様)。",
+      ja: "あり。トークンのクレームから渡します (`SourceIdentity` も同様)。",
     },
     returns: [
       "Credentials",
@@ -291,7 +291,7 @@ export const OPS: Op[] = [
     ],
     restrictions: {
       en: "Can call any AWS service except STS `GetFederationToken` and `GetSessionToken`.",
-      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べる。",
+      ja: "STS の `GetFederationToken` と `GetSessionToken` 以外なら、どの AWS サービスも呼べます。",
     },
     cli: `aws sts assume-role-with-web-identity \\
   --role-arn arn:aws:iam::123456789012:role/FederatedWebIdentityRole \\
@@ -319,7 +319,7 @@ export const OPS: Op[] = [
 }`,
     responseNote: {
       en: "The `Provider` value is illustrative (unverified): the API Reference says it holds the token's `iss` for OIDC.",
-      ja: "`Provider` の値は例示で未検証。API リファレンス上は OIDC の場合トークンの `iss` が入る。",
+      ja: "`Provider` の値は例示で、未検証です。API リファレンスによると、OIDC の場合はトークンの `iss` が入ります。",
     },
     ref: `${REF}AssumeRoleWithWebIdentity.html`,
     matrix: {
@@ -342,20 +342,20 @@ export const OPS: Op[] = [
     since: 2024,
     purpose: {
       en: "Get a 15-minute root session in an Organizations member account to do one privileged task, so the member account needs no root password.",
-      ja: "Organizations のメンバーアカウントで、特権タスクを 1 つだけこなす 15 分間の root セッションを得る。メンバー側に root パスワードを持たせずに済む。",
+      ja: "Organizations のメンバーアカウントで、特権タスクを 1 つだけこなす 15 分間の root セッションを得ます。メンバー側に root パスワードを持たせずに済みます。",
     },
     caller: {
       en: "A principal in the management account or the IAM delegated administrator account, after centralized root access is enabled. Root itself cannot call it.",
-      ja: "集中 root アクセスを有効化したうえで、管理アカウントか IAM の委任管理者アカウントのプリンシパルが呼ぶ。root 自身は呼べない。",
+      ja: "集中 root アクセスを有効化したうえで、管理アカウントか IAM の委任管理者アカウントのプリンシパルが呼びます。root 自身は呼べません。",
     },
     duration: {
       en: "Default and maximum are both 900 s (15 min). The API Reference lists the valid range as 0 to 900.",
-      ja: "デフォルトも上限も 900 秒 (15 分)。API リファレンス上の有効範囲は 0〜900。",
+      ja: "デフォルトも上限も 900 秒 (15 分) です。API リファレンス上の有効範囲は 0〜900 です。",
     },
     mfa: NO,
     sessionPolicy: {
       en: "Task policy only: `TaskPolicyArn` must be one of 5 AWS managed `root-task` policies.",
-      ja: "タスクポリシーのみ: `TaskPolicyArn` に AWS 管理の `root-task` ポリシー 5 種のどれかを指定する。",
+      ja: "タスクポリシーのみ: `TaskPolicyArn` に AWS 管理の `root-task` ポリシー 5 種のどれかを指定します。",
     },
     tags: NO,
     returns: [
@@ -366,7 +366,7 @@ export const OPS: Op[] = [
     ],
     restrictions: {
       en: "Scoped to the chosen task policy: IAMAuditRootUserCredentials, IAMCreateRootUserPassword, IAMDeleteRootUserCredentials, S3UnlockBucketPolicy or SQSUnlockQueuePolicy. No `AssumedRoleUser` in the response.",
-      ja: "選んだタスクポリシーの範囲だけ: IAMAuditRootUserCredentials、IAMCreateRootUserPassword、IAMDeleteRootUserCredentials、S3UnlockBucketPolicy、SQSUnlockQueuePolicy。レスポンスに `AssumedRoleUser` はない。",
+      ja: "選んだタスクポリシーの範囲だけ: IAMAuditRootUserCredentials、IAMCreateRootUserPassword、IAMDeleteRootUserCredentials、S3UnlockBucketPolicy、SQSUnlockQueuePolicy。レスポンスに `AssumedRoleUser` は含まれません。",
     },
     cli: `aws sts assume-root \\
   --region us-east-1 \\
@@ -400,11 +400,11 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Turn an IAM user's long-term keys into short-lived ones, usually to prove MFA for API calls.",
-      ja: "IAM ユーザーの長期キーを短期キーに変える。主に API 呼び出しで MFA を証明するために使う。",
+      ja: "IAM ユーザーの長期キーを短期キーに変えます。主に API 呼び出しで MFA を証明するために使います。",
     },
     caller: {
       en: "An IAM user with long-term (`AKIA`) keys. Root can, but AWS advises against it. No permission is needed: it is an authentication step, which policies cannot control.",
-      ja: "長期キー (`AKIA`) を持つ IAM ユーザー。root でも呼べるが非推奨。認証のステップなので権限は不要で、ポリシーでは制御できない。",
+      ja: "長期キー (`AKIA`) を持つ IAM ユーザーです。root でも呼べますが非推奨です。認証のステップなので権限は不要で、ポリシーでは制御できません。",
     },
     duration: {
       en: "IAM user: 900 s minimum, 43200 s (12 h) default, 129600 s (36 h) maximum. Root: 900 s minimum, 3600 s default and maximum.",
@@ -412,14 +412,14 @@ export const OPS: Op[] = [
     },
     mfa: {
       en: "Yes: pass `SerialNumber` and a 6-digit `TokenCode`. A wrong code returns access denied.",
-      ja: "あり: `SerialNumber` と 6 桁の `TokenCode` を渡す。コードを間違えるとアクセス拒否。",
+      ja: "あり: `SerialNumber` と 6 桁の `TokenCode` を渡します。コードを間違えるとアクセス拒否になります。",
     },
     sessionPolicy: NO,
     tags: NO,
     returns: ["Credentials", "SessionTokenSize", "SessionTokenUtilization"],
     restrictions: {
       en: "Same permissions as the IAM user, but no IAM API calls unless MFA was included, no STS calls except `AssumeRole` and `GetCallerIdentity`, and no console sign-in through the federation endpoint.",
-      ja: "IAM ユーザーと同じ権限。ただし MFA 付きで取得しない限り IAM API は呼べず、STS は `AssumeRole` と `GetCallerIdentity` だけ。フェデレーションエンドポイント経由のコンソールサインインもできない。",
+      ja: "IAM ユーザーと同じ権限です。ただし MFA 付きで取得しない限り IAM API は呼べず、STS は `AssumeRole` と `GetCallerIdentity` だけです。フェデレーションエンドポイント経由のコンソールサインインもできません。",
     },
     cli: `aws sts get-session-token \\
   --serial-number arn:aws:iam::123456789012:mfa/alice \\
@@ -451,11 +451,11 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Mint credentials for a federated user, from a server-side broker that signs people in with its own login system.",
-      ja: "自前のログイン基盤を持つサーバー側ブローカーが、フェデレーションユーザーの認証情報を発行する。",
+      ja: "自前のログイン基盤を持つサーバー側ブローカーが、フェデレーションユーザーの認証情報を発行します。",
     },
     caller: {
       en: "An IAM user's long-term keys (root possible, not recommended). Needs `sts:GetFederationToken`, plus `sts:TagSession` to pass tags.",
-      ja: "IAM ユーザーの長期キー (root も可だが非推奨)。`sts:GetFederationToken` が必要で、タグを渡すなら `sts:TagSession` も要る。",
+      ja: "IAM ユーザーの長期キーです (root も可能ですが非推奨)。`sts:GetFederationToken` が必要で、タグを渡すなら `sts:TagSession` も要ります。",
     },
     duration: {
       en: "IAM user: 900 s / 43200 s default / 129600 s maximum. Root: 900 s / 3600 s / 3600 s.",
@@ -464,7 +464,7 @@ export const OPS: Op[] = [
     mfa: { en: "Not supported.", ja: "非対応。" },
     sessionPolicy: {
       en: "Effectively required: with no session policy the federated user has no permissions at all.",
-      ja: "事実上必須: セッションポリシーを渡さないとフェデレーションユーザーには権限がまったくない。",
+      ja: "事実上必須です。セッションポリシーを渡さないと、フェデレーションユーザーには権限がまったくありません。",
     },
     tags: { en: "Yes: up to 50.", ja: "あり: 最大 50 個。" },
     returns: [
@@ -476,7 +476,7 @@ export const OPS: Op[] = [
     ],
     restrictions: {
       en: "No IAM calls through the CLI or API (console sessions are exempt), no STS calls except `GetCallerIdentity`. Console sign-in through the federation endpoint is allowed.",
-      ja: "CLI / API からの IAM 呼び出しは不可 (コンソールセッションは例外)。STS は `GetCallerIdentity` のみ。フェデレーションエンドポイント経由のコンソールサインインはできる。",
+      ja: "CLI や API からの IAM 呼び出しはできません (コンソールセッションは例外)。STS は `GetCallerIdentity` のみです。フェデレーションエンドポイント経由のコンソールサインインはできます。",
     },
     cli: `aws sts get-federation-token \\
   --name Bob \\
@@ -516,20 +516,20 @@ export const OPS: Op[] = [
     partnerOnly: true,
     purpose: {
       en: "The STS half of IAM temporary delegation: an AWS Partner redeems a trade-in token the customer approved and released, and gets credentials in the customer's account.",
-      ja: "IAM 一時委任の STS 側。顧客が承認・リリースしたトレードイントークンを AWS パートナーが引き換え、顧客アカウントの認証情報を得る。",
+      ja: "IAM 一時委任の STS 側です。顧客が承認してリリースしたトレードイントークンを AWS パートナーが引き換え、顧客アカウントの認証情報を得ます。",
     },
     caller: {
       en: "Only onboarded AWS Partner accounts (ISV Accelerate plus an AWS Marketplace listing), and only the partner account that created the delegation request.",
-      ja: "オンボード済みの AWS パートナーアカウントだけ (ISV Accelerate 参加と AWS Marketplace 出品が条件)。しかも委任リクエストを作ったパートナーアカウント本人のみ。",
+      ja: "オンボード済みの AWS パートナーアカウントだけです (ISV Accelerate への参加と AWS Marketplace への出品が条件)。しかも委任リクエストを作ったパートナーアカウント本人に限られます。",
     },
     duration: {
       en: "Set by the delegation request's `SessionDuration` (300 to 43200 s), counted from when the customer releases the token. Every redemption expires at the same moment.",
-      ja: "委任リクエストの `SessionDuration` (300〜43200 秒) で決まり、顧客がトークンをリリースした時刻から数える。何度引き換えても有効期限は同じ。",
+      ja: "委任リクエストの `SessionDuration` (300〜43200 秒) で決まり、顧客がトークンをリリースした時刻から数えます。何度引き換えても有効期限は変わりません。",
     },
     mfa: NO,
     sessionPolicy: {
       en: "Fixed by the partner's registered policy template, as approved by the customer.",
-      ja: "パートナーが登録したポリシーテンプレート (顧客が承認したもの) で固定。",
+      ja: "パートナーが登録したポリシーテンプレート (顧客が承認したもの) で固定されます。",
     },
     tags: NO,
     returns: ["Credentials", "AssumedPrincipal", "PackedPolicySize (not populated)"],
@@ -549,7 +549,7 @@ export const OPS: Op[] = [
 }`,
     responseNote: {
       en: "The exact `AssumedPrincipal` format is unverified; this value is illustrative.",
-      ja: "`AssumedPrincipal` の正確な形式は未検証。この値は例示。",
+      ja: "`AssumedPrincipal` の正確な形式は未検証です。この値は例示です。",
     },
     ref: `${REF}GetDelegatedAccessToken.html`,
     matrix: {
@@ -569,21 +569,21 @@ export const OPS: Op[] = [
     since: 2025,
     purpose: {
       en: "Outbound identity federation: get a JWT signed by AWS that proves who your workload is to an external service supporting OIDC. It returns no AWS credentials.",
-      ja: "アウトバウンド ID フェデレーション: ワークロードの身元を外部の OIDC 対応サービスに証明する、AWS 署名の JWT を得る。AWS の認証情報は返さない。",
+      ja: "アウトバウンド ID フェデレーション: ワークロードの身元を外部の OIDC 対応サービスに証明する、AWS 署名の JWT を得ます。AWS の認証情報は返しません。",
     },
     caller: {
       en: "An IAM role or user, typically a workload on EC2 or Lambda. The account must first run IAM `EnableOutboundWebIdentityFederation`, which creates its issuer URL.",
-      ja: "IAM ロールかユーザー。典型的には EC2 や Lambda 上のワークロード。事前にアカウントで IAM の `EnableOutboundWebIdentityFederation` を実行し、issuer URL を作っておく必要がある。",
+      ja: "IAM ロールかユーザーで、典型的には EC2 や Lambda 上のワークロードです。事前にアカウントで IAM の `EnableOutboundWebIdentityFederation` を実行し、issuer URL を作っておく必要があります。",
     },
     duration: {
       en: "JWT lifetime 60 s minimum, 300 s default, 3600 s maximum. It cannot outlive the calling session (`SessionDurationEscalation`).",
-      ja: "JWT の有効期間は最短 60 秒、デフォルト 300 秒、上限 3600 秒。呼び出し元セッションより長くはできない (`SessionDurationEscalation`)。",
+      ja: "JWT の有効期間は最短 60 秒、デフォルト 300 秒、上限 3600 秒です。呼び出し元のセッションより長くはできません (`SessionDurationEscalation`)。",
     },
     mfa: NO,
     sessionPolicy: NO,
     tags: {
       en: "Up to 50 `Tags`, which become custom claims (needs `sts:TagGetWebIdentityToken`).",
-      ja: "`Tags` を最大 50 個。カスタムクレームになる (`sts:TagGetWebIdentityToken` が必要)。",
+      ja: "`Tags` を最大 50 個渡せて、カスタムクレームになります (`sts:TagGetWebIdentityToken` が必要)。",
     },
     returns: ["WebIdentityToken", "Expiration"],
     cli: `aws sts get-web-identity-token \\
@@ -614,11 +614,11 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Ask “who am I?”: returns the account, ARN and unique ID of whoever signed the request.",
-      ja: "「自分は誰?」を聞く。リクエストに署名した主体のアカウント、ARN、一意 ID を返す。",
+      ja: "「自分は誰?」を聞く API です。リクエストに署名した主体のアカウント、ARN、一意 ID を返します。",
     },
     caller: {
       en: "Any valid credentials. No permission is needed, and even an explicit Deny on `sts:GetCallerIdentity` does not block it.",
-      ja: "有効な認証情報ならなんでも。権限は不要で、`sts:GetCallerIdentity` を明示的に Deny しても止められない。",
+      ja: "有効な認証情報ならなんでも呼べます。権限は不要で、`sts:GetCallerIdentity` を明示的に Deny しても止められません。",
     },
     duration: NA,
     mfa: NO,
@@ -644,11 +644,11 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Find the account that owns an access key ID. Handy when a key leaks.",
-      ja: "アクセスキー ID の持ち主のアカウントを調べる。キー漏洩の調査で便利。",
+      ja: "アクセスキー ID の持ち主のアカウントを調べます。キー漏えいの調査で便利です。",
     },
     caller: {
       en: "A principal allowed `sts:GetAccessKeyInfo`. It works for `AKIA` and `ASIA` keys and never says whether the key is active.",
-      ja: "`sts:GetAccessKeyInfo` を許可されたプリンシパル。`AKIA` と `ASIA` の両方に使えるが、キーが有効かどうかは教えてくれない。",
+      ja: "`sts:GetAccessKeyInfo` を許可されたプリンシパルです。`AKIA` と `ASIA` の両方に使えますが、キーが有効かどうかは教えてくれません。",
     },
     duration: NA,
     mfa: NO,
@@ -672,11 +672,11 @@ export const OPS: Op[] = [
     auth: "sigv4",
     purpose: {
       en: "Decode the encoded failure message some services (notably EC2) return with a 403: explicit deny or missing allow, principal, action, resource and condition values.",
-      ja: "一部のサービス (特に EC2) が 403 と一緒に返すエンコード済みの失敗メッセージを解読する。明示的 Deny か Allow 不足か、プリンシパル、アクション、リソース、条件キーの値がわかる。",
+      ja: "一部のサービス (特に EC2) が 403 と一緒に返すエンコード済みの失敗メッセージを解読します。明示的な Deny か Allow 不足か、プリンシパル、アクション、リソース、条件キーの値がわかります。",
     },
     caller: {
       en: "A principal allowed `sts:DecodeAuthorizationMessage`. The message is encoded because it can contain privileged detail.",
-      ja: "`sts:DecodeAuthorizationMessage` を許可されたプリンシパル。特権的な情報を含みうるので、メッセージはエンコードされている。",
+      ja: "`sts:DecodeAuthorizationMessage` を許可されたプリンシパルです。特権的な情報を含みうるため、メッセージはエンコードされています。",
     },
     duration: NA,
     mfa: NO,
@@ -707,7 +707,7 @@ export const OPS: Op[] = [
 }`,
     responseNote: {
       en: "The nested `items` wrapping follows typical real output and is unverified against the official sample, which shows a simpler shape.",
-      ja: "入れ子の `items` は実際によく見る出力に合わせたもので、公式サンプル (より単純な形) とは未照合。",
+      ja: "入れ子の `items` は実際によく見る出力に合わせたもので、公式サンプル (より単純な形) とは照合していません。",
     },
     ref: `${REF}DecodeAuthorizationMessage.html`,
     matrix: {
@@ -744,7 +744,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["AssumeRole", "GetSessionToken", "GetFederationToken"],
     why: {
       en: "Long-term `AKIA` keys can become a role with `AssumeRole`, add MFA with `GetSessionToken`, or mint a federated user for someone else with `GetFederationToken`.",
-      ja: "長期キー (`AKIA`) からは、`AssumeRole` でロールになる、`GetSessionToken` で MFA 付きにする、`GetFederationToken` で他人用のフェデレーションユーザーを発行する、の 3 通り。",
+      ja: "長期キー (`AKIA`) からは、`AssumeRole` でロールになる、`GetSessionToken` で MFA 付きにする、`GetFederationToken` で他人用のフェデレーションユーザーを発行する、の 3 通りです。",
     },
   },
   {
@@ -753,7 +753,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["AssumeRole", "GetWebIdentityToken"],
     why: {
       en: "From a role session you can assume another role (role chaining, 1 h cap) or, if outbound federation is enabled, ask for a JWT. `GetSessionToken` and `GetFederationToken` are off-limits.",
-      ja: "ロールセッションからは別ロールへの AssumeRole (ロールチェーン、1 時間上限) か、アウトバウンドフェデレーションを有効にしていれば JWT の取得ができる。`GetSessionToken` と `GetFederationToken` は呼べない。",
+      ja: "ロールセッションからは別ロールへの AssumeRole (ロールチェーン、1 時間上限) か、アウトバウンドフェデレーションを有効にしていれば JWT を取得できます。`GetSessionToken` と `GetFederationToken` は呼べません。",
     },
   },
   {
@@ -762,7 +762,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["AssumeRoleWithSAML"],
     why: {
       en: "Send the base64 SAML response as-is. No AWS keys needed: the call is unsigned.",
-      ja: "base64 の SAML レスポンスをそのまま送る。署名なしの呼び出しなので AWS のキーは要らない。",
+      ja: "base64 の SAML レスポンスをそのまま送ります。署名なしの呼び出しなので AWS のキーは要りません。",
     },
   },
   {
@@ -771,7 +771,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["AssumeRoleWithWebIdentity"],
     why: {
       en: "GitHub Actions, EKS service account tokens and friends all land here. Unsigned, so no AWS keys needed.",
-      ja: "GitHub Actions や EKS のサービスアカウントトークンなどは全部ここに来る。署名なしなので AWS のキーは不要。",
+      ja: "GitHub Actions や EKS のサービスアカウントトークンなどは、全部ここに来ます。署名なしなので AWS のキーは不要です。",
     },
   },
   {
@@ -783,7 +783,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["AssumeRoot"],
     why: {
       en: "One task, 15 minutes, Regional endpoint only. Pick one of the 5 `root-task` policies.",
-      ja: "タスク 1 つ、15 分、リージョナルエンドポイント限定。`root-task` ポリシー 5 種から選ぶ。",
+      ja: "タスク 1 つ、15 分、リージョナルエンドポイント限定です。`root-task` ポリシー 5 種から選びます。",
     },
   },
   {
@@ -795,7 +795,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetDelegatedAccessToken"],
     why: {
       en: "Only for onboarded partners, after the customer approved and released the delegation request.",
-      ja: "オンボード済みパートナー専用。顧客が委任リクエストを承認してリリースしたあとに使う。",
+      ja: "オンボード済みパートナー専用です。顧客が委任リクエストを承認してリリースしたあとに使います。",
     },
   },
   {
@@ -804,7 +804,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetWebIdentityToken"],
     why: {
       en: "AWS signs a JWT whose `sub` is your principal ARN. The external service verifies it with the account's issuer URL.",
-      ja: "AWS が `sub` にプリンシパル ARN を入れた JWT に署名する。外部サービスはアカウントの issuer URL で検証する。",
+      ja: "AWS が、`sub` にプリンシパル ARN を入れた JWT に署名します。外部サービスはアカウントの issuer URL で検証します。",
     },
   },
   {
@@ -813,7 +813,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetCallerIdentity"],
     why: {
       en: "Works with any credentials and cannot be denied.",
-      ja: "どんな認証情報でも動き、Deny では止められない。",
+      ja: "どんな認証情報でも動き、Deny では止められません。",
     },
   },
   {
@@ -822,7 +822,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetAccessKeyInfo"],
     why: {
       en: "Returns only the owning account. For the user or role, look at the credential report (`AKIA`) or CloudTrail (`ASIA`).",
-      ja: "返るのは持ち主のアカウントだけ。ユーザーやロールまで知りたいなら、認証情報レポート (`AKIA`) か CloudTrail (`ASIA`) を見る。",
+      ja: "返るのは持ち主のアカウントだけです。ユーザーやロールまで知りたいなら、認証情報レポート (`AKIA`) か CloudTrail (`ASIA`) を見てください。",
     },
   },
   {
@@ -831,7 +831,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["DecodeAuthorizationMessage"],
     why: {
       en: "Paste it in one line; line breaks make the call fail with `InvalidAuthorizationMessage`.",
-      ja: "1 行のまま貼る。改行が入ると `InvalidAuthorizationMessage` で失敗する。",
+      ja: "1 行のまま貼ってください。改行が入ると `InvalidAuthorizationMessage` で失敗します。",
     },
   },
 ];
