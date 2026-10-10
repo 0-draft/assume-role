@@ -36,7 +36,7 @@ export const CALLERS: Caller[] = [
     seconds: 3600,
     durationNote: {
       en: "Default 1 h. Can go up to the role's MaxSessionDuration (12 h max).",
-      ja: "既定 1 時間。ロールの MaxSessionDuration (最大 12 時間) まで延ばせる。",
+      ja: "既定 1 時間で、ロールの MaxSessionDuration (最大 12 時間) まで延ばせます。",
     },
     arn: "arn:aws:sts::210987654321:assumed-role/deploy/alice",
     accessKeyId: "ASIAQEXAMPLEDEVKEY01",
@@ -59,7 +59,7 @@ export const CALLERS: Caller[] = [
     seconds: 3600,
     durationNote: {
       en: "configure-aws-credentials asks for 1 h by default.",
-      ja: "configure-aws-credentials の既定は 1 時間。",
+      ja: "configure-aws-credentials の既定は 1 時間です。",
     },
     arn: "arn:aws:sts::123456789012:assumed-role/gha-deploy/GitHubActions",
     accessKeyId: "ASIAQEXAMPLEGHAKEY02",
@@ -79,7 +79,7 @@ export const CALLERS: Caller[] = [
     seconds: 3600,
     durationNote: {
       en: "Default 1 h, capped by the role max and the assertion's SessionNotOnOrAfter.",
-      ja: "既定 1 時間。ロールの上限とアサーションの SessionNotOnOrAfter で頭打ちになる。",
+      ja: "既定 1 時間で、ロールの上限とアサーションの SessionNotOnOrAfter を超えられません。",
     },
     arn: "arn:aws:sts::123456789012:assumed-role/Engineer/alice@example.com",
     accessKeyId: "ASIAQEXAMPLESAMLKY03",
@@ -99,7 +99,7 @@ export const CALLERS: Caller[] = [
     seconds: null,
     durationNote: {
       en: "EC2 calls STS for you and puts fresh credentials in IMDS at least 5 minutes before the old ones expire.",
-      ja: "STS を呼ぶのは EC2 サービス。古い認証情報が切れる 5 分以上前に新しいものが IMDS に置かれる。",
+      ja: "STS を呼ぶのは EC2 サービスです。古い認証情報が切れる 5 分以上前に、新しいものが IMDS に置かれます。",
     },
     arn: "arn:aws:sts::123456789012:assumed-role/web-app/i-0abc1234def567890",
     accessKeyId: "ASIAQEXAMPLEEC2KEY04",
@@ -125,7 +125,7 @@ export const CALLERS: Caller[] = [
     seconds: 43200,
     durationNote: {
       en: "Default 12 h, up to 36 h. With root credentials the maximum is 1 h.",
-      ja: "既定 12 時間、最大 36 時間。ルートの認証情報で呼ぶと最大 1 時間。",
+      ja: "既定 12 時間、最大 36 時間です。ルートの認証情報で呼ぶと最大 1 時間になります。",
     },
     arn: "arn:aws:iam::123456789012:user/alice",
     accessKeyId: "ASIAQEXAMPLEMFAKEY05",
@@ -148,7 +148,7 @@ export const CALLERS: Caller[] = [
     seconds: 900,
     durationNote: {
       en: "15 minutes at most, scoped to one of five root-task policies. Regional endpoints only.",
-      ja: "最大 15 分。5 種類の root-task ポリシーのどれか 1 つに絞られる。リージョナルエンドポイントのみ。",
+      ja: "最大 15 分で、5 種類の root-task ポリシーのどれか 1 つに絞られます。リージョナルエンドポイントでしか呼べません。",
     },
     arn: "root user of 444455556666, one task only",
     accessKeyId: "ASIAQEXAMPLEROOTKY06",

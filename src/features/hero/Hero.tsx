@@ -13,12 +13,14 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="grid gap-10 py-12 sm:py-20 lg:grid-cols-[1.05fr_1fr] lg:items-center"
+      className="grid gap-x-10 gap-y-6 py-10 sm:py-20 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto_1fr]"
     >
-      <div>
+      {/* Phones read headline, pass, picker, then the lede, so the pass is on the
+          first screen; wide screens put the pass beside all three. */}
+      <div className="lg:col-start-1 lg:row-start-1">
         <h1
           id="hero-title"
-          className={`leading-[1.06] font-bold [text-wrap:pretty] ${lang === "ja" ? "text-[2.1rem] sm:text-5xl lg:text-[3.1rem]" : "text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-6xl"}`}
+          className={`leading-[1.06] font-bold [text-wrap:pretty] ${lang === "ja" ? "text-[1.8rem] sm:text-5xl lg:text-[3.1rem]" : "text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-6xl"}`}
         >
           {lang === "ja" ? (
             <span className="break-keep">
@@ -33,26 +35,30 @@ export function Hero() {
             "Almost every AWS credential you didn't type was printed by STS."
           )}
         </h1>
-        <p className="prose-col mt-5 text-base text-[var(--muted)] sm:text-lg">
+      </div>
+      <div className="lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:self-center">
+        <Pass key={caller.id} caller={caller} />
+      </div>
+      <div className="lg:col-start-1 lg:row-start-3">
+        <Segmented
+          label={{
+            en: "Who is asking STS for credentials?",
+            ja: "誰が STS に認証情報を求めている?",
+          }}
+          options={CALLERS.map((c) => ({ value: c.id, label: c.who }))}
+          value={id}
+          onChange={setId}
+          color="var(--caller)"
+        />
+      </div>
+      <div className="lg:col-start-1 lg:row-start-2">
+        <p className="prose-col text-base text-[var(--muted)] sm:text-lg">
           {t({
             en: "The AWS Security Token Service hands out short-lived keys to developers, CI jobs, EC2 instances, employees and admins. It has 11 APIs, a global endpoint that no longer works the way it used to, and dozens of regional, FIPS and IPv6 hostnames. This page draws all of it.",
-            ja: "AWS Security Token Service は、開発者・CI ジョブ・EC2・社員・管理者に短命のキーを配る窓口です。API は 11 個。かつてと挙動が変わったグローバルエンドポイントに、リージョン・FIPS・IPv6 のホスト名がずらり。このページはそれを全部図にします。",
+            ja: "AWS Security Token Service は、開発者・CI ジョブ・EC2・社員・管理者に短命のキーを配る窓口です。API は 11 個あり、グローバルエンドポイントの挙動はかつてと変わり、リージョン・FIPS・IPv6 のホスト名は数十個にのぼります。このページはそれを全部図にします。",
           })}
         </p>
-        <div className="mt-8">
-          <Segmented
-            label={{
-              en: "Who is asking STS for credentials?",
-              ja: "誰が STS に認証情報を求めている?",
-            }}
-            options={CALLERS.map((c) => ({ value: c.id, label: c.who }))}
-            value={id}
-            onChange={setId}
-            color="var(--caller)"
-          />
-        </div>
       </div>
-      <Pass key={caller.id} caller={caller} />
     </section>
   );
 }
@@ -186,7 +192,7 @@ function Pass({ caller }: { caller: Caller }) {
             aria-hidden
             className="stamp-in rounded-md border-[3px] border-[var(--deny)] px-2 py-0.5 font-display text-base font-bold text-[var(--deny)]"
           >
-            {t({ en: "Temporary", ja: "一時発行" })}
+            {t({ en: "Temporary", ja: "期限付き" })}
           </span>
         </div>
       </div>
