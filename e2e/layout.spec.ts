@@ -12,6 +12,8 @@ async function open(page: Page, lang: (typeof LANGS)[number]) {
   });
   await page.goto(`./?lang=${lang}`);
   await expect(page.locator("h1")).toBeVisible();
+  // Chapters after the first load as separate chunks; wait for the last one.
+  await expect(page.locator("#glossary h2")).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   return errors;
 }

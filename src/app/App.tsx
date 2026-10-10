@@ -1,17 +1,53 @@
+import { lazy, Suspense, useEffect, type ComponentType } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { useLang } from "@/i18n/useLang";
+import { NAV } from "@/data/nav";
 import { Hero } from "@/features/hero/Hero";
 import { WhySection } from "@/features/why/WhySection";
-import { EndpointsSection } from "@/features/endpoints/EndpointsSection";
-import { ApiSection } from "@/features/api/ApiSection";
-import { PathsSection } from "@/features/paths/PathsSection";
-import { SessionsSection } from "@/features/sessions/SessionsSection";
-import { TrustSection } from "@/features/trust/TrustSection";
-import { OpsSection } from "@/features/ops/OpsSection";
-import { ErrorsSection } from "@/features/errors/ErrorsSection";
-import { TimelineSection } from "@/features/timeline/TimelineSection";
-import { GlossarySection } from "@/features/glossary/GlossarySection";
+
+// Everything below the first chapter is split into its own chunks. The imports
+// start at module load, in parallel, so they are usually in before anyone
+// scrolls; the first paint only waits for the hero and chapter 1.
+const named = <K extends string>(p: Promise<Record<K, ComponentType>>, k: K) =>
+  lazy(() => p.then((m) => ({ default: m[k] })));
+const EndpointsSection = named(
+  import("@/features/endpoints/EndpointsSection"),
+  "EndpointsSection",
+);
+const ApiSection = named(import("@/features/api/ApiSection"), "ApiSection");
+const PathsSection = named(import("@/features/paths/PathsSection"), "PathsSection");
+const SessionsSection = named(
+  import("@/features/sessions/SessionsSection"),
+  "SessionsSection",
+);
+const TrustSection = named(import("@/features/trust/TrustSection"), "TrustSection");
+const OpsSection = named(import("@/features/ops/OpsSection"), "OpsSection");
+const ErrorsSection = named(import("@/features/errors/ErrorsSection"), "ErrorsSection");
+const TimelineSection = named(
+  import("@/features/timeline/TimelineSection"),
+  "TimelineSection",
+);
+const GlossarySection = named(
+  import("@/features/glossary/GlossarySection"),
+  "GlossarySection",
+);
+
+/** Empty chapters with the real ids, so #anchors resolve while chunks load. */
+function Placeholders() {
+  return NAV.filter((n) => n.id !== "why").map((n) => (
+    <section key={n.id} id={n.id} aria-busy className="min-h-screen" />
+  ));
+}
+
+/** A deep link like #trust was followed before its chapter existed; go there now. */
+function ScrollToHash() {
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (id) document.getElementById(id)?.scrollIntoView();
+  }, []);
+  return null;
+}
 
 export default function App() {
   const { t } = useLang();
@@ -28,15 +64,18 @@ export default function App() {
         <span id="top" />
         <Hero />
         <WhySection />
-        <EndpointsSection />
-        <ApiSection />
-        <PathsSection />
-        <SessionsSection />
-        <TrustSection />
-        <OpsSection />
-        <ErrorsSection />
-        <TimelineSection />
-        <GlossarySection />
+        <Suspense fallback={<Placeholders />}>
+          <EndpointsSection />
+          <ApiSection />
+          <PathsSection />
+          <SessionsSection />
+          <TrustSection />
+          <OpsSection />
+          <ErrorsSection />
+          <TimelineSection />
+          <GlossarySection />
+          <ScrollToHash />
+        </Suspense>
       </main>
       <Footer />
     </>
