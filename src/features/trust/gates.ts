@@ -78,7 +78,7 @@ export function evaluateGates(input: GateInput): GateResult {
             }
           : {
               en: "Allowed. In the same account, a trust policy that names this exact user or role works like a resource-based policy: no identity-policy grant is needed. A permissions boundary on the caller, if any, must still allow sts:AssumeRole.",
-              ja: "許可。同一アカウントで信頼ポリシーがこのユーザーやロールを名指ししている場合、信頼ポリシーがリソースベースのポリシーとして働くので ID ポリシー側の許可は要りません。ただし呼び出し元に Permissions Boundary があれば、そこで sts:AssumeRole が許可されている必要があります。",
+              ja: "許可。同一アカウントで信頼ポリシーがこのユーザーやロールを名指ししている場合、信頼ポリシーがリソースベースのポリシーとして働くので ID ポリシー側の許可は要りません。ただし呼び出し元に アクセス許可の境界 があれば、そこで sts:AssumeRole が許可されている必要があります。",
             },
     };
   }

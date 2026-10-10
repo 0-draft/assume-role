@@ -111,7 +111,7 @@ export function SessionsSection() {
       }}
       lede={{
         en: "STS hands back a pass, not a new identity. What the pass opens is the role's permissions cut down by every gate in front of it. How long it lasts depends on how you got it.",
-        ja: "STS が返すのは新しい ID ではなく、期限付きの通行証です。開けられる扉は、ロールの権限を手前のゲートすべてで削った残り。有効期限は入手経路で決まります。",
+        ja: "STS が返すのは新しい ID ではなく、期限付きの通行証です。開けられる扉は、ロールの権限を手前のゲートすべてで削った残りです。有効期限は入手経路で決まります。",
       }}
     >
       <P>
@@ -151,7 +151,7 @@ export function SessionsSection() {
           {[
             {
               en: "An explicit `Deny` in any policy ends evaluation.",
-              ja: "どのポリシーでも明示的な `Deny` があれば即終了。",
+              ja: "どれかのポリシーに明示的な `Deny` があれば、その時点で評価が終わります。",
             },
             {
               en: "RCPs on the resource's account must allow. `RCPFullAWSAccess` is attached automatically when RCPs are enabled.",
@@ -260,7 +260,7 @@ export function SessionsSection() {
       <Callout kind="new">
         {{
           en: "On 2026-09-15 STS moved to one 4096-byte limit on the session token. Responses now carry `SessionTokenSize` and `SessionTokenUtilization`, `PackedPolicySize` is deprecated, and the new `MinimumSessionTokenSize` parameter (0–4096) pads a token so you can test that your clients cope with large ones.",
-          ja: "2026-09-15 から、STS のセッショントークンは 4096 バイトの単一上限になりました。レスポンスに `SessionTokenSize` と `SessionTokenUtilization` が加わり、`PackedPolicySize` は非推奨に。新しい `MinimumSessionTokenSize` パラメータ (0〜4096) でトークンを水増しし、大きなトークンをクライアントが扱えるか試せます。",
+          ja: "2026-09-15 から、STS のセッショントークンは 4096 バイトの単一上限になりました。レスポンスに `SessionTokenSize` と `SessionTokenUtilization` が加わり、`PackedPolicySize` は非推奨になりました。新しい `MinimumSessionTokenSize` パラメータ (0〜4096) でトークンを水増しし、大きなトークンをクライアントが扱えるか試せます。",
         }}
       </Callout>
       <p className="prose-col text-sm">
@@ -298,7 +298,7 @@ export function SessionsSection() {
       <Callout kind="warn">
         {{
           en: "Revoking needs `iam:PutRolePolicy` and does not work on service-linked roles or IAM Identity Center permission-set roles (revoke those in Identity Center). Policy changes take a few minutes to propagate, the CLI keeps assumed-role credentials in `~/.aws/cli/cache`, and sessions from `GetFederationToken` or `GetSessionToken` called as root cannot be restricted by policy at all.",
-          ja: "取り消しには `iam:PutRolePolicy` が必要で、サービスリンクロールや IAM Identity Center の権限セットのロールには使えません (Identity Center 側で取り消します)。ポリシー変更の反映には数分かかり、CLI は引き受けたロールの認証情報を `~/.aws/cli/cache` に保持します。ルートで呼んだ `GetFederationToken` / `GetSessionToken` のセッションはポリシーで制限できません。",
+          ja: "取り消しには `iam:PutRolePolicy` が必要で、サービスリンクロールや IAM Identity Center の許可セットのロールには使えません (Identity Center 側で取り消します)。ポリシー変更の反映には数分かかり、CLI は引き受けたロールの認証情報を `~/.aws/cli/cache` に保持します。ルートで呼んだ `GetFederationToken` / `GetSessionToken` のセッションはポリシーで制限できません。",
         }}
       </Callout>
       <p className="prose-col text-sm">

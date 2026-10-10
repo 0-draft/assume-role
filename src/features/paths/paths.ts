@@ -92,7 +92,7 @@ export const PATHS: PathDef[] = [
     endpoint: "169.254.169.254 / [fd00:ec2::254]",
     duration: {
       en: "Not a fixed documented number; rotated automatically",
-      ja: "固定値としては非公開。自動ローテーション",
+      ja: "決まった値は文書化されていない。自動でローテーション",
     },
     delivery: { en: "IMDS (HTTP on the host)", ja: "IMDS (ホスト上の HTTP)" },
     refresh: {
@@ -131,7 +131,7 @@ export const PATHS: PathDef[] = [
         "PUT /latest/api/token",
         {
           en: "IMDSv2 starts with a PUT for a session token (TTL 1 s to 21600 s). The PUT response only survives `HttpPutResponseHopLimit` IP hops, which is what keeps bridged containers out when the limit is 1.",
-          ja: "IMDSv2 はまずセッショントークンを PUT で取る (TTL 1〜21600 秒)。PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。上限 1 ならブリッジ接続のコンテナからは取れません。",
+          ja: "IMDSv2 はまずセッショントークンを PUT で取ります (TTL 1〜21600 秒)。PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。上限 1 ならブリッジ接続のコンテナからは取れません。",
         },
         {
           payload: {
@@ -148,7 +148,7 @@ X-aws-ec2-metadata-token-ttl-seconds: 21600`,
         "GET …/iam/security-credentials/<role>",
         {
           en: "With the token in a header, the SDK reads the role's credentials. Policies can tell IMDSv1 from v2 deliveries via `ec2:RoleDelivery` (`1.0` / `2.0`).",
-          ja: "トークンをヘッダに付けてロールの認証情報を読みます。IMDSv1 と v2 のどちらで渡されたかはポリシーで `ec2:RoleDelivery` (`1.0` / `2.0`) として見えます。",
+          ja: "SDK はトークンをヘッダーに付けてロールの認証情報を読みます。ポリシーでは `ec2:RoleDelivery` (`1.0` / `2.0`) で、IMDSv1 と v2 のどちらで渡されたかを区別できます。",
         },
         {
           payload: {
@@ -189,7 +189,7 @@ X-aws-ec2-metadata-token-ttl-seconds: 21600`,
     endpoint: "internal (Lambda service)",
     duration: {
       en: "Per execution environment (exact value not documented)",
-      ja: "実行環境ごと (具体的な値は非公開)",
+      ja: "実行環境ごと (具体的な値は文書化されていない)",
     },
     delivery: {
       en: "Env vars AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_SESSION_TOKEN",
@@ -208,7 +208,7 @@ X-aws-ec2-metadata-token-ttl-seconds: 21600`,
     steps: [
       m("lambda", "sts", "AssumeRole(execution role)", {
         en: "On environment init, Lambda assumes the function's execution role. The trust principal is `lambda.amazonaws.com`.",
-        ja: "実行環境の初期化時に Lambda が実行ロールを引き受けます。信頼するプリンシパルは `lambda.amazonaws.com`。",
+        ja: "実行環境の初期化時に Lambda が実行ロールを引き受けます。信頼するプリンシパルは `lambda.amazonaws.com` です。",
       }),
       m(
         "sts",
@@ -239,7 +239,7 @@ AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEXAMPLE...`,
       ),
       m("fn", "api", "SigV4 (lambda:SourceFunctionArn)", {
         en: "The SDK's default chain finds the env vars first. Requests carry `lambda:SourceFunctionArn`, usable in resource policies and SCPs. Never log the environment: child processes and crash dumps inherit it.",
-        ja: "SDK のデフォルトチェーンが最初に環境変数を見つけます。リクエストには `lambda:SourceFunctionArn` が付き、リソースポリシーや SCP で使えます。環境変数はログに出さないでください。子プロセスやクラッシュダンプにも引き継がれます。",
+        ja: "SDK の既定のチェーンが最初に環境変数を見つけます。リクエストには `lambda:SourceFunctionArn` が付き、リソースポリシーや SCP で使えます。環境変数はログに出さないでください。子プロセスやクラッシュダンプにも引き継がれます。",
       }),
     ],
     source: {
@@ -298,7 +298,7 @@ AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEXAMPLE...`,
       ),
       m("ecs", "agent", "credentials for task", {
         en: "The control plane hands them to the agent on the host or in Fargate. How exactly is not documented (unverified).",
-        ja: "コントロールプレーンがホスト上 (または Fargate) のエージェントに渡します。具体的な経路は非公開 (未検証)。",
+        ja: "コントロールプレーンがホスト上 (または Fargate) のエージェントに渡します。具体的な経路は文書化されていません (未検証)。",
       }),
       m("app", "agent", "GET 169.254.170.2/v2/credentials/<id>", {
         en: "The SDK appends `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` to `169.254.170.2`. That variable is only in PID 1's environment, so a shell from `exec` may not see it.",
@@ -338,7 +338,7 @@ AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEXAMPLE...`,
     name: { en: "EKS IRSA", ja: "EKS IRSA" },
     blurb: {
       en: "Plain web identity federation: the pod's own SDK sends its service-account JWT to STS.",
-      ja: "素の Web ID フェデレーション。Pod の SDK 自身がサービスアカウントの JWT を STS に送ります。",
+      ja: "素の Web ID フェデレーションです。Pod の SDK 自身がサービスアカウントの JWT を STS に送ります。",
     },
     stsApi: "AssumeRoleWithWebIdentity",
     stsCaller: "you",
@@ -375,7 +375,7 @@ AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEXAMPLE...`,
         "projected token (aud sts.amazonaws.com)",
         {
           en: "A mutating webhook reads the service account's `eks.amazonaws.com/role-arn` annotation, sets `AWS_ROLE_ARN` and `AWS_WEB_IDENTITY_TOKEN_FILE`, and kubelet mounts a projected token.",
-          ja: "Mutating Webhook がサービスアカウントの `eks.amazonaws.com/role-arn` アノテーションを読んで `AWS_ROLE_ARN` と `AWS_WEB_IDENTITY_TOKEN_FILE` を設定し、kubelet が Projected Token をマウントします。",
+          ja: "Mutating Webhook がサービスアカウントの `eks.amazonaws.com/role-arn` アノテーションを読んで `AWS_ROLE_ARN` と `AWS_WEB_IDENTITY_TOKEN_FILE` を設定し、kubelet が投影トークン (projected token) をマウントします。",
         },
         {
           payload: {
@@ -395,7 +395,7 @@ AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEXAMPLE...`,
         "AssumeRoleWithWebIdentity",
         {
           en: "The SDK sends the JWT to STS. The call is **unsigned**: the token is the only proof, so the trust policy is the only gate.",
-          ja: "SDK が JWT を STS に送ります。この呼び出しは **署名なし**。トークンだけが証明なので、信頼ポリシーが唯一の関門になります。",
+          ja: "SDK が JWT を STS に送ります。この呼び出しは **署名なし** です。トークンだけが証明なので、信頼ポリシーが唯一の関門になります。",
         },
         {
           payload: {
@@ -488,7 +488,7 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
         "POST /clusters/<c>/assume-role-for-pod-identity",
         {
           en: "The agent calls `AssumeRoleForPodIdentity`, signed with the **node role**. This API is only used by the agent.",
-          ja: "エージェントが **ノードロール** で署名して `AssumeRoleForPodIdentity` を呼びます。この API はエージェント専用。",
+          ja: "エージェントが **ノードロール** で署名して `AssumeRoleForPodIdentity` を呼びます。この API はエージェント専用です。",
         },
         {
           payload: {
@@ -500,7 +500,7 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
       ),
       m("eksauth", "sts", "AssumeRole + TagSession", {
         en: "EKS assumes the associated role as `pods.eks.amazonaws.com`, which must be trusted for `sts:AssumeRole` and `sts:TagSession`. Six session tags are added: cluster ARN and name, namespace, service account, pod name and pod UID.",
-        ja: "EKS が `pods.eks.amazonaws.com` として関連付けられたロールを引き受けます。信頼ポリシーで `sts:AssumeRole` と `sts:TagSession` の許可が要ります。セッションタグが 6 つ付く (クラスタ ARN・クラスタ名・Namespace・サービスアカウント・Pod 名・Pod UID)。",
+        ja: "EKS が `pods.eks.amazonaws.com` として関連付けられたロールを引き受けます。信頼ポリシーで `sts:AssumeRole` と `sts:TagSession` の許可が要ります。セッションタグが 6 つ付きます (クラスタ ARN・クラスタ名・名前空間・サービスアカウント・Pod 名・Pod UID)。",
       }),
       m(
         "sts",
@@ -508,7 +508,7 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
         "credentials",
         {
           en: "The session name is `eks-<cluster>-<pod>-<uuid>`. With `targetRoleArn`, EKS chains into a cross-account role.",
-          ja: "セッション名は `eks-<cluster>-<pod>-<uuid>`。`targetRoleArn` を設定すると EKS が別アカウントのロールへ連鎖します。",
+          ja: "セッション名は `eks-<cluster>-<pod>-<uuid>` です。`targetRoleArn` を設定すると EKS が別アカウントのロールへ連鎖します。",
         },
         { reply: true },
       ),
@@ -545,7 +545,7 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
     name: { en: "IAM Roles Anywhere", ja: "IAM Roles Anywhere" },
     blurb: {
       en: "On-premises workloads prove they hold an X.509 private key. CreateSession is an X.509 wrapper around AssumeRole.",
-      ja: "オンプレミスのワークロードが X.509 秘密鍵の所持を証明します。CreateSession は AssumeRole の X.509 ラッパー。",
+      ja: "オンプレミスのワークロードが X.509 秘密鍵の所持を証明します。CreateSession は AssumeRole を X.509 で包んだ API です。",
     },
     stsApi: "AssumeRole",
     frontDoor: "rolesanywhere:CreateSession",
@@ -598,13 +598,13 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
       ),
       m("ra", "sts", "AssumeRole (tags from cert)", {
         en: "After validating the chain, CRL, profile and trust anchor, Roles Anywhere assumes the role as `rolesanywhere.amazonaws.com`. Subject, Issuer and SAN fields become principal tags such as `aws:PrincipalTag/x509Subject/CN`. The default session name is the certificate serial number.",
-        ja: "証明書チェーン・CRL・プロファイル・トラストアンカーを検証したら、Roles Anywhere が `rolesanywhere.amazonaws.com` としてロールを引き受けます。Subject・Issuer・SAN が `aws:PrincipalTag/x509Subject/CN` のようなプリンシパルタグになります。既定のセッション名は証明書のシリアル番号。",
+        ja: "証明書チェーン・CRL・プロファイル・トラストアンカーを検証したら、Roles Anywhere が `rolesanywhere.amazonaws.com` としてロールを引き受けます。Subject・Issuer・SAN が `aws:PrincipalTag/x509Subject/CN` のようなプリンシパルタグになります。既定のセッション名は証明書のシリアル番号です。",
       }),
       m(
         "sts",
         "ra",
         "credentials",
-        { en: "Ordinary temporary credentials.", ja: "普通の一時認証情報。" },
+        { en: "Ordinary temporary credentials.", ja: "普通の一時認証情報が返ります。" },
         { reply: true },
       ),
       m(
@@ -670,7 +670,7 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
         "request ID token (aud sts.amazonaws.com)",
         {
           en: "The job needs `permissions: id-token: write`. `aws-actions/configure-aws-credentials` (v6) asks for audience `sts.amazonaws.com`.",
-          ja: "ジョブに `permissions: id-token: write` が必要。`aws-actions/configure-aws-credentials` (v6) が audience `sts.amazonaws.com` でトークンを要求します。",
+          ja: "ジョブに `permissions: id-token: write` が必要です。`aws-actions/configure-aws-credentials` (v6) が audience `sts.amazonaws.com` でトークンを要求します。",
         },
         {
           payload: {
@@ -692,7 +692,7 @@ steps:
         "JWT",
         {
           en: "The token's `sub` encodes repository and trigger, e.g. `repo:my-org/my-app:ref:refs/heads/main`. Repositories created, renamed or transferred after 2026-07-15 send `repo:my-org@<id>/my-app@<id>:…` instead.",
-          ja: "トークンの `sub` にはリポジトリとトリガーが入る (例: `repo:my-org/my-app:ref:refs/heads/main`)。2026-07-15 以降に作成・リネーム・移管されたリポジトリは `repo:my-org@<id>/my-app@<id>:…` 形式になります。",
+          ja: "トークンの `sub` にはリポジトリとトリガーが入ります (例: `repo:my-org/my-app:ref:refs/heads/main`)。2026-07-15 以降に作成・リネーム・移管されたリポジトリは `repo:my-org@<id>/my-app@<id>:…` 形式になります。",
         },
         {
           reply: true,
@@ -710,7 +710,7 @@ steps:
       ),
       m("runner", "sts", "AssumeRoleWithWebIdentity", {
         en: "Unsigned call. The default role session name is `GitHubActions`.",
-        ja: "署名なしの呼び出し。既定のロールセッション名は `GitHubActions`。",
+        ja: "署名なしの呼び出しです。既定のロールセッション名は `GitHubActions` です。",
       }),
       m("sts", "iam", "match iss, aud, sub against trust policy", {
         en: "STS checks `aud` against the OIDC provider's client ID list, verifies the signature (TLS checked against trusted root CAs, so no thumbprint needed), then evaluates `token.actions.githubusercontent.com:sub`. IAM refuses to save a trust policy for this provider without a non-wildcard `sub` condition.",
@@ -741,7 +741,7 @@ steps:
     name: { en: "GitLab CI / HCP Terraform", ja: "GitLab CI / HCP Terraform" },
     blurb: {
       en: "Same shape as GitHub: a CI-issued JWT traded for role credentials. Only the issuer, audience and sub format differ.",
-      ja: "形は GitHub と同じで、CI が発行した JWT をロール認証情報と交換します。違うのは発行者・audience・sub の形式だけ。",
+      ja: "形は GitHub と同じで、CI が発行した JWT をロール認証情報と交換します。違うのは発行者・audience・sub の形式だけです。",
     },
     stsApi: "AssumeRoleWithWebIdentity",
     stsCaller: "you",
@@ -788,7 +788,7 @@ steps:
       ),
       m("job", "sts", "AssumeRoleWithWebIdentity", {
         en: "Unsigned. HCP Terraform does this for you when `TFC_AWS_PROVIDER_AUTH=true` and `TFC_AWS_RUN_ROLE_ARN` are set (optionally separate plan and apply roles).",
-        ja: "署名なし。HCP Terraform では `TFC_AWS_PROVIDER_AUTH=true` と `TFC_AWS_RUN_ROLE_ARN` を設定すれば代わりにやってくれます (plan と apply で別ロールにもできます)。",
+        ja: "署名なしの呼び出しです。HCP Terraform では `TFC_AWS_PROVIDER_AUTH=true` と `TFC_AWS_RUN_ROLE_ARN` を設定すれば、この呼び出しを代わりに行います (plan と apply で別ロールにもできます)。",
       }),
       m(
         "sts",
@@ -835,7 +835,7 @@ steps:
     steps: [
       m("user", "portal", "sign in", {
         en: "Sign in with the Identity Center directory or your external IdP. The portal session lasts 8 h by default (15 min to 7 days).",
-        ja: "Identity Center のディレクトリか外部 IdP でサインインします。ポータルのセッションは既定 8 時間 (15 分〜7 日)。",
+        ja: "Identity Center のディレクトリか外部 IdP でサインインします。ポータルのセッションは既定 8 時間です (15 分〜7 日)。",
       }),
       m("user", "portal", "click account + permission set", {
         en: "Each assignment exists in the target account as a role `AWSReservedSSO_<PermissionSet>_<hash>` trusting a SAML provider `AWSSSO_<id>_DO_NOT_DELETE`.",
@@ -905,7 +905,7 @@ steps:
       }),
       m("cli", "browser", "open /authorize (PKCE)", {
         en: "PKCE authorization code is the default since CLI 2.22.0. `--use-device-code` falls back to the device grant for hosts without a browser.",
-        ja: "CLI 2.22.0 以降は PKCE の認可コードフローが既定。ブラウザのないホストでは `--use-device-code` でデバイス認可に戻せます。",
+        ja: "CLI 2.22.0 以降は PKCE の認可コードフローが既定です。ブラウザのないホストでは `--use-device-code` でデバイス認可に戻せます。",
       }),
       m(
         "browser",
@@ -927,7 +927,7 @@ steps:
         "GET /federation/credentials",
         {
           en: "This is `sso:GetRoleCredentials`, authorised by a bearer token, not SigV4. Its CloudTrail event source is `sso.amazonaws.com`. Whether the target account also logs `AssumeRoleWithSAML` here is unverified.",
-          ja: "これが `sso:GetRoleCredentials`。SigV4 ではなく Bearer トークンで認可されます。CloudTrail のイベントソースは `sso.amazonaws.com`。対象アカウント側にも `AssumeRoleWithSAML` が記録されるかは未検証。",
+          ja: "これが `sso:GetRoleCredentials` です。SigV4 ではなくベアラートークンで認可されます。CloudTrail のイベントソースは `sso.amazonaws.com` です。対象アカウント側にも `AssumeRoleWithSAML` が記録されるかは未検証です。",
         },
         {
           payload: {
@@ -942,7 +942,10 @@ x-amz-sso_bearer_token: aoaAAAAAGEXAMPLE...`,
         "portal",
         "cli",
         "{roleCredentials}",
-        { en: "Ordinary temporary role credentials.", ja: "普通のロール一時認証情報。" },
+        {
+          en: "Ordinary temporary role credentials.",
+          ja: "ロールの普通の一時認証情報が返ります。",
+        },
         {
           reply: true,
           payload: {
@@ -970,7 +973,7 @@ x-amz-sso_bearer_token: aoaAAAAAGEXAMPLE...`,
     name: { en: "aws login (2025)", ja: "aws login (2025)" },
     blurb: {
       en: "Reuses a console sign-in to mint CLI and SDK credentials, for people who don't use Identity Center. Needs CLI 2.32.0 or later.",
-      ja: "コンソールのサインインを使い回して CLI / SDK 用の認証情報を作ります。Identity Center を使っていない人向け。CLI 2.32.0 以降。",
+      ja: "コンソールのサインインを使い回して CLI / SDK 用の認証情報を作ります。Identity Center を使っていない人向けで、CLI 2.32.0 以降が必要です。",
     },
     stsApi: "Internal to AWS Sign-In (not documented)",
     frontDoor: "signin:CreateOAuth2Token",
@@ -1009,7 +1012,7 @@ x-amz-sso_bearer_token: aoaAAAAAGEXAMPLE...`,
         "authorization code",
         {
           en: "The code returns to localhost (or is pasted with `--remote`).",
-          ja: "コードが localhost に戻る (`--remote` なら貼り付け)。",
+          ja: "コードが localhost に戻ります (`--remote` なら手で貼り付けます)。",
         },
         { reply: true },
       ),
@@ -1080,7 +1083,7 @@ region = us-east-1`,
         "auto-POST SAMLResponse",
         {
           en: "Required attributes: `https://aws.amazon.com/SAML/Attributes/Role` (role ARN plus provider ARN) and `.../RoleSessionName`. Optional: `SessionDuration` (900 to 43200 s, console only), `SourceIdentity`, `PrincipalTag:*`.",
-          ja: "必須属性は `https://aws.amazon.com/SAML/Attributes/Role` (ロール ARN とプロバイダ ARN) と `.../RoleSessionName`。任意で `SessionDuration` (900〜43200 秒、コンソールのみ)、`SourceIdentity`、`PrincipalTag:*`。",
+          ja: "必須属性は `https://aws.amazon.com/SAML/Attributes/Role` (ロール ARN とプロバイダ ARN) と `.../RoleSessionName` です。任意で `SessionDuration` (900〜43200 秒、コンソールのみ)、`SourceIdentity`、`PrincipalTag:*` も渡せます。",
         },
         {
           reply: true,
@@ -1101,7 +1104,7 @@ region = us-east-1`,
       }),
       m("signin", "sts", "AssumeRoleWithSAML", {
         en: "No AWS credentials needed: STS validates the assertion with the keys in the SAML provider's metadata. The trust policy should check `SAML:aud = https://signin.aws.amazon.com/saml`.",
-        ja: "AWS の認証情報は不要。STS は SAML プロバイダのメタデータにある鍵でアサーションを検証します。信頼ポリシーでは `SAML:aud = https://signin.aws.amazon.com/saml` を確認します。",
+        ja: "AWS の認証情報は不要です。STS は SAML プロバイダのメタデータにある鍵でアサーションを検証します。信頼ポリシーでは `SAML:aud = https://signin.aws.amazon.com/saml` を確認します。",
       }),
       m(
         "sts",
@@ -1167,7 +1170,7 @@ region = us-east-1`,
       }),
       m("broker", "sts", "AssumeRole (recommended)", {
         en: "`AssumeRole` is recommended. `GetFederationToken` needs long-term IAM user keys sitting in the broker.",
-        ja: "推奨は `AssumeRole`。`GetFederationToken` を使うとブローカーに IAM ユーザーの長期キーを置くことになります。",
+        ja: "推奨は `AssumeRole` です。`GetFederationToken` を使うとブローカーに IAM ユーザーの長期キーを置くことになります。",
       }),
       m(
         "broker",
@@ -1175,7 +1178,7 @@ region = us-east-1`,
         "Action=getSigninToken",
         {
           en: "`SessionDuration` (900 to 43200) only works with `AssumeRole*` credentials and must not be passed with `GetFederationToken` or role-chained credentials, or the call fails.",
-          ja: "`SessionDuration` (900〜43200) は `AssumeRole*` の認証情報でだけ使えます。`GetFederationToken` やロール連鎖の認証情報で渡すと失敗します。",
+          ja: "`SessionDuration` (900〜43200) は `AssumeRole*` の認証情報でだけ使えます。`GetFederationToken` やロールチェーンの認証情報で渡すと失敗します。",
         },
         {
           payload: {
@@ -1192,7 +1195,7 @@ region = us-east-1`,
         '{"SigninToken":"…"}',
         {
           en: "The sign-in token is valid for 15 minutes.",
-          ja: "サインイントークンの有効期限は 15 分。",
+          ja: "サインイントークンの有効期限は 15 分です。",
         },
         { reply: true },
       ),
@@ -1202,7 +1205,7 @@ region = us-east-1`,
         "302 Action=login&SigninToken=…",
         {
           en: "The redirect URL is a bearer secret: anyone holding it within 15 minutes gets the console.",
-          ja: "このリダイレクト URL は Bearer なシークレット。15 分以内なら持っている人は誰でもコンソールに入れます。",
+          ja: "このリダイレクト URL はベアラートークンと同じで、15 分以内なら持っている人は誰でもコンソールに入れます。",
         },
         { reply: true },
       ),
@@ -1248,7 +1251,7 @@ region = us-east-1`,
         "GetSessionToken(SerialNumber, TokenCode)",
         {
           en: "Signed with the IAM user's long-term `AKIA…` keys. `aws configure mfa-login` wraps this (OTP devices only, not passkeys).",
-          ja: "IAM ユーザーの長期キー `AKIA…` で署名します。`aws configure mfa-login` がこれをラップしている (OTP デバイスのみ、パスキー不可)。",
+          ja: "IAM ユーザーの長期キー `AKIA…` で署名します。`aws configure mfa-login` がこれをラップしています (OTP デバイスのみ、パスキー不可)。",
         },
         {
           payload: {
@@ -1265,7 +1268,7 @@ region = us-east-1`,
         "ASIA… credentials",
         {
           en: "Without MFA these credentials cannot call IAM. Of STS they can only call `AssumeRole` and `GetCallerIdentity`.",
-          ja: "MFA なしだとこの認証情報で IAM は呼べません。STS で呼べるのは `AssumeRole` と `GetCallerIdentity` だけ。",
+          ja: "MFA なしだとこの認証情報で IAM は呼べません。STS で呼べるのは `AssumeRole` と `GetCallerIdentity` だけです。",
         },
         { reply: true, payload: { label: "GetSessionTokenResult", body: CREDS_XML } },
       ),
@@ -1309,11 +1312,11 @@ region = us-east-1`,
     steps: [
       m("app", "cognito", "GetId(IdentityPoolId, Logins)", {
         en: "No AWS credentials needed. `Logins` holds the IdP token (user pool ID token, OIDC, SAML or social).",
-        ja: "AWS の認証情報は不要。`Logins` には IdP のトークン (ユーザープールの ID トークン、OIDC、SAML、ソーシャル) が入ります。",
+        ja: "AWS の認証情報は不要です。`Logins` には IdP のトークン (ユーザープールの ID トークン、OIDC、SAML、ソーシャル) が入ります。",
       }),
       m("app", "cognito", "GetCredentialsForIdentity", {
         en: "Cognito picks the role (default, rules, or from the token).",
-        ja: "Cognito がロールを選ぶ (既定、ルール、またはトークンから)。",
+        ja: "Cognito がロールを選びます (既定、ルール、またはトークンから)。",
       }),
       m("cognito", "sts", "AssumeRoleWithWebIdentity", {
         en: "Cognito calls STS on the app's behalf and applies its own scope-down session policy; you cannot set your own. The role must trust `cognito-identity.amazonaws.com` with conditions on `:aud` (the pool ID) and `:amr`.",
@@ -1323,7 +1326,7 @@ region = us-east-1`,
         "sts",
         "cognito",
         "credentials",
-        { en: "Valid for one hour.", ja: "有効期限は 1 時間。" },
+        { en: "Valid for one hour.", ja: "有効期限は 1 時間です。" },
         { reply: true },
       ),
       m(
@@ -1351,7 +1354,7 @@ region = us-east-1`,
     },
     blurb: {
       en: "The classic flow: Cognito only issues an OIDC token, and the app calls STS itself with a role it chooses.",
-      ja: "従来のフロー。Cognito は OIDC トークンを出すだけで、アプリが自分で選んだロールで STS を呼びます。",
+      ja: "従来のフローです。Cognito は OIDC トークンを出すだけで、アプリが自分で選んだロールで STS を呼びます。",
     },
     stsApi: "AssumeRoleWithWebIdentity",
     frontDoor: "cognito-identity:GetOpenIdToken",
@@ -1372,11 +1375,11 @@ region = us-east-1`,
     steps: [
       m("app", "cognito", "GetId", {
         en: "Get an identity ID.",
-        ja: "ID を取得します。",
+        ja: "identity ID を取得します。",
       }),
       m("app", "cognito", "GetOpenIdToken", {
         en: "Cognito issues its own OIDC token, valid for 10 minutes.",
-        ja: "Cognito が独自の OIDC トークンを出します。有効期限は 10 分。",
+        ja: "Cognito が独自の OIDC トークンを出します。有効期限は 10 分です。",
       }),
       m("app", "sts", "AssumeRoleWithWebIdentity(RoleArn chosen by app)", {
         en: "The app picks the role. This flow is not allowed when the pool has role mappings, and AWS advises not enabling it by default.",
@@ -1386,7 +1389,7 @@ region = us-east-1`,
         "sts",
         "app",
         "credentials",
-        { en: "Ordinary temporary credentials.", ja: "普通の一時認証情報。" },
+        { en: "Ordinary temporary credentials.", ja: "普通の一時認証情報が返ります。" },
         { reply: true },
       ),
     ],
@@ -1429,7 +1432,7 @@ region = us-east-1`,
         "AssumeRoot(TargetPrincipal, TaskPolicyArn)",
         {
           en: "The global endpoint is not supported, and root credentials cannot call it. `TaskPolicyArn` must be one of five `root-task` policies: `IAMAuditRootUserCredentials`, `IAMCreateRootUserPassword`, `IAMDeleteRootUserCredentials`, `S3UnlockBucketPolicy`, `SQSUnlockQueuePolicy`.",
-          ja: "グローバルエンドポイントは非対応で、ルート認証情報からは呼べません。`TaskPolicyArn` は 5 つの `root-task` ポリシー (`IAMAuditRootUserCredentials`、`IAMCreateRootUserPassword`、`IAMDeleteRootUserCredentials`、`S3UnlockBucketPolicy`、`SQSUnlockQueuePolicy`) のどれか。",
+          ja: "グローバルエンドポイントは非対応で、ルート認証情報からは呼べません。`TaskPolicyArn` は 5 つの `root-task` ポリシー (`IAMAuditRootUserCredentials`、`IAMCreateRootUserPassword`、`IAMDeleteRootUserCredentials`、`S3UnlockBucketPolicy`、`SQSUnlockQueuePolicy`) のどれかです。",
         },
         {
           payload: {
@@ -1470,7 +1473,7 @@ region = us-east-1`,
     },
     blurb: {
       en: "The reverse direction: AWS issues a JWT for your role so an external service can trust it. You get a token, not AWS credentials.",
-      ja: "逆向き。AWS があなたのロール向けに JWT を発行し、外部サービスがそれを信頼します。手に入るのは AWS の認証情報ではなくトークン。",
+      ja: "逆向きの流れです。AWS があなたのロール向けに JWT を発行し、外部サービスがそれを信頼します。手に入るのは AWS の認証情報ではなくトークンです。",
     },
     stsApi: "GetWebIdentityToken",
     stsCaller: "you",
@@ -1504,7 +1507,7 @@ region = us-east-1`,
         "GetWebIdentityToken(Audience, SigningAlgorithm)",
         {
           en: "An admin first enables outbound identity federation, which gives the account an issuer `https://<account-unique-id>.tokens.sts.global.api.aws`. The call is signed with your existing role credentials: `Audience` 1 to 10 values, `SigningAlgorithm` `RS256` or `ES384`, up to 50 `Tags`.",
-          ja: "まず管理者がアウトバウンド ID フェデレーションを有効にし、アカウント固有の発行者 `https://<account-unique-id>.tokens.sts.global.api.aws` ができます。呼び出しは今持っているロールの認証情報で署名します。`Audience` は 1〜10 個、`SigningAlgorithm` は `RS256` か `ES384`、`Tags` は最大 50 個。",
+          ja: "まず管理者がアウトバウンド ID フェデレーションを有効にし、アカウント固有の発行者 `https://<account-unique-id>.tokens.sts.global.api.aws` ができます。呼び出しは今持っているロールの認証情報で署名します。`Audience` は 1〜10 個、`SigningAlgorithm` は `RS256` か `ES384`、`Tags` は最大 50 個です。",
         },
         {
           payload: {
@@ -1523,7 +1526,7 @@ region = us-east-1`,
         "{WebIdentityToken: JWT, Expiration}",
         {
           en: "`sub` is your principal ARN. AWS-specific claims sit under the `https://sts.amazonaws.com/` namespace (`aws_account`, `org_id`, `principal_tags`, `source_region` and more). A token cannot outlive the calling session (`SessionDurationEscalation`).",
-          ja: "`sub` はプリンシパルの ARN。AWS 固有のクレームは `https://sts.amazonaws.com/` 名前空間の下に入る (`aws_account`、`org_id`、`principal_tags`、`source_region` など)。呼び出し元セッションより長くは生きられない (`SessionDurationEscalation`)。",
+          ja: "`sub` はプリンシパルの ARN です。AWS 固有のクレームは `https://sts.amazonaws.com/` 名前空間の下に入ります (`aws_account`、`org_id`、`principal_tags`、`source_region` など)。トークンの有効期限は呼び出し元セッションを超えられません (`SessionDurationEscalation`)。",
         },
         {
           reply: true,
@@ -1572,7 +1575,7 @@ export const CALLER_LABEL: Record<StsCaller, L> = {
 export const SIGNED_LABEL: Record<PathDef["signed"], L> = {
   signed: { en: "SigV4-signed", ja: "SigV4 署名あり" },
   unsigned: { en: "Unsigned (token is the proof)", ja: "署名なし (トークンが証明)" },
-  "n/a": { en: "Not your request", ja: "あなたは送らない" },
+  "n/a": { en: "Not your request", ja: "自分では送らない" },
 };
 
 export const pathById = (id: string) => PATHS.find((p) => p.id === id);

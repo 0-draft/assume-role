@@ -264,7 +264,7 @@ export function evaluateOidc(cond: TrustCondition, claims: Claims): OidcResult {
       worldOpen: true,
       why: {
         en: "IAM refuses to save this trust policy. When the principal is GitHub's OIDC provider, IAM checks on create and update that `token.actions.githubusercontent.com:sub` is present and is not only a wildcard or empty, because otherwise any GitHub workflow anywhere could assume the role.",
-        ja: "IAM がこの信頼ポリシーの保存を拒否します。プリンシパルが GitHub の OIDC プロバイダーの場合、IAM は作成・更新時に `token.actions.githubusercontent.com:sub` が存在し、ワイルドカードだけ・空ではないことを検査します。これがないと世界中の GitHub ワークフローがロールを引き受けられてしまうからです。",
+        ja: "IAM がこの信頼ポリシーの保存を拒否します。プリンシパルが GitHub の OIDC プロバイダの場合、IAM は作成・更新時に `token.actions.githubusercontent.com:sub` が存在し、ワイルドカードだけ・空ではないことを検査します。これがないと世界中の GitHub ワークフローがロールを引き受けられてしまうからです。",
       },
     };
   }
@@ -278,7 +278,7 @@ export function evaluateOidc(cond: TrustCondition, claims: Claims): OidcResult {
       worldOpen,
       why: {
         en: "STS rejects the token (`InvalidIdentityToken`, incorrect token audience): its `aud` is not in the IAM OIDC provider's client ID list. Set the audience to `sts.amazonaws.com` (aws-actions/configure-aws-credentials does this by default).",
-        ja: "STS がトークンを拒否します (`InvalidIdentityToken`、audience 不一致)。`aud` が IAM OIDC プロバイダーのクライアント ID リストにありません。audience を `sts.amazonaws.com` にしてください (aws-actions/configure-aws-credentials は既定でそうします)。",
+        ja: "STS がトークンを拒否します (`InvalidIdentityToken`、audience 不一致)。`aud` が IAM OIDC プロバイダのクライアント ID リストにありません。audience を `sts.amazonaws.com` にしてください (aws-actions/configure-aws-credentials は既定でそうします)。",
       },
     };
   }
@@ -315,7 +315,7 @@ export function evaluateOidc(cond: TrustCondition, claims: Claims): OidcResult {
         }
       : {
           en: "Allowed: `aud` is on the provider's list and `sub` matches the condition. STS returns credentials for the role.",
-          ja: "許可: `aud` がプロバイダーのリストにあり、`sub` も条件に一致。STS はロールの認証情報を返します。",
+          ja: "許可: `aud` がプロバイダのリストにあり、`sub` も条件に一致するので、STS はロールの認証情報を返します。",
         },
   };
 }

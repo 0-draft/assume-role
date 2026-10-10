@@ -308,7 +308,7 @@ function EventCard({ e, compact = false }: { e: TimelineEvent; compact?: boolean
         <time dateTime={e.date}>{e.date}</time>
         {e.unverified && (
           <span className="rounded border border-dashed border-[var(--muted)] px-1">
-            {t({ en: "unverified", ja: "未確認" })}
+            {t({ en: "unverified", ja: "未検証" })}
           </span>
         )}
       </div>

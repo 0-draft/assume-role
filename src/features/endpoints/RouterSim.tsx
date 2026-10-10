@@ -173,7 +173,10 @@ export function RouterSim() {
         )}
         {endpoint === "global" && (
           <Segmented
-            label={{ en: "Global endpoint token version", ja: "グローバルのトークン版" }}
+            label={{
+              en: "Global endpoint token version",
+              ja: "グローバルのトークンバージョン",
+            }}
             value={tokenVersion}
             onChange={setTokenVersion}
             options={[
@@ -406,7 +409,7 @@ export function RouterSim() {
         <Row
           label={{
             en: "Token works in opt-in Regions",
-            ja: "オプトインリージョンで使えるか",
+            ja: "トークンがオプトインリージョンで使えるか",
           }}
         >
           <span

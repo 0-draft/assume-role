@@ -1,18 +1,31 @@
 import { useId, useState } from "react";
 import { useLang } from "@/i18n/useLang";
+import type { L } from "@/i18n/lang";
 import { Figure, More, Segmented } from "@/components/ui";
 import { rich } from "@/lib/rich";
 import { LEGACY_GLOBAL_REGIONS } from "./regions";
 import { resolveSdk, toolById, TOOLS, type Mode } from "./sdk";
 
-const REGION_CHOICES: { value: string; label: string }[] = [
-  { value: "us-east-1", label: "us-east-1" },
-  { value: "eu-west-1", label: "eu-west-1" },
-  { value: "ap-northeast-1", label: "ap-northeast-1 (Tokyo)" },
-  { value: "ap-northeast-2", label: "ap-northeast-2 (Seoul)" },
-  { value: "ap-east-1", label: "ap-east-1 (Hong Kong, opt-in)" },
-  { value: "aws-global", label: "aws-global (pseudo-Region)" },
-  { value: "none", label: "— none configured —" },
+const REGION_CHOICES: { value: string; label: L }[] = [
+  { value: "us-east-1", label: { en: "us-east-1", ja: "us-east-1" } },
+  { value: "eu-west-1", label: { en: "eu-west-1", ja: "eu-west-1" } },
+  {
+    value: "ap-northeast-1",
+    label: { en: "ap-northeast-1 (Tokyo)", ja: "ap-northeast-1 (東京)" },
+  },
+  {
+    value: "ap-northeast-2",
+    label: { en: "ap-northeast-2 (Seoul)", ja: "ap-northeast-2 (ソウル)" },
+  },
+  {
+    value: "ap-east-1",
+    label: { en: "ap-east-1 (Hong Kong, opt-in)", ja: "ap-east-1 (香港、オプトイン)" },
+  },
+  {
+    value: "aws-global",
+    label: { en: "aws-global (pseudo-Region)", ja: "aws-global (疑似リージョン)" },
+  },
+  { value: "none", label: { en: "none configured", ja: "未設定" } },
 ];
 
 export function SdkExplorer() {
@@ -75,9 +88,7 @@ export function SdkExplorer() {
           >
             {REGION_CHOICES.map((x) => (
               <option key={x.value} value={x.value}>
-                {x.value === "none"
-                  ? t({ en: "none configured", ja: "未設定" })
-                  : x.label}
+                {t(x.label)}
               </option>
             ))}
           </select>
@@ -162,7 +173,7 @@ export function SdkExplorer() {
         <More
           summary={{
             en: "Defaults for every SDK, side by side",
-            ja: "全 SDK のデフォルト一覧",
+            ja: "全 SDK の既定値一覧",
           }}
         >
           <div tabIndex={0} className="scroll-x">

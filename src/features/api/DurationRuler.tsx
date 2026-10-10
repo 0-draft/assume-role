@@ -48,7 +48,7 @@ export function DurationRuler() {
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block size-3 rounded-full border-[3px] border-[var(--ink)] bg-[var(--surface)]" />
-          {t({ en: "default", ja: "デフォルト" })}
+          {t({ en: "default", ja: "既定" })}
         </span>
         <span>{t({ en: "log scale", ja: "対数目盛" })}</span>
       </div>
@@ -82,7 +82,7 @@ export function DurationRuler() {
                 </div>
                 <div className="text-xs text-[var(--muted)] tabular-nums">
                   {r.def !== undefined
-                    ? t({ en: "min / default / max: ", ja: "最短 / デフォルト / 上限: " })
+                    ? t({ en: "min / default / max: ", ja: "最短 / 既定 / 上限: " })
                     : t({ en: "range: ", ja: "範囲: " })}
                   {summary}
                 </div>

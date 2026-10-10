@@ -323,7 +323,7 @@ export const ERRORS: StsError[] = [
     },
     cause: {
       en: "Wrong secret for the access key ID, stray whitespace in the secret, a session token mixed with different keys, a proxy that altered the request, or the wrong Region in the credential scope.",
-      ja: "アクセスキー ID とシークレットの組み合わせ違い、シークレットに余計な空白、別のキーのセッショントークン、プロキシによるリクエスト改変、認証スコープのリージョン違いのどれかです。",
+      ja: "アクセスキー ID とシークレットの組み合わせ違い、シークレットに余計な空白、別のキーのセッショントークン、プロキシによるリクエスト改変、認証情報スコープのリージョン違いのどれかです。",
     },
     fix: {
       en: "Re-export a consistent key, secret and token, and sign for the Region of the endpoint you call.",

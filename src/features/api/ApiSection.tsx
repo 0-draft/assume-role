@@ -38,7 +38,7 @@ export function ApiSection() {
       <Callout kind="new">
         {{
           en: "Since 2026-09-15 STS enforces one 4,096-byte limit on the assembled session token. Responses now carry `SessionTokenSize` and `SessionTokenUtilization` (percent of the limit), and the new `MinimumSessionTokenSize` parameter (0 to 4096) pads tokens so you can test how your code copes with large ones. `PackedPolicySize` is deprecated and now reports the same number as `SessionTokenUtilization`.",
-          ja: "2026-09-15 から、STS は組み上がったセッショントークンに 4,096 バイトの上限を 1 本だけ適用します。レスポンスには `SessionTokenSize` と `SessionTokenUtilization` (上限に対する %) が入り、新パラメータ `MinimumSessionTokenSize` (0〜4096) でトークンを水増しして、大きなトークンでもコードが壊れないか試せます。`PackedPolicySize` は非推奨になり、`SessionTokenUtilization` と同じ値を返します。",
+          ja: "2026-09-15 から、STS は組み上がったセッショントークンに 単一の 4,096 バイト上限を適用します。レスポンスには `SessionTokenSize` と `SessionTokenUtilization` (上限に対する %) が入り、新パラメータ `MinimumSessionTokenSize` (0〜4096) でトークンを水増しして、大きなトークンでもコードが壊れないか試せます。`PackedPolicySize` は非推奨になり、`SessionTokenUtilization` と同じ値を返します。",
         }}
       </Callout>
 
@@ -46,7 +46,7 @@ export function ApiSection() {
         title={{ en: "How long each pass lasts", ja: "券の有効期間" }}
         hint={{
           en: "From one minute to 36 hours, on a log scale. Role chaining and root callers get much shorter ceilings.",
-          ja: "1 分から 36 時間までの対数目盛です。ロールチェーンや root からの呼び出しは上限がぐっと短くなります。",
+          ja: "1 分から 36 時間までの対数目盛です。ロールチェーンやルートからの呼び出しは上限がぐっと短くなります。",
         }}
       >
         <DurationRuler />

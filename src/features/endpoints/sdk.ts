@@ -242,7 +242,7 @@ export function resolveSdk(
       ignoredSetting,
       why: {
         en: `\`legacy\` mode, and ${region} is on the fixed list of 15 Regions that legacy sends to the global endpoint.`,
-        ja: `\`legacy\` モードで、${region} は、legacy がグローバルに送る固定の 15 リージョンに含まれます。`,
+        ja: `\`legacy\` モードで、${region} は legacy がグローバルに送る固定の 15 リージョンに含まれます。`,
       },
     };
 
@@ -254,7 +254,7 @@ export function resolveSdk(
       mode === "legacy"
         ? {
             en: `\`legacy\` mode, but ${region} is not on the legacy list, so it goes Regional anyway.`,
-            ja: `\`legacy\` モードだが ${region} は legacy の一覧に入っていないので、結局リージョナルに行きます。`,
+            ja: `\`legacy\` モードですが、${region} は legacy の一覧にないので、結局リージョナルに行きます。`,
           }
         : {
             en: "`regional` mode: the endpoint of the configured Region.",

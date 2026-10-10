@@ -54,7 +54,7 @@ export function TrustSection() {
       <P>
         {{
           en: "An `AssumeRole` call is checked from two sides. The **trust policy** on the role must allow the caller, and the **caller's identity policy** must allow `sts:AssumeRole` on the role, except when the role is in the same account and the trust policy names the caller directly. SCPs on the caller's account, RCPs on the role's account and the caller's permissions boundary can still deny.",
-          ja: "`AssumeRole` は両側からチェックされます。ロールの **信頼ポリシー** が呼び出し元を許可し、かつ **呼び出し元の ID ポリシー** がそのロールへの `sts:AssumeRole` を許可している必要があります。ただし同じアカウントで信頼ポリシーが呼び出し元を名指ししている場合は ID ポリシー側の許可が要りません。呼び出し元アカウントの SCP、ロール側アカウントの RCP、呼び出し元の Permissions Boundary はそれでも拒否できます。",
+          ja: "`AssumeRole` は両側からチェックされます。ロールの **信頼ポリシー** が呼び出し元を許可し、かつ **呼び出し元の ID ポリシー** がそのロールへの `sts:AssumeRole` を許可している必要があります。ただし同じアカウントで信頼ポリシーが呼び出し元を名指ししている場合は ID ポリシー側の許可が要りません。呼び出し元アカウントの SCP、ロール側アカウントの RCP、呼び出し元の アクセス許可の境界 はそれでも拒否できます。",
         }}
       </P>
       <GatesLab />
@@ -75,7 +75,7 @@ export function TrustSection() {
       <Callout kind="warn">
         {{
           en: "IAM now refuses to save a trust policy for GitHub's provider unless `token.actions.githubusercontent.com:sub` is present and is not only a wildcard. It does not stop `repo:*` or `repo:my-org*` (no slash), which still match repositories anyone can create.",
-          ja: "IAM は GitHub プロバイダー向けの信頼ポリシーについて、`token.actions.githubusercontent.com:sub` があってワイルドカードだけではないことを保存時に検査するようになりました。ただし `repo:*` や `repo:my-org*` (スラッシュなし) は止めてくれません。これらは誰でも作れるリポジトリに一致します。",
+          ja: "IAM は GitHub プロバイダ向けの信頼ポリシーについて、`token.actions.githubusercontent.com:sub` があってワイルドカードだけではないことを保存時に検査するようになりました。ただし `repo:*` や `repo:my-org*` (スラッシュなし) は止めてくれません。これらは誰でも作れるリポジトリに一致します。",
         }}
       </Callout>
       <Callout kind="new">
@@ -88,7 +88,7 @@ export function TrustSection() {
       <P>
         {{
           en: "Cross-account access to a SaaS vendor has a different trap: the **confused deputy**. The vendor's role is trusted by many customers, and role ARNs are not secrets. The fix is an external ID that the vendor generates per customer and always sends, and that each customer checks with `sts:ExternalId`.",
-          ja: "SaaS ベンダーにクロスアカウントでアクセスさせる場合は別の罠があります。**Confused Deputy (混乱した代理人)** です。ベンダーのロールは多くの顧客から信頼されていて、ロール ARN は秘密ではありません。対策は、ベンダーが顧客ごとに生成して必ず送る外部 ID を、各顧客が `sts:ExternalId` で検査することです。",
+          ja: "SaaS ベンダーにクロスアカウントでアクセスさせる場合は別の罠があります。**Confused Deputy (混乱した代理)** です。ベンダーのロールは多くの顧客から信頼されていて、ロール ARN は秘密ではありません。対策は、ベンダーが顧客ごとに生成して必ず送る外部 ID を、各顧客が `sts:ExternalId` で検査することです。",
         }}
       </P>
       <Figure

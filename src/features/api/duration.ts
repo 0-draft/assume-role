@@ -78,7 +78,7 @@ export const DURATIONS: DurationRow[] = [
   {
     op: "GetSessionToken",
     family: "direct",
-    variant: { en: "root", ja: "root" },
+    variant: { en: "root", ja: "ルート" },
     min: 900,
     def: 3600,
     max: 3600,
@@ -94,7 +94,7 @@ export const DURATIONS: DurationRow[] = [
   {
     op: "GetFederationToken",
     family: "direct",
-    variant: { en: "root", ja: "root" },
+    variant: { en: "root", ja: "ルート" },
     min: 900,
     def: 3600,
     max: 3600,
@@ -106,7 +106,7 @@ export const DURATIONS: DurationRow[] = [
     max: 43200,
     note: {
       en: "No default: the delegation request's SessionDuration decides, counted from token release.",
-      ja: "デフォルトはありません。委任リクエストの SessionDuration で決まり、トークンのリリース時刻から数えます。",
+      ja: "既定はありません。委任リクエストの SessionDuration で決まり、顧客がトークンを払い出した時点から数えます。",
     },
   },
   {

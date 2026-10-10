@@ -53,7 +53,7 @@ export const CATALOG: ConditionKey[] = [
     },
     meaning: {
       en: "The source identity being set in this request. It cannot be changed later and survives role chaining.",
-      ja: "このリクエストで設定しようとしている Source Identity。後から変更できず、ロールチェーンを通しても引き継がれます。",
+      ja: "このリクエストで設定しようとしている ソースアイデンティティ。後から変更できず、ロールチェーンを通しても引き継がれます。",
     },
   },
   {
@@ -83,7 +83,7 @@ export const CATALOG: ConditionKey[] = [
     when: { en: "sts:SetContext", ja: "sts:SetContext" },
     meaning: {
       en: "The context provider ARNs in the request, such as arn:aws:iam::aws:contextProvider/IdentityCenter.",
-      ja: "リクエストに含まれるコンテキストプロバイダーの ARN (arn:aws:iam::aws:contextProvider/IdentityCenter など)。",
+      ja: "リクエストに含まれるコンテキストプロバイダの ARN (arn:aws:iam::aws:contextProvider/IdentityCenter など)。",
     },
   },
   {
@@ -106,7 +106,7 @@ export const CATALOG: ConditionKey[] = [
     when: { en: "AssumeRoot", ja: "AssumeRoot" },
     meaning: {
       en: "Which of the five AWS managed root-task policies the centralized root session may use.",
-      ja: "集中ルートアクセスのセッションが使える root-task ポリシー (AWS 管理の 5 種) のどれか。",
+      ja: "ルートアクセスの一元管理のセッションが使える root-task ポリシー (AWS 管理の 5 種) のどれか。",
     },
   },
   {
@@ -158,7 +158,7 @@ export const CATALOG: ConditionKey[] = [
     type: "String",
     when: {
       en: "AssumeRoleWithWebIdentity with GitHub's provider",
-      ja: "GitHub プロバイダーでの AssumeRoleWithWebIdentity",
+      ja: "GitHub プロバイダでの AssumeRoleWithWebIdentity",
     },
     meaning: {
       en: "repo:ORG/REPO:ref:..., :environment:..., or :pull_request. IAM requires it, and not as a bare wildcard, on roles that trust GitHub.",
@@ -171,7 +171,7 @@ export const CATALOG: ConditionKey[] = [
     type: "String",
     when: {
       en: "AssumeRoleWithWebIdentity with GitHub's provider",
-      ja: "GitHub プロバイダーでの AssumeRoleWithWebIdentity",
+      ja: "GitHub プロバイダでの AssumeRoleWithWebIdentity",
     },
     meaning: {
       en: "The token audience, sts.amazonaws.com when using aws-actions/configure-aws-credentials.",
@@ -270,7 +270,7 @@ export const CATALOG: ConditionKey[] = [
     when: { en: "Temporary credentials only", ja: "一時認証情報のみ" },
     meaning: {
       en: "When the session was issued. The console's Revoke sessions denies everything issued before a timestamp.",
-      ja: "セッションの発行時刻。コンソールの「セッションの取り消し」は、ある時刻より前に発行されたものを全部拒否します。",
+      ja: "セッションの発行時刻。コンソールの「アクティブなセッションを取り消す」は、ある時刻より前に発行されたものを全部拒否します。",
     },
   },
   {
@@ -279,11 +279,11 @@ export const CATALOG: ConditionKey[] = [
     type: "String",
     when: {
       en: "Requests made with a session that has a source identity",
-      ja: "Source Identity を持つセッションからのリクエスト",
+      ja: "ソースアイデンティティ を持つセッションからのリクエスト",
     },
     meaning: {
       en: "The immutable source identity, for per-human controls on shared roles.",
-      ja: "変更不能な Source Identity。共有ロールでも人ごとに制御できます。",
+      ja: "変更不能な ソースアイデンティティ。共有ロールでも人ごとに制御できます。",
     },
   },
   {
@@ -352,7 +352,7 @@ export const CATALOG: ConditionKey[] = [
     },
     meaning: {
       en: "The IdP that issued the token: the provider ARN for custom IdPs, or e.g. cognito-identity.amazonaws.com.",
-      ja: "トークンを発行した IdP。カスタム IdP ならプロバイダー ARN、組み込みなら cognito-identity.amazonaws.com など。",
+      ja: "トークンを発行した IdP。カスタム IdP ならプロバイダ ARN、組み込みなら cognito-identity.amazonaws.com など。",
     },
   },
   {
@@ -362,7 +362,7 @@ export const CATALOG: ConditionKey[] = [
     when: { en: "Credentials from AssumeRoot only", ja: "AssumeRoot の認証情報のみ" },
     meaning: {
       en: "Marks centralized root-access sessions.",
-      ja: "集中ルートアクセスのセッションであることを示します。",
+      ja: "ルートアクセスの一元管理のセッションであることを示します。",
     },
   },
   {

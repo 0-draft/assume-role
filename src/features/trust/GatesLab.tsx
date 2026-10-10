@@ -12,7 +12,7 @@ const YES_NO: { value: "yes" | "no"; label: L }[] = [
 
 const STATE: Record<GateState, { color: string; label: L; mark: string }> = {
   pass: { color: "var(--resource)", label: { en: "open", ja: "通過" }, mark: "✓" },
-  fail: { color: "var(--deny)", label: { en: "closed", ja: "閉鎖" }, mark: "✕" },
+  fail: { color: "var(--deny)", label: { en: "closed", ja: "通れない" }, mark: "✕" },
   skip: { color: "var(--muted)", label: { en: "not needed", ja: "不要" }, mark: "–" },
 };
 

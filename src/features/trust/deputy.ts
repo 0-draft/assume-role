@@ -82,7 +82,7 @@ export const DEPUTY_STEPS: Message[] = [
     },
     detail: {
       en: "When the vendor runs B's job it always sends the external ID **it issued to B**. Without that rule, the vendor would happily act as a confused deputy and read A's account for B.",
-      ja: "B のジョブを実行するとき、ベンダーは必ず **B に発行した** 外部 ID を送ります。この決まりがなければ、ベンダーは混乱した代理人 (Confused Deputy) として B のために A のアカウントを読んでしまいます。",
+      ja: "B のジョブを実行するとき、ベンダーは必ず **B に発行した** 外部 ID を送ります。この決まりがなければ、ベンダーは混乱した代理 (Confused Deputy) として B のために A のアカウントを読んでしまいます。",
     },
     payload: {
       label: "request",

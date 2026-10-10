@@ -43,11 +43,15 @@ export const PREFIXES: PrefixEntry[] = [
     kind: "long-term-key",
     label: { en: "Access key (long-term)", ja: "アクセスキー (長期)" },
   },
-  { prefix: "ANPA", kind: "other", label: { en: "Managed policy", ja: "管理ポリシー" } },
+  {
+    prefix: "ANPA",
+    kind: "other",
+    label: { en: "Managed policy", ja: "マネージドポリシー" },
+  },
   {
     prefix: "ANVA",
     kind: "other",
-    label: { en: "Version in a managed policy", ja: "管理ポリシーのバージョン" },
+    label: { en: "Version in a managed policy", ja: "マネージドポリシーのバージョン" },
   },
   { prefix: "APKA", kind: "other", label: { en: "Public key", ja: "公開鍵" } },
   { prefix: "AROA", kind: "principal", label: { en: "Role", ja: "ロール" } },

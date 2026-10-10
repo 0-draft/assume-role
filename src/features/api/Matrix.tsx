@@ -29,7 +29,7 @@ const HEAD: L[] = [
   { en: "Operation", ja: "オペレーション" },
   { en: "Typical caller", ja: "主な呼び出し元" },
   { en: "Request auth", ja: "リクエスト認証" },
-  { en: "Callable with temp creds", ja: "一時認証情報から" },
+  { en: "Callable with temp creds", ja: "一時認証情報で呼べるか" },
   { en: "Duration (log scale)", ja: "有効期間 (対数目盛)" },
   { en: "MFA", ja: "MFA" },
   { en: "Session policies", ja: "セッションポリシー" },

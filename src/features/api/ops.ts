@@ -38,7 +38,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
     label: { en: "Credentials without a role", ja: "ロールを介さない認証情報" },
     blurb: {
       en: "Short-lived keys for an IAM user, a federated user, a member root, or a partner.",
-      ja: "IAM ユーザー、フェデレーションユーザー、メンバーアカウントの root、パートナー向けの短期キーです。",
+      ja: "IAM ユーザー、フェデレーションユーザー、メンバーアカウントのルート、パートナー向けの短期キーです。",
     },
     color: "var(--caller)",
   },
@@ -53,7 +53,7 @@ export const FAMILIES: { id: Family; label: L; blurb: L; color: string }[] = [
   },
   {
     id: "intro",
-    label: { en: "Introspection", ja: "調べもの" },
+    label: { en: "Introspection", ja: "照会系" },
     blurb: {
       en: "No credentials come out. These answer questions about ones you already have.",
       ja: "認証情報は出てきません。手元のキーやエラーについて答えるだけです。",
@@ -103,7 +103,7 @@ const NA: L = { en: "n/a", ja: "対象外" };
 
 const SESSION_POLICY: L = {
   en: "Yes: 1 inline + up to 10 managed ARNs, 2,048 plaintext chars combined",
-  ja: "あり: インライン 1 つ + 管理ポリシー ARN 最大 10 個、合計 2,048 文字まで",
+  ja: "あり: インライン 1 つ + マネージドポリシー ARN 最大 10 個、合計 2,048 文字まで",
 };
 
 export const OPS: Op[] = [
@@ -117,11 +117,11 @@ export const OPS: Op[] = [
     },
     caller: {
       en: "An IAM user or a role session that already holds credentials. The role's trust policy must trust the caller; across accounts the caller's identity policy must also allow `sts:AssumeRole`.",
-      ja: "すでに認証情報を持つ IAM ユーザーかロールセッションです。ロールの信頼ポリシーが呼び出し元を信頼している必要があり、クロスアカウントなら呼び出し元のアイデンティティポリシーでも `sts:AssumeRole` の許可が要ります。",
+      ja: "すでに認証情報を持つ IAM ユーザーかロールセッションです。ロールの信頼ポリシーが呼び出し元を信頼している必要があり、クロスアカウントなら呼び出し元のID ポリシーでも `sts:AssumeRole` の許可が要ります。",
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role's `MaxSessionDuration` (1 to 12 h). Role chaining, meaning a role session calling AssumeRole, is capped at 1 h and asking for more fails.",
-      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの `MaxSessionDuration` (1〜12 時間)。ロールセッションから AssumeRole する「ロールチェーン」は 1 時間が上限で、それ以上を指定すると失敗します。",
+      ja: "最短 900 秒、既定 3600 秒で、上限はロールの `MaxSessionDuration` (1〜12 時間) です。ロールセッションから AssumeRole する「ロールチェーン」は 1 時間が上限で、それ以上を指定すると失敗します。",
     },
     mfa: {
       en: "Yes: pass `SerialNumber` and a 6-digit `TokenCode`.",
@@ -190,11 +190,11 @@ export const OPS: Op[] = [
     },
     caller: {
       en: "Anyone holding a SAML response from an IdP registered as an IAM SAML provider. No AWS credentials: STS checks the assertion against the provider's metadata. Not for IAM Identity Center roles (`AWSReservedSSO_*`).",
-      ja: "IAM SAML プロバイダーに登録した IdP の SAML レスポンスを持っている人なら誰でも呼べます。AWS の認証情報は不要で、STS はプロバイダーのメタデータでアサーションを検証します。IAM Identity Center のロール (`AWSReservedSSO_*`) には使えません。",
+      ja: "IAM SAML プロバイダに登録した IdP の SAML レスポンスを持っている人なら誰でも呼べます。AWS の認証情報は不要で、STS はプロバイダのメタデータでアサーションを検証します。IAM Identity Center のロール (`AWSReservedSSO_*`) には使えません。",
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role maximum, and never past the assertion's `SessionNotOnOrAfter`.",
-      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの最大値。さらにアサーションの `SessionNotOnOrAfter` を超えられません。",
+      ja: "最短 900 秒、既定 3600 秒で、上限はロールの最大値です。アサーションの `SessionNotOnOrAfter` も超えられません。",
     },
     mfa: {
       en: "No MFA parameters. MFA is the IdP's job.",
@@ -271,7 +271,7 @@ export const OPS: Op[] = [
     },
     duration: {
       en: "900 s minimum, 3600 s default, up to the role maximum (12 h at most).",
-      ja: "最短 900 秒、デフォルト 3600 秒、上限はロールの最大値 (最大 12 時間)。",
+      ja: "最短 900 秒、既定 3600 秒、上限はロールの最大値 (最大 12 時間)。",
     },
     mfa: { en: "No MFA parameters.", ja: "MFA パラメータなし。" },
     sessionPolicy: SESSION_POLICY,
@@ -342,15 +342,15 @@ export const OPS: Op[] = [
     since: 2024,
     purpose: {
       en: "Get a 15-minute root session in an Organizations member account to do one privileged task, so the member account needs no root password.",
-      ja: "Organizations のメンバーアカウントで、特権タスクを 1 つだけこなす 15 分間の root セッションを得ます。メンバー側に root パスワードを持たせずに済みます。",
+      ja: "Organizations のメンバーアカウントで、特権タスクを 1 つだけこなす 15 分間のルートセッションを得ます。メンバー側にルートパスワードを持たせずに済みます。",
     },
     caller: {
       en: "A principal in the management account or the IAM delegated administrator account, after centralized root access is enabled. Root itself cannot call it.",
-      ja: "集中 root アクセスを有効化したうえで、管理アカウントか IAM の委任管理者アカウントのプリンシパルが呼びます。root 自身は呼べません。",
+      ja: "ルートアクセスの一元管理を有効化したうえで、管理アカウントか IAM の委任管理者アカウントのプリンシパルが呼びます。ルート自身は呼べません。",
     },
     duration: {
       en: "Default and maximum are both 900 s (15 min). The API Reference lists the valid range as 0 to 900.",
-      ja: "デフォルトも上限も 900 秒 (15 分) です。API リファレンス上の有効範囲は 0〜900 です。",
+      ja: "既定も上限も 900 秒 (15 分) です。API リファレンス上の有効範囲は 0〜900 です。",
     },
     mfa: NO,
     sessionPolicy: {
@@ -404,11 +404,11 @@ export const OPS: Op[] = [
     },
     caller: {
       en: "An IAM user with long-term (`AKIA`) keys. Root can, but AWS advises against it. No permission is needed: it is an authentication step, which policies cannot control.",
-      ja: "長期キー (`AKIA`) を持つ IAM ユーザーです。root でも呼べますが非推奨です。認証のステップなので権限は不要で、ポリシーでは制御できません。",
+      ja: "長期キー (`AKIA`) を持つ IAM ユーザーです。ルートでも呼べますが非推奨です。認証のステップなので権限は不要で、ポリシーでは制御できません。",
     },
     duration: {
       en: "IAM user: 900 s minimum, 43200 s (12 h) default, 129600 s (36 h) maximum. Root: 900 s minimum, 3600 s default and maximum.",
-      ja: "IAM ユーザー: 最短 900 秒、デフォルト 43200 秒 (12 時間)、上限 129600 秒 (36 時間)。root: 最短 900 秒、デフォルトも上限も 3600 秒。",
+      ja: "IAM ユーザー: 最短 900 秒、既定 43200 秒 (12 時間)、上限 129600 秒 (36 時間)。ルート: 最短 900 秒、既定も上限も 3600 秒。",
     },
     mfa: {
       en: "Yes: pass `SerialNumber` and a 6-digit `TokenCode`. A wrong code returns access denied.",
@@ -441,7 +441,7 @@ export const OPS: Op[] = [
       temp: { en: "No", ja: "不可" },
       duration: {
         en: "user 15 min / 12 h / 36 h; root 15 min / 1 h / 1 h",
-        ja: "ユーザー 15 分 / 12 時間 / 36 時間、root 15 分 / 1 時間 / 1 時間",
+        ja: "ユーザー 15 分 / 12 時間 / 36 時間、ルート 15 分 / 1 時間 / 1 時間",
       },
     },
   },
@@ -455,11 +455,11 @@ export const OPS: Op[] = [
     },
     caller: {
       en: "An IAM user's long-term keys (root possible, not recommended). Needs `sts:GetFederationToken`, plus `sts:TagSession` to pass tags.",
-      ja: "IAM ユーザーの長期キーです (root も可能ですが非推奨)。`sts:GetFederationToken` が必要で、タグを渡すなら `sts:TagSession` も要ります。",
+      ja: "IAM ユーザーの長期キーです (ルートも可能ですが非推奨)。`sts:GetFederationToken` が必要で、タグを渡すなら `sts:TagSession` も要ります。",
     },
     duration: {
       en: "IAM user: 900 s / 43200 s default / 129600 s maximum. Root: 900 s / 3600 s / 3600 s.",
-      ja: "IAM ユーザー: 900 秒 / デフォルト 43200 秒 / 上限 129600 秒。root: 900 秒 / 3600 秒 / 3600 秒。",
+      ja: "IAM ユーザー: 900 秒 / 既定 43200 秒 / 上限 129600 秒。ルート: 900 秒 / 3600 秒 / 3600 秒。",
     },
     mfa: { en: "Not supported.", ja: "非対応。" },
     sessionPolicy: {
@@ -504,7 +504,7 @@ export const OPS: Op[] = [
       temp: { en: "No", ja: "不可" },
       duration: {
         en: "user 15 min / 12 h / 36 h; root 15 min / 1 h / 1 h",
-        ja: "ユーザー 15 分 / 12 時間 / 36 時間、root 15 分 / 1 時間 / 1 時間",
+        ja: "ユーザー 15 分 / 12 時間 / 36 時間、ルート 15 分 / 1 時間 / 1 時間",
       },
     },
   },
@@ -516,7 +516,7 @@ export const OPS: Op[] = [
     partnerOnly: true,
     purpose: {
       en: "The STS half of IAM temporary delegation: an AWS Partner redeems a trade-in token the customer approved and released, and gets credentials in the customer's account.",
-      ja: "IAM 一時委任の STS 側です。顧客が承認してリリースしたトレードイントークンを AWS パートナーが引き換え、顧客アカウントの認証情報を得ます。",
+      ja: "IAM 一時委任の STS 側です。顧客が承認して払い出したトレードイントークンを AWS パートナーが引き換え、顧客アカウントの認証情報を得ます。",
     },
     caller: {
       en: "Only onboarded AWS Partner accounts (ISV Accelerate plus an AWS Marketplace listing), and only the partner account that created the delegation request.",
@@ -524,7 +524,7 @@ export const OPS: Op[] = [
     },
     duration: {
       en: "Set by the delegation request's `SessionDuration` (300 to 43200 s), counted from when the customer releases the token. Every redemption expires at the same moment.",
-      ja: "委任リクエストの `SessionDuration` (300〜43200 秒) で決まり、顧客がトークンをリリースした時刻から数えます。何度引き換えても有効期限は変わりません。",
+      ja: "委任リクエストの `SessionDuration` (300〜43200 秒) で決まり、顧客がトークンを払い出した時点から数えます。何度引き換えても有効期限は変わりません。",
     },
     mfa: NO,
     sessionPolicy: {
@@ -573,11 +573,11 @@ export const OPS: Op[] = [
     },
     caller: {
       en: "An IAM role or user, typically a workload on EC2 or Lambda. The account must first run IAM `EnableOutboundWebIdentityFederation`, which creates its issuer URL.",
-      ja: "IAM ロールかユーザーで、典型的には EC2 や Lambda 上のワークロードです。事前にアカウントで IAM の `EnableOutboundWebIdentityFederation` を実行し、issuer URL を作っておく必要があります。",
+      ja: "IAM ロールかユーザーで、典型的には EC2 や Lambda 上のワークロードです。事前にアカウントで IAM の `EnableOutboundWebIdentityFederation` を実行し、発行者 (issuer) の URL を作っておく必要があります。",
     },
     duration: {
       en: "JWT lifetime 60 s minimum, 300 s default, 3600 s maximum. It cannot outlive the calling session (`SessionDurationEscalation`).",
-      ja: "JWT の有効期間は最短 60 秒、デフォルト 300 秒、上限 3600 秒です。呼び出し元のセッションより長くはできません (`SessionDurationEscalation`)。",
+      ja: "JWT の有効期間は最短 60 秒、既定 300 秒、上限 3600 秒です。呼び出し元のセッションより長くはできません (`SessionDurationEscalation`)。",
     },
     mfa: NO,
     sessionPolicy: NO,
@@ -778,7 +778,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     id: "mgmt-root",
     label: {
       en: "Org management access, need member root",
-      ja: "組織の管理権限で、メンバーの root が要る",
+      ja: "組織の管理権限で、メンバーのルートが要る",
     },
     ops: ["AssumeRoot"],
     why: {
@@ -795,7 +795,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetDelegatedAccessToken"],
     why: {
       en: "Only for onboarded partners, after the customer approved and released the delegation request.",
-      ja: "オンボード済みパートナー専用です。顧客が委任リクエストを承認してリリースしたあとに使います。",
+      ja: "オンボード済みパートナー専用です。顧客が委任リクエストを承認して払い出したあとに使います。",
     },
   },
   {
@@ -804,7 +804,7 @@ export const HOLDINGS: { id: Holding; label: L; ops: OpId[]; why: L }[] = [
     ops: ["GetWebIdentityToken"],
     why: {
       en: "AWS signs a JWT whose `sub` is your principal ARN. The external service verifies it with the account's issuer URL.",
-      ja: "AWS が、`sub` にプリンシパル ARN を入れた JWT に署名します。外部サービスはアカウントの issuer URL で検証します。",
+      ja: "AWS が、`sub` にプリンシパル ARN を入れた JWT に署名します。外部サービスはアカウントの発行者 (issuer) の URL で検証します。",
     },
   },
   {

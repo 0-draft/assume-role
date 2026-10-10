@@ -84,7 +84,7 @@ export function TicketWindows() {
                           className="mt-auto text-xs font-semibold"
                           style={{ color: f.color }}
                         >
-                          {t({ en: "Pass printed below", ja: "下に券を発行中" })}
+                          {t({ en: "Pass printed below", ja: "券は下に表示" })}
                         </span>
                       )}
                       {match && !on && (

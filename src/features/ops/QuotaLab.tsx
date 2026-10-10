@@ -34,7 +34,7 @@ const LABELS: Record<SourceId, { label: L; note: L }> = {
     },
     note: {
       en: "AWS service principal: doesn't count",
-      ja: "AWS サービスプリンシパル: 数えない",
+      ja: "AWS サービスプリンシパル: カウント対象外",
     },
   },
   oidc: {

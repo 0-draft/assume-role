@@ -35,7 +35,7 @@ export function PathsSection() {
         <Callout kind="note">
           {{
             en: "**IMDSv2 hop limit.** The token PUT response only survives `HttpPutResponseHopLimit` IP hops. With 1, containers on a bridged network cannot reach the instance role; use 2 only if containers are meant to use it.",
-            ja: "**IMDSv2 のホップ上限。** トークンを取る PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。1 ならブリッジネットワークのコンテナからインスタンスロールに届きません。コンテナにも使わせたいときだけ 2 にします。",
+            ja: "**IMDSv2 のホップ上限です。** トークンを取る PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。1 ならブリッジネットワークのコンテナからインスタンスロールに届きません。コンテナにも使わせたいときだけ 2 にします。",
           }}
         </Callout>
         <Callout kind="note">
@@ -47,7 +47,7 @@ export function PathsSection() {
         <Callout kind="note">
           {{
             en: "**Identity Center is SAML underneath.** Each assignment is an `AWSReservedSSO_*` role trusting a SAML provider `AWSSSO_*_DO_NOT_DELETE`, and console sign-ins show up in CloudTrail as `AssumeRoleWithSAML`.",
-            ja: "**Identity Center の中身は SAML。** 割り当てごとに `AWSSSO_*_DO_NOT_DELETE` という SAML プロバイダを信頼する `AWSReservedSSO_*` ロールがあり、コンソールへのサインインは CloudTrail に `AssumeRoleWithSAML` として残ります。",
+            ja: "**Identity Center の中身は SAML です。** 割り当てごとに `AWSSSO_*_DO_NOT_DELETE` という SAML プロバイダを信頼する `AWSReservedSSO_*` ロールがあり、コンソールへのサインインは CloudTrail に `AssumeRoleWithSAML` として残ります。",
           }}
         </Callout>
         <Callout kind="new">
@@ -85,7 +85,7 @@ function PathExplorer() {
       title={{ en: "Pick a credential path", ja: "認証情報の経路を選ぶ" }}
       hint={{
         en: "Then step through it with Next or the arrow keys. Colours: who uses the keys, who vouches for identity, the AWS side that delivers them, STS, and the API you call.",
-        ja: "選んだら「次へ」か矢印キーで 1 ステップずつ進めてください。色は、キーを使う側・身元を保証する側・キーを届ける AWS 側・STS・最終的に呼ぶ API。",
+        ja: "選んだら「次へ」か矢印キーで 1 ステップずつ進めてください。色はそれぞれ、キーを使う側・身元を保証する側・キーを届ける AWS 側・STS・最終的に呼ぶ API を表します。",
       }}
     >
       <div className="mb-4 flex flex-wrap gap-2" aria-hidden>
@@ -93,7 +93,7 @@ function PathExplorer() {
           {t({ en: "Uses the keys", ja: "キーを使う側" })}
         </ActorTag>
         <ActorTag actor="idp">
-          {t({ en: "Vouches for identity", ja: "身元の保証" })}
+          {t({ en: "Vouches for identity", ja: "身元を保証する側" })}
         </ActorTag>
         <ActorTag actor="role">
           {t({ en: "AWS side that delivers", ja: "届ける AWS 側" })}
@@ -195,7 +195,13 @@ function PassStrip({ path }: { path: PathDef }) {
   const cells: { k: L; v: string; mono?: boolean }[] = [
     { k: { en: "STS operation", ja: "STS の操作" }, v: path.stsApi, mono: true },
     ...(path.frontDoor
-      ? [{ k: { en: "You talk to", ja: "話す相手" }, v: path.frontDoor, mono: true }]
+      ? [
+          {
+            k: { en: "You talk to", ja: "やり取りする相手" },
+            v: path.frontDoor,
+            mono: true,
+          },
+        ]
       : []),
     {
       k: { en: "Who calls STS", ja: "STS を呼ぶのは" },
@@ -229,7 +235,7 @@ function PassStrip({ path }: { path: PathDef }) {
         <span className="font-display rotate-90 text-sm font-bold whitespace-nowrap text-[var(--on-color)]">
           {path.stsCaller === "you"
             ? t({ en: "you call STS", ja: "自分で呼ぶ" })
-            : t({ en: "called for you", ja: "代わりに呼ぶ" })}
+            : t({ en: "called for you", ja: "AWS が代わりに呼ぶ" })}
         </span>
       </div>
     </div>
@@ -262,7 +268,7 @@ function WhoCallsMatrix() {
         }}
         hint={{
           en: "When an AWS service calls STS for you, your code never sees the call; it only sees where the keys were left.",
-          ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけ。",
+          ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけです。",
         }}
       >
         <ul className="space-y-2">
@@ -304,7 +310,7 @@ function WhoCallsMatrix() {
       }}
       hint={{
         en: "When an AWS service calls STS for you, your code never sees the call; it only sees where the keys were left.",
-        ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけ。",
+        ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけです。",
       }}
     >
       <div tabIndex={0} className="scroll-x">

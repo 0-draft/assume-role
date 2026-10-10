@@ -15,7 +15,7 @@ export function OpDetail({ op }: { op: Op }) {
   const family = FAMILIES.find((f) => f.id === op.family)!;
   const rows = DURATIONS.filter((d) => d.op === op.id);
   const fields: [L, L][] = [
-    [{ en: "Who can call", ja: "呼べる人" }, op.caller],
+    [{ en: "Who can call", ja: "呼び出し元" }, op.caller],
     [{ en: "Duration", ja: "有効期間" }, op.duration],
     [{ en: "MFA", ja: "MFA" }, op.mfa],
     [{ en: "Session policies", ja: "セッションポリシー" }, op.sessionPolicy],
@@ -86,7 +86,7 @@ export function OpDetail({ op }: { op: Op }) {
                     : `≤ ${formatDuration(r.max, lang)}`}
                 </div>
                 <div className="text-xs text-[var(--muted)] tabular-nums">
-                  {r.def !== undefined ? t({ en: "default, ", ja: "デフォルト、" }) : ""}
+                  {r.def !== undefined ? t({ en: "default, ", ja: "既定、" }) : ""}
                   {t({ en: "max ", ja: "上限 " })}
                   {formatDuration(r.max, lang)}
                 </div>

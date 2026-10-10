@@ -254,7 +254,7 @@ export function ChainBuilder() {
             <Pass r={r} index={i} />
             <div className="space-y-1 rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
               <Select
-                label={t({ en: "Role max session", ja: "ロールの最大セッション" })}
+                label={t({ en: "Role max session", ja: "ロールの最大セッション時間" })}
                 value={hops[i].maxSessionDuration}
                 options={ROLE_MAX}
                 onChange={(v) => patch(i, { maxSessionDuration: v })}

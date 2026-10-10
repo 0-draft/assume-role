@@ -60,7 +60,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "STS launches", ja: "STS 登場" },
     detail: {
       en: "One global endpoint, `sts.amazonaws.com`, hosted in US East (N. Virginia). The API version string `2011-06-15` is still used by every operation today.",
-      ja: "グローバルエンドポイント `sts.amazonaws.com` が 1 つだけ、US East (バージニア北部) で動いていました。API バージョン `2011-06-15` は今も全操作で使われています。",
+      ja: "グローバルエンドポイント `sts.amazonaws.com` が 1 つだけ、米国東部 (バージニア北部) で動いていました。API バージョン `2011-06-15` は今も全操作で使われています。",
     },
     source:
       "https://aws.amazon.com/blogs/security/announcing-upcoming-changes-to-the-aws-security-token-service-global-endpoint/",
@@ -151,7 +151,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "STS over PrivateLink", ja: "PrivateLink 経由の STS" },
     detail: {
       en: "Interface VPC endpoints for STS, starting in US West (Oregon).",
-      ja: "STS のインターフェイス VPC エンドポイントが、US West (オレゴン) から提供開始されました。",
+      ja: "STS のインターフェイス VPC エンドポイントが、米国西部 (オレゴン) から提供開始されました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2018/07/aws-sts-support-for-privatelink-us-west-2/",
@@ -209,11 +209,11 @@ export const EVENTS: TimelineEvent[] = [
     category: "endpoints",
     title: {
       en: "New SDK majors default to Regional",
-      ja: "新しい SDK メジャー版はリージョナルが既定に",
+      ja: "新しい SDK メジャーバージョンはリージョナルが既定に",
     },
     detail: {
       en: "SDK major versions released after July 2022 default to Regional STS endpoints. boto3 and CLI v1 kept the global default until 2025.",
-      ja: "2022 年 7 月以降の SDK メジャー版はリージョナルエンドポイントが既定です。boto3 と CLI v1 は 2025 年までグローバルのままでした。",
+      ja: "2022 年 7 月以降の SDK メジャーバージョンはリージョナルエンドポイントが既定です。boto3 と CLI v1 は 2025 年までグローバルのままでした。",
     },
     source:
       "https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html",
@@ -295,7 +295,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`sts.amazonaws.com` will be served in the caller's Region, starting with Europe (Stockholm).",
-      ja: "`sts.amazonaws.com` を呼び出し元のリージョンで処理する方針が発表され、欧州 (ストックホルム) から始まりました。",
+      ja: "`sts.amazonaws.com` を呼び出し元のリージョンで処理する方針が発表されました。最初は欧州 (ストックホルム) からです。",
     },
     source:
       "https://aws.amazon.com/blogs/security/announcing-upcoming-changes-to-the-aws-security-token-service-global-endpoint/",
@@ -379,7 +379,7 @@ export const EVENTS: TimelineEvent[] = [
     category: "federation",
     title: {
       en: "Outbound federation in the EU Sovereign Cloud",
-      ja: "欧州ソブリンクラウドでアウトバウンドフェデレーション",
+      ja: "European Sovereign Cloudでアウトバウンドフェデレーション",
     },
     detail: {
       en: "`GetWebIdentityToken` becomes available in the AWS European Sovereign Cloud.",

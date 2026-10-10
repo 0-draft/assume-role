@@ -214,7 +214,7 @@ function LeakWindow() {
       <p className="mt-4 text-sm text-[var(--muted)]">
         {t({
           en: "Bars show the hours an attacker could use the key, on a 30-day axis. A stolen STS key also stops at its expiry even if nobody ever notices.",
-          ja: "バーは攻撃者がキーを使える時間 (30 日軸)。STS のキーは、誰も気づかなくても有効期限で止まります。",
+          ja: "バーは攻撃者がキーを使える時間です (横軸は 30 日)。STS のキーは、誰も気づかなくても有効期限で止まります。",
         })}
       </p>
     </Figure>

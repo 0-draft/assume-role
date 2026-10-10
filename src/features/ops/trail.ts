@@ -135,7 +135,7 @@ export const SCENARIOS: Scenario[] = [
     ],
     missingNote: {
       en: "Nothing here. CloudTrail does not log denied cross-account role assumptions (or AssumeRoot) in the target account, which also means role-name probing is invisible to you.",
-      ja: "何も残りません。拒否されたクロスアカウントのロール引き受け (と AssumeRoot) は対象アカウントに記録されないので、ロール名の探り打ちもあなたからは見えません。",
+      ja: "何も残りません。拒否されたクロスアカウントのロール引き受け (と AssumeRoot) は対象アカウントに記録されないので、ロール名の総当たり探索もあなたからは見えません。",
     },
   },
   {
@@ -310,7 +310,7 @@ export const FIELDS: Record<string, L> = {
   },
   "responseElements.subjectFromWebIdentityToken": {
     en: "The `sub` claim from the OIDC token: for GitHub, which repo and ref asked.",
-    ja: "OIDC トークンの `sub` クレームです。GitHub なら、どのリポジトリとブランチが要求したかがわかります。",
+    ja: "OIDC トークンの `sub` クレームです。GitHub なら、どのリポジトリのどの ref (ブランチやタグなど) から要求されたかがわかります。",
   },
   "responseElements.sessionTokenUtilization": {
     en: "Percentage of the 4,096-byte session token limit this session used (since September 2026).",

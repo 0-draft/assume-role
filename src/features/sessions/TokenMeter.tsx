@@ -168,7 +168,7 @@ export function TokenMeter() {
           <div className="text-sm font-semibold">
             {t({
               en: "Documented limits, checked exactly",
-              ja: "ドキュメント化された上限 (厳密)",
+              ja: "文書化された上限 (厳密)",
             })}
           </div>
           <LimitBar
@@ -281,7 +281,7 @@ export function TokenMeter() {
         <p className="text-xs text-[var(--muted)]">
           {t({
             en: "AWS documents the 4096-byte token limit and the input limits, but not how tags and policies are packed into the token. The bar's byte weights are invented to show the shape of the trade-off; read SessionTokenUtilization from a real response to know your number. PackedPolicySize is deprecated and now reports the same value.",
-            ja: "4096 バイトのトークン上限と入力側の上限はドキュメント化されていますが、タグやポリシーをトークンにどう詰めるかは公開されていません。このバーのバイト数は傾向を見せるための仮の値です。実際の値は本物のレスポンスの SessionTokenUtilization で確認してください。PackedPolicySize は非推奨で、現在は同じ値を返します。",
+            ja: "4096 バイトのトークン上限と入力側の上限は文書化されていますが、タグやポリシーをトークンにどう詰めるかは公開されていません。このバーのバイト数は傾向を見せるための仮の値です。実際の値は本物のレスポンスの SessionTokenUtilization で確認してください。PackedPolicySize は非推奨で、現在は同じ値を返します。",
           })}
         </p>
       </div>

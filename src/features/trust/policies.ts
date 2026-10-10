@@ -20,7 +20,7 @@ export const EXAMPLES: ExamplePolicy[] = [
     },
     note: {
       en: "Trusts account 444455556666 and requires an MFA sign-in within the last hour. That account must still grant sts:AssumeRole to its users. The MFA claim is only as strong as the trusted account: anyone there who can create virtual MFA devices can satisfy it.",
-      ja: "アカウント 444455556666 を信頼し、1 時間以内の MFA 認証を要求します。相手側アカウントでもユーザーに sts:AssumeRole を許可する必要があります。MFA の主張は信頼先アカウント次第です。そこで仮想 MFA デバイスを作れる人なら条件を満たせてしまいます。",
+      ja: "アカウント 444455556666 を信頼し、1 時間以内の MFA 認証を要求します。相手側アカウントでもユーザーに sts:AssumeRole を許可する必要があります。MFA 条件がどこまで信用できるかは信頼先アカウント次第です。そこで仮想 MFA デバイスを作れる人なら条件を満たせてしまいます。",
     },
     json: doc([
       {
@@ -60,7 +60,7 @@ export const EXAMPLES: ExamplePolicy[] = [
     label: { en: "GitHub Actions OIDC", ja: "GitHub Actions OIDC" },
     note: {
       en: "One repository, main branch only. Repositories created, renamed or transferred after 2026-07-15 send an ID-qualified sub (repo:OWNER@ID/REPO@ID:...), so list both forms while migrating.",
-      ja: "1 リポジトリの main ブランチだけ。2026-07-15 以降に作成・リネーム・移管されたリポジトリは ID 付きの sub (repo:OWNER@ID/REPO@ID:...) を送るので、移行期間中は両方の形を並べておきます。",
+      ja: "1 リポジトリの main ブランチだけを許可します。2026-07-15 以降に作成・リネーム・移管されたリポジトリは ID 付きの sub (repo:OWNER@ID/REPO@ID:...) を送るので、移行期間中は両方の形を並べておきます。",
     },
     json: doc([
       {
@@ -86,11 +86,11 @@ export const EXAMPLES: ExamplePolicy[] = [
     id: "saml",
     label: {
       en: "SAML IdP with source identity and tags",
-      ja: "Source Identity とタグ付きの SAML IdP",
+      ja: "ソースアイデンティティ とタグ付きの SAML IdP",
     },
     note: {
       en: "If the IdP sends a source identity or session tags, the trust policy must also allow sts:SetSourceIdentity and sts:TagSession, otherwise the whole AssumeRoleWithSAML call fails.",
-      ja: "IdP が Source Identity やセッションタグを送ってくるなら、信頼ポリシーで sts:SetSourceIdentity と sts:TagSession も許可しないと AssumeRoleWithSAML 自体が失敗します。",
+      ja: "IdP が ソースアイデンティティ やセッションタグを送ってくるなら、信頼ポリシーで sts:SetSourceIdentity と sts:TagSession も許可しないと AssumeRoleWithSAML 自体が失敗します。",
     },
     json: doc([
       {

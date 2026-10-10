@@ -248,7 +248,7 @@ export function buildHostname(
       const notes: L[] = [
         {
           en: `Same name as the Regional endpoint. With private DNS on, it resolves to the interface endpoint's private IPs (service \`com.amazonaws.${region}.sts\`).`,
-          ja: `名前はリージョナルと同じです。プライベート DNS を有効にすると、インターフェースエンドポイントのプライベート IP に解決されます (サービス名 \`com.amazonaws.${region}.sts\`)。`,
+          ja: `名前はリージョナルと同じです。プライベート DNS を有効にすると、インターフェイスエンドポイントのプライベート IP に解決されます (サービス名 \`com.amazonaws.${region}.sts\`)。`,
         },
         {
           en: "Only the Regional hostname is intercepted. `sts.amazonaws.com` bypasses the VPC endpoint.",

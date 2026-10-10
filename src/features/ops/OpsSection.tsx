@@ -160,7 +160,7 @@ const CHECKLIST: CheckGroup[] = [
     items: [
       {
         en: "Keep `MaxSessionDuration` as short as the job allows.",
-        ja: "`MaxSessionDuration` は仕事に足りる最短にする。",
+        ja: "`MaxSessionDuration` は用途に必要な最短の長さにする。",
       },
       {
         en: "Name specific principals in every trust policy; pin OIDC `aud` and `sub`.",

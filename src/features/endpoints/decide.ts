@@ -53,7 +53,7 @@ export function decide(a: Answers): Decision {
       host: "sts.<region>.amazonaws.com",
       why: {
         en: "Create an interface endpoint for com.amazonaws.<region>.sts with private DNS, and call the Regional hostname. The global endpoint bypasses the VPC endpoint and will never connect.",
-        ja: "com.amazonaws.<region>.sts のインターフェースエンドポイントをプライベート DNS 付きで作り、リージョナルのホスト名を呼んでください。グローバルは VPC エンドポイントを通らないので繋がりません。",
+        ja: "com.amazonaws.<region>.sts のインターフェイスエンドポイントをプライベート DNS 付きで作り、リージョナルのホスト名を呼んでください。グローバルは VPC エンドポイントを通らないので繋がりません。",
       },
     };
   if (a.ipv6)

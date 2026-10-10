@@ -218,7 +218,7 @@ export const TERMS: Term[] = [
     aka: ["AWS SSO", "aws sso login"],
     def: {
       en: "AWS's workforce sign-in. Console access uses `AssumeRoleWithSAML` under the hood on `AWSReservedSSO_*` roles; the CLI uses `sso:GetRoleCredentials`.",
-      ja: "AWS の社員向けサインインです。コンソールは裏で `AWSReservedSSO_*` ロールに `AssumeRoleWithSAML` を使い、CLI は `sso:GetRoleCredentials` を使います。",
+      ja: "組織の従業員 (ワークフォース) 向けの AWS サインインです。コンソールは裏で `AWSReservedSSO_*` ロールに `AssumeRoleWithSAML` を使い、CLI は `sso:GetRoleCredentials` を使います。",
     },
     chapter: "paths",
   },
@@ -298,7 +298,7 @@ export const TERMS: Term[] = [
     aka: ["v1Token", "v2Token", "GlobalEndpointTokenVersion"],
     def: {
       en: "Global-endpoint token versions. v1 is valid only in default-enabled Regions; v2 is valid everywhere but longer. Set with `SetSecurityTokenServicePreferences`.",
-      ja: "グローバルエンドポイントが発行するトークンの版です。v1 はデフォルト有効リージョンだけで、v2 は全リージョンで有効ですが長くなります。`SetSecurityTokenServicePreferences` で設定します。",
+      ja: "グローバルエンドポイントが発行するトークンのバージョンです。v1 はデフォルト有効リージョンだけで、v2 は全リージョンで有効ですが長くなります。`SetSecurityTokenServicePreferences` で設定します。",
     },
     chapter: "endpoints",
   },
@@ -333,7 +333,7 @@ export const TERMS: Term[] = [
     aka: ["VPC endpoint", "VPC エンドポイント", "com.amazonaws.region.sts"],
     def: {
       en: "Interface VPC endpoint `com.amazonaws.<region>.sts`. Private DNS covers the Regional hostname only; the global endpoint bypasses it.",
-      ja: "インターフェイス VPC エンドポイント `com.amazonaws.<region>.sts` です。プライベート DNS が効くのはリージョナルのホスト名だけで、グローバルエンドポイントへの通信は素通りします。",
+      ja: "インターフェイス VPC エンドポイント `com.amazonaws.<region>.sts` です。プライベート DNS が効くのはリージョナルのホスト名だけで、グローバルエンドポイントへの通信は VPC エンドポイントを通りません。",
     },
     chapter: "endpoints",
   },
@@ -342,7 +342,7 @@ export const TERMS: Term[] = [
     aka: ["Signature Version 4", "署名"],
     def: {
       en: "AWS's request-signing scheme. STS's signing name is `sts`; AssumeRoleWithSAML and AssumeRoleWithWebIdentity are called unsigned.",
-      ja: "AWS のリクエスト署名方式です。STS のサービス名は `sts` で、AssumeRoleWithSAML と AssumeRoleWithWebIdentity は署名なしで呼びます。",
+      ja: "AWS のリクエスト署名方式です。STS の署名名は `sts` で、AssumeRoleWithSAML と AssumeRoleWithWebIdentity は署名なしで呼びます。",
     },
     chapter: "why",
   },

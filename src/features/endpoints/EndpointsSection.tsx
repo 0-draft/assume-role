@@ -17,7 +17,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "Global (legacy)", ja: "グローバル (レガシー)" },
     note: {
       en: "One name, no Region. Logged in us-east-1. IPv4 only.",
-      ja: "リージョンなしの 1 つの名前です。記録は us-east-1、IPv4 のみ。",
+      ja: "リージョンなしの単一ホスト名。記録は us-east-1、IPv4 のみ。",
     },
     color: "var(--caller)",
   },
@@ -35,7 +35,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "Dual-stack", ja: "デュアルスタック" },
     note: {
       en: "IPv4 + IPv6, since 2025-11-21.",
-      ja: "IPv4 と IPv6 の両方に対応。2025-11-21 からです。",
+      ja: "IPv4 と IPv6 の両方に対応 (2025-11-21 から)。",
     },
     color: "var(--resource)",
   },
@@ -136,7 +136,7 @@ export function EndpointsSection() {
       <Figure
         title={{
           en: "Turning STS off in a Region, and token versions",
-          ja: "リージョン単位の STS 無効化とトークンのバージョン",
+          ja: "リージョン単位の STS 無効化と、グローバルエンドポイントのトークンバージョン",
         }}
         hint={{
           en: "Two account-level switches in IAM, Account settings, Security Token Service (STS).",
@@ -183,14 +183,14 @@ export function EndpointsSection() {
             <h3 className="font-display text-lg font-bold">
               {t({
                 en: "Global endpoint token version",
-                ja: "グローバルのトークンバージョン",
+                ja: "グローバルエンドポイントのトークンバージョン",
               })}
             </h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-xl border-2 border-[var(--caller)] p-3">
                 <div className="font-mono font-semibold">v1Token</div>
                 <div className="mt-1 text-xs text-[var(--muted)]">
-                  {t({ en: "Default. Shorter.", ja: "既定値です。短め。" })}
+                  {t({ en: "Default. Shorter.", ja: "既定。短め。" })}
                 </div>
                 <div className="mt-2">
                   {t({
@@ -204,7 +204,7 @@ export function EndpointsSection() {
                 <div className="mt-1 text-xs text-[var(--muted)]">
                   {t({
                     en: "Opt in per account. Longer.",
-                    ja: "アカウント単位で選びます。長め。",
+                    ja: "アカウント単位でオプトイン。長め。",
                   })}
                 </div>
                 <div className="mt-2">
@@ -283,7 +283,7 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
             {[
               {
                 en: "Upgrading to Boto3 1.40.0+ or CLI v1 1.42.0+ moves traffic from `sts.amazonaws.com` to Regional hostnames. Egress allowlists that only allow the global name break.",
-                ja: "Boto3 1.40.0 以降や CLI v1 1.42.0 以降に上げると通信先が `sts.amazonaws.com` からリージョナルに変わります。グローバルの名前しか許可していない出口制御は壊れます。",
+                ja: "Boto3 1.40.0 以降や CLI v1 1.42.0 以降に上げると通信先が `sts.amazonaws.com` からリージョナルに変わります。グローバルの名前しか許可していない送信先の許可リストは壊れます。",
               },
               {
                 en: "Switching to Regional changes `aws:RequestedRegion` from `us-east-1` to the real Region, which can start matching deny statements that never fired before.",
@@ -291,7 +291,7 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
               },
               {
                 en: 'Single-Region trails or Region-filtered detections miss global calls, which land in `us-east-1`. To find them, filter CloudTrail for `endpointType` = `global` under additionalEventData.RequestDetails; Trusted Advisor\'s free "STS global endpoint" check also flags them.',
-                ja: "単一リージョンの証跡やリージョンで絞った検知は、`us-east-1` に記録されるグローバル呼び出しを見逃します。探すなら additionalEventData.RequestDetails の `endpointType` が `global` のイベントを絞り込みます。Trusted Advisor の無料チェック「STS global endpoint」でも見つかります。",
+                ja: "単一リージョンの証跡やリージョンで絞った検知は、`us-east-1` に記録されるグローバル呼び出しを見逃します。探すなら CloudTrail で additionalEventData.RequestDetails の `endpointType` が `global` のイベントを絞り込みます。Trusted Advisor の無料チェック「STS global endpoint」でも見つかります。",
               },
               {
                 en: "Under IRSA, switching the STS endpoint type also changes the shape of pre-signed S3 URLs (`bucket.s3.<region>.amazonaws.com` vs `bucket.s3.amazonaws.com`).",
