@@ -1,0 +1,42 @@
+name: freshness
+
+# STS changes quietly: endpoint behaviour, SDK defaults, new APIs, token limits.
+# Every fact on the site is pinned to a date. Once a month, open (or reuse) an
+# issue with the checklist for re-verifying them.
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reminder:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open the monthly freshness issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          title="Freshness check: $(date -u +%Y-%m)"
+          if gh issue list --repo "$REPO" --state open --search "\"$title\" in:title" --json number --jq 'length' | grep -qv '^0$'; then
+            echo "Issue already open: $title"
+            exit 0
+          fi
+          gh issue create --repo "$REPO" --title "$title" --body-file - <<'BODY'
+          Re-verify the facts the site pins to a date, then update `src/data/asOf.ts` and the docs.
+
+          - [ ] STS API reference document history (new operations, parameters, errors) — https://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html
+          - [ ] Global vs Regional endpoint behaviour — https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_region-endpoints.html
+          - [ ] SDK and CLI `sts_regional_endpoints` defaults — https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html
+          - [ ] Regions, FIPS and dual-stack hostnames (`src/features/endpoints/regions.ts`) — https://docs.aws.amazon.com/general/latest/gr/sts.html
+          - [ ] Quotas and session token size — https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
+          - [ ] Condition keys (`src/features/trust/catalog.ts`) — https://docs.aws.amazon.com/service-authorization/latest/reference/list_awssecuritytokenservice.html
+          - [ ] GitHub Actions OIDC claims — https://docs.github.com/en/actions/reference/security/oidc
+          - [ ] New launches since the last check — https://aws.amazon.com/new/ (search "STS", "IAM")
+          - [ ] Timeline (`src/features/timeline/events.ts`, `docs/07-timeline.md`)
+          BODY
