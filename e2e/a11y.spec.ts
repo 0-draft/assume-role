@@ -6,6 +6,9 @@ import { expect, test } from "@playwright/test";
 for (const lang of ["en", "ja"] as const) {
   for (const scheme of ["light", "dark"] as const) {
     test(`no WCAG A/AA violations (${lang}, ${scheme})`, async ({ page }) => {
+      // axe walks the whole page (ten chapters); under a parallel run on a busy
+      // machine that can pass the default 30 s.
+      test.slow();
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(`./?lang=${lang}`);
       await expect(page.locator("h1")).toBeVisible();

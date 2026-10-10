@@ -6,6 +6,9 @@ const PORT = 4317;
 export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
+  // Every test waits for all lazy chapters; under a full parallel run that can
+  // take a while on a busy machine.
+  timeout: 60_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
