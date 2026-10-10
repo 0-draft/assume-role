@@ -9,8 +9,8 @@ for (const lang of ["en", "ja"] as const) {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(`./?lang=${lang}`);
       await expect(page.locator("h1")).toBeVisible();
-  // Chapters after the first load as separate chunks; wait for the last one.
-  await expect(page.locator("#glossary h2")).toBeVisible();
+      // Chapters after the first load as separate chunks; wait for the last one.
+      await expect(page.locator("#glossary h2")).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

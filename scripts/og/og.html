@@ -1,45 +1,190 @@
 <!doctype html>
 <!-- Source of public/og.png (1200x630). Re-render with Playwright if the copy changes. -->
-<html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@500&display=block" rel="stylesheet">
-<style>
-  html,body{margin:0;width:1200px;height:630px;background:#ecefe4;font-family:"IBM Plex Sans",sans-serif;color:#1d1626;overflow:hidden}
-  .wrap{position:absolute;inset:0;padding:64px 72px;display:grid;grid-template-columns:1fr 540px;gap:40px;align-items:center}
-  h1{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:82px;line-height:.98;margin:0;letter-spacing:-.01em}
-  p{font-size:26px;color:#575266;margin:22px 0 0;line-height:1.35}
-  .brand{position:absolute;left:72px;bottom:44px;font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:600}
-  .brand b{color:#8a1538}
-  .pass{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 12px 132px;border:1.5px solid #cdd2c0;border-radius:22px;overflow:hidden;
-    background-color:#fbfcf6;background-image:repeating-radial-gradient(circle at 0% 100%,transparent 0 9px,rgb(138 21 56/.1) 9px 10px),repeating-radial-gradient(circle at 100% 0%,transparent 0 13px,rgb(31 78 140/.08) 13px 14px);
-    box-shadow:0 18px 40px -20px rgb(29 22 38/.45)}
-  .main{padding:28px}
-  .k{font-family:"IBM Plex Mono",monospace;font-size:14px;color:#575266;margin-top:14px}
-  .v{font-family:"IBM Plex Mono",monospace;font-size:17px}
-  .api{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:30px;margin-top:6px}
-  .iss{font-family:"IBM Plex Sans Condensed";font-size:17px;color:#8a1538}
-  .perf{background-image:radial-gradient(circle,#cdd2c0 2px,transparent 2.4px);background-size:4px 14px;background-repeat:repeat-y;background-position:center}
-  .stub{background:#e2e6d8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
-  .seal{width:76px;height:76px;border-radius:50%;background:conic-gradient(from 140deg,#f6e7b0,#d9a441,#f3c9d6,#b9d7f0,#c8efd2,#f6e7b0,#d9a441,#f6e7b0);display:grid;place-items:center;font-family:"IBM Plex Sans Condensed";font-size:18px;color:#2a1d05}
-  .seal span{width:54px;height:54px;border-radius:50%;border:1px solid rgb(42 29 5/.3);display:grid;place-items:center}
-  .t{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;color:#a3221a}
-  .stamp{border:3px solid #a3221a;color:#a3221a;border-radius:7px;padding:2px 10px;font-family:"IBM Plex Sans Condensed";font-size:20px;transform:rotate(-8deg)}
-</style></head><body>
-<div class="wrap">
-  <div>
-    <h1>AWS STS, drawn.</h1>
-    <p>Every endpoint, all 11 APIs, every way a workload or a person ends up holding temporary credentials. Interactive, in <span style="white-space:nowrap">EN / 日本語</span>.</p>
-  </div>
-  <div class="pass">
-    <div class="main">
-      <div class="iss">AWS Security Token Service</div>
-      <div class="api">sts:AssumeRole</div>
-      <div class="k">AccessKeyId</div><div class="v">ASIAQEXAMPLEDEVKEY01</div>
-      <div class="k">SessionToken</div><div class="v">AQoEXAMPLEH4aoAH0gNC…</div>
-      <div class="k">Identity</div><div class="v">arn:aws:sts::210987654321:<br>assumed-role/deploy/alice</div>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@500&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        background: #ecefe4;
+        font-family: "IBM Plex Sans", sans-serif;
+        color: #1d1626;
+        overflow: hidden;
+      }
+      .wrap {
+        position: absolute;
+        inset: 0;
+        padding: 64px 72px;
+        display: grid;
+        grid-template-columns: 1fr 540px;
+        gap: 40px;
+        align-items: center;
+      }
+      h1 {
+        font-family: "IBM Plex Sans Condensed", sans-serif;
+        font-size: 82px;
+        line-height: 0.98;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      p {
+        font-size: 26px;
+        color: #575266;
+        margin: 22px 0 0;
+        line-height: 1.35;
+      }
+      .brand {
+        position: absolute;
+        left: 72px;
+        bottom: 44px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .brand b {
+        color: #8a1538;
+      }
+      .pass {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 12px 132px;
+        border: 1.5px solid #cdd2c0;
+        border-radius: 22px;
+        overflow: hidden;
+        background-color: #fbfcf6;
+        background-image:
+          repeating-radial-gradient(
+            circle at 0% 100%,
+            transparent 0 9px,
+            rgb(138 21 56/0.1) 9px 10px
+          ),
+          repeating-radial-gradient(
+            circle at 100% 0%,
+            transparent 0 13px,
+            rgb(31 78 140/0.08) 13px 14px
+          );
+        box-shadow: 0 18px 40px -20px rgb(29 22 38/0.45);
+      }
+      .main {
+        padding: 28px;
+      }
+      .k {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        color: #575266;
+        margin-top: 14px;
+      }
+      .v {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 17px;
+      }
+      .api {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        font-size: 30px;
+        margin-top: 6px;
+      }
+      .iss {
+        font-family: "IBM Plex Sans Condensed";
+        font-size: 17px;
+        color: #8a1538;
+      }
+      .perf {
+        background-image: radial-gradient(circle, #cdd2c0 2px, transparent 2.4px);
+        background-size: 4px 14px;
+        background-repeat: repeat-y;
+        background-position: center;
+      }
+      .stub {
+        background: #e2e6d8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+      .seal {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 140deg,
+          #f6e7b0,
+          #d9a441,
+          #f3c9d6,
+          #b9d7f0,
+          #c8efd2,
+          #f6e7b0,
+          #d9a441,
+          #f6e7b0
+        );
+        display: grid;
+        place-items: center;
+        font-family: "IBM Plex Sans Condensed";
+        font-size: 18px;
+        color: #2a1d05;
+      }
+      .seal span {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        border: 1px solid rgb(42 29 5/0.3);
+        display: grid;
+        place-items: center;
+      }
+      .t {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 26px;
+        font-weight: 600;
+        color: #a3221a;
+      }
+      .stamp {
+        border: 3px solid #a3221a;
+        color: #a3221a;
+        border-radius: 7px;
+        padding: 2px 10px;
+        font-family: "IBM Plex Sans Condensed";
+        font-size: 20px;
+        transform: rotate(-8deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div>
+        <h1>AWS STS, drawn.</h1>
+        <p>
+          Every endpoint, all 11 APIs, every way a workload or a person ends up holding
+          temporary credentials. Interactive, in
+          <span style="white-space: nowrap">EN / 日本語</span>.
+        </p>
+      </div>
+      <div class="pass">
+        <div class="main">
+          <div class="iss">AWS Security Token Service</div>
+          <div class="api">sts:AssumeRole</div>
+          <div class="k">AccessKeyId</div>
+          <div class="v">ASIAQEXAMPLEDEVKEY01</div>
+          <div class="k">SessionToken</div>
+          <div class="v">AQoEXAMPLEH4aoAH0gNC…</div>
+          <div class="k">Identity</div>
+          <div class="v">arn:aws:sts::210987654321:<br />assumed-role/deploy/alice</div>
+        </div>
+        <div class="perf"></div>
+        <div class="stub">
+          <div class="seal"><span>STS</span></div>
+          <div class="t">59:58</div>
+          <div class="stamp">Temporary</div>
+        </div>
+      </div>
     </div>
-    <div class="perf"></div>
-    <div class="stub"><div class="seal"><span>STS</span></div><div class="t">59:58</div><div class="stamp">Temporary</div></div>
-  </div>
-</div>
-<div class="brand">0-draft.github.io/<b>assume-role</b></div>
-</body></html>
+    <div class="brand">0-draft.github.io/<b>assume-role</b></div>
+  </body>
+</html>
