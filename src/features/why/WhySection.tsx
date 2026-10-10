@@ -42,7 +42,7 @@ Action=GetCallerIdentity&Version=2011-06-15`}
       <Callout kind="note">
         {{
           en: "STS still speaks the 2011 Query protocol: form-encoded `Action=...&Version=2011-06-15` in, XML out. SDKs hide this, but you will see it in `--debug` output.",
-          ja: "STS は今も 2011 年版の Query プロトコルです。リクエストはフォームエンコードの `Action=...&Version=2011-06-15`、レスポンスは XML。SDK が隠してくれますが、`--debug` の出力で目にします。",
+          ja: "STS は今も 2011 年版の Query プロトコルです。リクエストはフォームエンコードの `Action=...&Version=2011-06-15`、レスポンスは XML です。SDK が隠してくれますが、`--debug` の出力で目にします。",
         }}
       </Callout>
       <p className="prose-col text-sm text-[var(--muted)]">
@@ -66,7 +66,7 @@ function Anatomy() {
       temp: "ASIAQEXAMPLEDEVKEY01",
       note: {
         en: "AKIA means long-term, ASIA means it came from STS.",
-        ja: "AKIA は長期キー、ASIA は STS 発行の印。",
+        ja: "AKIA は長期キー、ASIA は STS が発行した印です。",
       },
     },
     {
@@ -75,7 +75,7 @@ function Anatomy() {
       temp: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
       note: {
         en: "Signs requests. Never sent over the wire.",
-        ja: "署名に使う。通信路には流れない。",
+        ja: "署名に使います。通信路には流れません。",
       },
     },
     {
@@ -84,7 +84,7 @@ function Anatomy() {
       temp: "AQoEXAMPLEH4aoAH0gNCAPy…",
       note: {
         en: "Only temporary credentials have one. Up to 4,096 bytes since Sept 2026.",
-        ja: "一時認証情報にだけある。2026 年 9 月から上限 4,096 バイト。",
+        ja: "一時認証情報にだけあります。2026 年 9 月から上限は 4,096 バイトです。",
       },
     },
     {
@@ -93,7 +93,7 @@ function Anatomy() {
       temp: "2026-10-10T10:00:00Z",
       note: {
         en: "From minutes to 36 hours depending on the API (most start at 15 minutes).",
-        ja: "API によって数分から 36 時間 (多くは最短 15 分)。",
+        ja: "API によって数分から 36 時間です (多くは最短 15 分)。",
       },
     },
   ];
@@ -102,7 +102,7 @@ function Anatomy() {
       title={{ en: "Two kinds of keys, side by side", ja: "2 種類のキーを並べる" }}
       hint={{
         en: "Same signing algorithm, two extra fields.",
-        ja: "署名の仕組みは同じ。違うのは 2 つの追加フィールド。",
+        ja: "署名の仕組みは同じで、違うのは追加の 2 フィールドです。",
       }}
     >
       <div className="grid gap-4 md:grid-cols-2">
