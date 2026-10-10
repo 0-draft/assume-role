@@ -47,6 +47,8 @@ npm run test:e2e   # 実ブラウザでのチェック (要: npx playwright inst
 | --- | --- |
 | `ci.yml` | 型チェック、ESLint、Prettier、markdownlint、ビルド、カバレッジ付き Vitest、Playwright E2E と axe による WCAG 2.2 AA チェック (デスクトップ/スマホ × EN/JA × ライト/ダーク)、actionlint、`npm audit`、PR での dependency review。`main` がすべて緑なら GitHub Pages にデプロイ |
 | `codeql.yml` | JavaScript/TypeScript と GitHub Actions の CodeQL |
+| `freshness.yml` | エンドポイントの挙動・SDK の既定値・API・上限・年表を再確認する issue を毎月立てる |
+| `claude-review.yml` | PR ごとに Claude が事実の正確さと EN/JA の内容一致をレビュー。コメントのみでマージは止めない |
 | Dependabot | npm と GitHub Actions をグループ化して週次更新 |
 
 ## 免責

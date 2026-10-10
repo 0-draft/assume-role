@@ -59,6 +59,8 @@ e2e/            Playwright layout and axe accessibility checks
 | --- | --- |
 | `ci.yml` | typecheck, ESLint, Prettier, markdownlint, build, Vitest with coverage, Playwright E2E and axe WCAG 2.2 AA checks (desktop and phone, EN and JA, light and dark), actionlint, `npm audit`, dependency review on PRs; then deploys to GitHub Pages when everything on `main` is green |
 | `codeql.yml` | CodeQL for JavaScript/TypeScript and GitHub Actions |
+| `freshness.yml` | Opens a monthly issue to re-verify endpoint behaviour, SDK defaults, APIs, quotas and the timeline |
+| `claude-review.yml` | Claude reviews each pull request for factual accuracy and EN/JA parity; it comments, it does not gate |
 | Dependabot | Weekly grouped updates for npm and GitHub Actions |
 
 ## Disclaimer
