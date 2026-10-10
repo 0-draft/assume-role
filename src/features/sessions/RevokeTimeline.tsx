@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLang } from "@/i18n/useLang";
 import { Code } from "@/components/ui";
+import { useNarrow } from "@/hooks/useNarrow";
 import {
   REVOKE_LEAD_MINUTES,
   isoAt,
@@ -58,7 +59,13 @@ export function RevokeTimeline() {
     ]);
   };
 
-  const ticks = [-60, -45, -30, -15, 0, 15];
+  const narrow = useNarrow();
+  // Wide: name column on the left, state column on the right. Narrow: the bar
+  // gets the full width and the name and state sit above it.
+  const track = narrow
+    ? { left: "0px", right: "0px" }
+    : { left: "7rem", right: "4.5rem" };
+  const ticks = narrow ? [-60, -30, 0] : [-60, -45, -30, -15, 0, 15];
 
   return (
     <div className="space-y-4">
@@ -99,76 +106,93 @@ export function RevokeTimeline() {
         </button>
       </div>
 
-      <div tabIndex={0} className="scroll-x">
-        <div className="min-w-[560px]">
-          <div
-            className="relative mr-[4.5rem] ml-28 h-6 text-[0.68rem] text-[var(--muted)]"
-            aria-hidden
+      <div className="relative pt-6">
+        {/* Marker labels sit in their own row so they never cover a tick. */}
+        <div
+          aria-hidden
+          className="absolute top-0 h-5"
+          style={{ left: track.left, right: track.right }}
+        >
+          <span
+            className="absolute -translate-x-1/2 rounded bg-[var(--ink)] px-1.5 text-[0.7rem] font-bold whitespace-nowrap text-[var(--paper)]"
+            style={{ left: x(now) }}
           >
-            {ticks.map((m) => (
-              <span
-                key={m}
-                className="absolute -translate-x-1/2 font-mono"
-                style={{ left: x(m) }}
-              >
-                {hhmm(m)}
-              </span>
-            ))}
-          </div>
-          <div className="relative">
-            <ul className="space-y-2">
-              {sessions.map((s) => {
-                const st = sessionState(s, now, revokeBefore);
-                const style = STATE_STYLE[st];
-                return (
-                  <li key={s.id} className="flex items-center gap-2">
-                    <span className="w-26 shrink-0 truncate font-mono text-xs">
-                      {s.id}
-                    </span>
-                    <div className="relative h-7 flex-1 rounded-md bg-[var(--sunk)]">
-                      <div
-                        className="absolute top-1 bottom-1 rounded transition-[background]"
-                        style={{
-                          left: x(s.issuedAt),
-                          width: `calc(${x(s.issuedAt + s.duration)} - ${x(s.issuedAt)})`,
-                          background: style.fill,
-                          opacity: st === "active" ? 0.85 : 1,
-                        }}
-                      />
-                      <span
-                        className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--surface)]"
-                        style={{ left: x(s.issuedAt), background: "var(--ink)" }}
-                        title={`aws:TokenIssueTime ${isoAt(s.issuedAt)}`}
-                      />
-                    </div>
-                    <span
-                      className="w-16 shrink-0 text-right text-xs font-bold"
-                      style={{ color: style.color }}
-                    >
-                      {stateLabel[st]}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute top-0 bottom-0 border-l-2 border-[var(--ink)]"
-              style={{
-                left: `calc(7rem + (100% - 7rem - 4.5rem) * ${(now - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)})`,
-              }}
+            {t({ en: "now", ja: "現在" })} {hhmm(now)}
+          </span>
+        </div>
+        <div
+          className="relative h-5 text-[0.7rem] text-[var(--muted)]"
+          style={{ marginLeft: track.left, marginRight: track.right }}
+          aria-hidden
+        >
+          {ticks.map((m) => (
+            <span
+              key={m}
+              className="absolute -translate-x-1/2 font-mono"
+              style={{ left: x(m) }}
             >
-              <span className="absolute -top-5 -translate-x-1/2 rounded bg-[var(--ink)] px-1 text-[0.62rem] font-bold text-[var(--paper)]">
-                {t({ en: "now", ja: "現在" })}
-              </span>
-            </div>
+              {hhmm(m)}
+            </span>
+          ))}
+        </div>
+        <div className="relative">
+          <ul className="space-y-2">
+            {sessions.map((s) => {
+              const st = sessionState(s, now, revokeBefore);
+              const style = STATE_STYLE[st];
+              const label = <span className="truncate font-mono text-xs">{s.id}</span>;
+              const state = (
+                <span className="text-xs font-bold" style={{ color: style.color }}>
+                  {stateLabel[st]}
+                </span>
+              );
+              const bar = (
+                <div className="relative h-7 min-w-0 flex-1 rounded-md bg-[var(--sunk)]">
+                  <div
+                    className="absolute top-1 bottom-1 rounded transition-[background]"
+                    style={{
+                      left: x(s.issuedAt),
+                      width: `calc(${x(s.issuedAt + s.duration)} - ${x(s.issuedAt)})`,
+                      background: style.fill,
+                    }}
+                  />
+                  <span
+                    className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--surface)]"
+                    style={{ left: x(s.issuedAt), background: "var(--ink)" }}
+                    title={`aws:TokenIssueTime ${isoAt(s.issuedAt)}`}
+                  />
+                </div>
+              );
+              return narrow ? (
+                <li key={s.id}>
+                  <div className="flex items-baseline justify-between gap-2">
+                    {label}
+                    {state}
+                  </div>
+                  {bar}
+                </li>
+              ) : (
+                <li key={s.id} className="flex items-center gap-2">
+                  <span className="flex w-26 shrink-0">{label}</span>
+                  {bar}
+                  <span className="flex w-16 shrink-0 justify-end">{state}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-0 bottom-0"
+            style={{ left: track.left, right: track.right }}
+          >
+            <div
+              className="absolute top-0 bottom-0 border-l-2 border-[var(--ink)]"
+              style={{ left: x(now) }}
+            />
             {revokeBefore !== null && (
               <div
-                aria-hidden
-                className="pointer-events-none absolute top-0 bottom-0 border-l-2 border-dashed border-[var(--deny)]"
-                style={{
-                  left: `calc(7rem + (100% - 7rem - 4.5rem) * ${(revokeBefore - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)})`,
-                }}
+                className="absolute top-0 bottom-0 border-l-2 border-dashed border-[var(--deny)]"
+                style={{ left: x(revokeBefore) }}
               />
             )}
           </div>
