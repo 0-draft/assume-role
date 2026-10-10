@@ -1,8 +1,10 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Callout, Figure, Section, Segmented, Src, ActorTag } from "@/components/ui";
 import { Sequence } from "@/components/ui/Sequence";
 import { chapter } from "@/data/nav";
 import { useLang } from "@/i18n/useLang";
+import { useNarrow } from "@/hooks/useNarrow";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { L } from "@/i18n/lang";
 import { CALLER_LABEL, GROUPS, PATHS, SIGNED_LABEL, type PathDef } from "./paths";
 import {
@@ -25,7 +27,7 @@ export function PathsSection() {
       }}
       lede={{
         en: "Most temporary credentials you use came from an STS call you never wrote. Pick a path to watch who asks, who answers and where the keys end up.",
-        ja: "普段使っている一時認証情報の大半は、自分では書いていない STS 呼び出しから来ている。経路を選ぶと、誰が頼み、誰が応え、キーがどこに置かれるかを順に追える。",
+        ja: "普段使っている一時認証情報の大半は、自分では書いていない STS 呼び出しから来ています。経路を選ぶと、誰が頼み、誰が応え、キーがどこに置かれるかを順に追えます。",
       }}
     >
       <PathExplorer />
@@ -33,25 +35,25 @@ export function PathsSection() {
         <Callout kind="note">
           {{
             en: "**IMDSv2 hop limit.** The token PUT response only survives `HttpPutResponseHopLimit` IP hops. With 1, containers on a bridged network cannot reach the instance role; use 2 only if containers are meant to use it.",
-            ja: "**IMDSv2 のホップ上限。** トークンを取る PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届かない。1 ならブリッジネットワークのコンテナからインスタンスロールに届かない。コンテナにも使わせたいときだけ 2 にする。",
+            ja: "**IMDSv2 のホップ上限。** トークンを取る PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。1 ならブリッジネットワークのコンテナからインスタンスロールに届きません。コンテナにも使わせたいときだけ 2 にします。",
           }}
         </Callout>
         <Callout kind="note">
           {{
             en: "**Pod Identity is not STS from the pod.** The pod talks to a node-local agent, the agent calls `eks-auth:AssumeRoleForPodIdentity`, and EKS calls `AssumeRole`. IRSA is the one where the pod calls STS itself.",
-            ja: "**Pod Identity は Pod から STS を呼ばない。** Pod はノード上のエージェントと話し、エージェントが `eks-auth:AssumeRoleForPodIdentity` を呼び、EKS が `AssumeRole` を呼ぶ。Pod 自身が STS を呼ぶのは IRSA のほう。",
+            ja: "**Pod Identity は Pod から STS を呼びません。** Pod はノード上のエージェントと話し、エージェントが `eks-auth:AssumeRoleForPodIdentity` を呼び、EKS が `AssumeRole` を呼びます。Pod 自身が STS を呼ぶのは IRSA のほうです。",
           }}
         </Callout>
         <Callout kind="note">
           {{
             en: "**Identity Center is SAML underneath.** Each assignment is an `AWSReservedSSO_*` role trusting a SAML provider `AWSSSO_*_DO_NOT_DELETE`, and console sign-ins show up in CloudTrail as `AssumeRoleWithSAML`.",
-            ja: "**Identity Center の中身は SAML。** 割り当てごとに `AWSSSO_*_DO_NOT_DELETE` という SAML プロバイダを信頼する `AWSReservedSSO_*` ロールがあり、コンソールへのサインインは CloudTrail に `AssumeRoleWithSAML` として残る。",
+            ja: "**Identity Center の中身は SAML。** 割り当てごとに `AWSSSO_*_DO_NOT_DELETE` という SAML プロバイダを信頼する `AWSReservedSSO_*` ロールがあり、コンソールへのサインインは CloudTrail に `AssumeRoleWithSAML` として残ります。",
           }}
         </Callout>
         <Callout kind="new">
           {{
-            en: "**GitHub `sub` claims changed.** Repositories created, renamed or transferred after 2026-07-15 send `repo:org@<org_id>/repo@<repo_id>:…`. A trust policy matching only `repo:org/repo:…` stops working for them; list both forms.",
-            ja: "**GitHub の `sub` クレームが変わった。** 2026-07-15 以降に作成・リネーム・移管されたリポジトリは `repo:org@<org_id>/repo@<repo_id>:…` を送る。`repo:org/repo:…` だけに一致させた信頼ポリシーは通らなくなるので、両方の形を並べておく。",
+            en: "**GitHub changed its sub claims.** Repositories created, renamed or transferred after 2026-07-15 send `repo:org@<org_id>/repo@<repo_id>:…`. A trust policy matching only `repo:org/repo:…` stops working for them; list both forms.",
+            ja: "**GitHub の sub クレームの形式が変わりました。** 2026-07-15 以降に作成・リネーム・移管されたリポジトリは `repo:org@<org_id>/repo@<repo_id>:…` を送ります。`repo:org/repo:…` だけに一致させた信頼ポリシーは通らなくなるので、両方の形を並べておきます。",
           }}
         </Callout>
       </div>
@@ -66,13 +68,24 @@ function PathExplorer() {
   const name = useId();
   const [id, setId] = useState(PATHS[0].id);
   const path = PATHS.find((p) => p.id === id) ?? PATHS[0];
+  const narrow = useNarrow();
+  const reduced = useReducedMotion();
+  const detail = useRef<HTMLDivElement>(null);
+  // On phones the picker is a screen tall; bring the diagram into view.
+  const pick = (next: string) => {
+    setId(next);
+    if (narrow)
+      requestAnimationFrame(() =>
+        detail.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" }),
+      );
+  };
 
   return (
     <Figure
       title={{ en: "Pick a credential path", ja: "認証情報の経路を選ぶ" }}
       hint={{
         en: "Then step through it with Next or the arrow keys. Colours: who uses the keys, who vouches for identity, the AWS side that delivers them, STS, and the API you call.",
-        ja: "選んだら「次へ」か矢印キーで 1 ステップずつ進める。色は、キーを使う側・身元を保証する側・キーを届ける AWS 側・STS・最終的に呼ぶ API。",
+        ja: "選んだら「次へ」か矢印キーで 1 ステップずつ進めてください。色は、キーを使う側・身元を保証する側・キーを届ける AWS 側・STS・最終的に呼ぶ API。",
       }}
     >
       <div className="mb-4 flex flex-wrap gap-2" aria-hidden>
@@ -91,45 +104,68 @@ function PathExplorer() {
         </ActorTag>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {GROUPS.map((g) => (
-          <fieldset key={g.id} className="min-w-0">
-            <legend className="mb-2 text-sm font-semibold text-[var(--muted)]">
-              {t(g.label)}
-            </legend>
-            <div className="flex flex-col gap-1.5">
-              {PATHS.filter((p) => p.group === g.id).map((p) => {
-                const on = p.id === id;
-                return (
-                  <label
-                    key={p.id}
-                    className="flex min-h-10 cursor-pointer items-center rounded-lg border px-3 py-1.5 text-sm font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--sts)]"
-                    style={{
-                      borderColor: on ? "var(--sts)" : "var(--line)",
-                      background: on
-                        ? "color-mix(in oklab, var(--sts) 14%, var(--surface))"
-                        : "var(--surface)",
-                      color: on ? "var(--ink)" : "var(--muted)",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name={name}
-                      value={p.id}
-                      checked={on}
-                      onChange={() => setId(p.id)}
-                      className="sr-only"
-                    />
+      {narrow ? (
+        <label className="block">
+          <span className="mb-2 block text-sm font-semibold text-[var(--muted)]">
+            {t({ en: "Credential path", ja: "認証情報の経路" })}
+          </span>
+          <select
+            value={id}
+            onChange={(e) => pick(e.target.value)}
+            className="min-h-11 w-full rounded-lg border border-[var(--line)] bg-[var(--surface)] px-3 text-base font-semibold"
+          >
+            {GROUPS.map((g) => (
+              <optgroup key={g.id} label={t(g.label)}>
+                {PATHS.filter((p) => p.group === g.id).map((p) => (
+                  <option key={p.id} value={p.id}>
                     {t(p.name)}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
-        ))}
-      </div>
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {GROUPS.map((g) => (
+            <fieldset key={g.id} className="min-w-0">
+              <legend className="mb-2 text-sm font-semibold text-[var(--muted)]">
+                {t(g.label)}
+              </legend>
+              <div className="flex flex-col gap-1.5">
+                {PATHS.filter((p) => p.group === g.id).map((p) => {
+                  const on = p.id === id;
+                  return (
+                    <label
+                      key={p.id}
+                      className="flex min-h-10 cursor-pointer items-center rounded-lg border px-3 py-1.5 text-sm font-semibold has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--sts)]"
+                      style={{
+                        borderColor: on ? "var(--sts)" : "var(--line)",
+                        background: on
+                          ? "color-mix(in oklab, var(--sts) 14%, var(--surface))"
+                          : "var(--surface)",
+                        color: on ? "var(--ink)" : "var(--muted)",
+                      }}
+                    >
+                      <input
+                        type="radio"
+                        name={name}
+                        value={p.id}
+                        checked={on}
+                        onChange={() => pick(p.id)}
+                        className="sr-only"
+                      />
+                      {t(p.name)}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          ))}
+        </div>
+      )}
 
-      <div className="mt-6 border-t border-[var(--line)] pt-6">
+      <div ref={detail} className="mt-6 scroll-mt-20 border-t border-[var(--line)] pt-6">
         <h3 className="text-2xl font-bold">{t(path.name)}</h3>
         <p className="prose-col mt-1 text-[var(--muted)]">{t(path.blurb)}</p>
         <PassStrip path={path} />
@@ -210,7 +246,7 @@ function WhoCallsMatrix() {
       }}
       hint={{
         en: "When an AWS service calls STS for you, your code never sees the call; it only sees where the keys were left.",
-        ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えない。見えるのはキーが置かれた場所だけ。",
+        ja: "AWS のサービスが代わりに呼ぶ経路では、あなたのコードから STS 呼び出しは見えません。見えるのはキーが置かれた場所だけ。",
       }}
     >
       <div tabIndex={0} className="scroll-x">
@@ -237,19 +273,19 @@ function WhoCallsMatrix() {
           <tbody>
             {PATHS.map((p) => (
               <tr key={p.id} className="border-b border-[var(--line)] align-top">
-                <th scope="row" className="py-2 pr-3 font-semibold">
+                <th scope="row" className="min-w-44 py-2 pr-3 font-semibold">
                   {t(p.name)}
                 </th>
-                <td className="py-2 pr-3">
+                <td className="min-w-32 py-2 pr-3">
                   <span
-                    className="inline-flex items-center gap-1.5 font-semibold"
+                    className="inline-flex items-center gap-1.5 font-semibold whitespace-nowrap"
                     style={{
                       color: p.stsCaller === "you" ? "var(--caller)" : "var(--role)",
                     }}
                   >
                     <span
                       aria-hidden
-                      className="size-2 rounded-full"
+                      className="size-2 shrink-0 rounded-full"
                       style={{
                         background:
                           p.stsCaller === "you" ? "var(--caller)" : "var(--role)",
@@ -313,7 +349,7 @@ function ChainLab() {
       }}
       hint={{
         en: "Each SDK walks a fixed list and stops at the first source that has credentials. Turn sources on and off to see what wins and what gets shadowed.",
-        ja: "SDK は決まった順番で探し、最初に見つかった認証情報で止まる。ソースを切り替えて、どれが勝ちどれが隠れるかを見てみる。",
+        ja: "SDK は決まった順番で探し、最初に見つかった認証情報で止まります。ソースを切り替えて、どれが勝ちどれが隠れるかを見てください。",
       }}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,20rem)_1fr]">
@@ -424,22 +460,22 @@ function ChainLab() {
             {r.winner
               ? t({
                   en: `${SDK_LABEL[sdk]} signs with ${PROVIDER_LABEL[r.winner].en.toLowerCase()}.`,
-                  ja: `${SDK_LABEL[sdk]} は「${PROVIDER_LABEL[r.winner].ja}」の認証情報で署名する。`,
+                  ja: `${SDK_LABEL[sdk]} は「${PROVIDER_LABEL[r.winner].ja}」の認証情報で署名します。`,
                 })
               : t({
                   en: `${SDK_LABEL[sdk]} finds nothing and the call fails with "Unable to locate credentials".`,
-                  ja: `${SDK_LABEL[sdk]} は何も見つけられず、「Unable to locate credentials」で失敗する。`,
+                  ja: `${SDK_LABEL[sdk]} は何も見つけられず、「Unable to locate credentials」で失敗します。`,
                 })}
             {r.shadowed.length > 0 &&
               t({
                 en: " The red rows also hold credentials but are never consulted: this is how a stale env var or a leftover IRSA setting silently wins.",
-                ja: " 赤い行にも認証情報はあるが、参照されない。古い環境変数や IRSA の設定の残りが、気づかないうちに勝ってしまうのはこのせい。",
+                ja: " 赤い行にも認証情報はありますが、参照されません。古い環境変数や IRSA の設定の残りが、気づかないうちに勝ってしまうのはこのせいです。",
               })}
           </p>
           <p className="mt-3 text-sm text-[var(--muted)]">
             {t({
               en: "Simplified: command-line options, code parameters and Java system properties come before everything shown. Java and Go read one profile in a single step, whatever it holds.",
-              ja: "簡略化している。コマンドラインオプション・コード内の引数・Java のシステムプロパティは、ここに出したものより常に先に来る。Java と Go はプロファイルの中身が何であれ 1 ステップで読む。",
+              ja: "簡略化しています。コマンドラインオプション・コード内の引数・Java のシステムプロパティは、ここに出したものより常に先に来ます。Java と Go はプロファイルの中身が何であれ 1 ステップで読みます。",
             })}{" "}
             <Src href="https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html">
               {t({ en: "SDK reference", ja: "SDK リファレンス" })}
