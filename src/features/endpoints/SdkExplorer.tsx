@@ -141,8 +141,8 @@ export function SdkExplorer() {
       <div className="mt-5 space-y-3">
         <More
           summary={{
-            en: "The 15 Regions that `legacy` sends to the global endpoint",
-            ja: "`legacy` がグローバルに送る 15 リージョン",
+            en: "The 15 Regions that legacy mode sends to the global endpoint",
+            ja: "legacy モードがグローバルに送る 15 リージョン",
           }}
         >
           <p className="flex flex-wrap gap-1.5">
@@ -217,7 +217,7 @@ export function SdkExplorer() {
           <p className="text-xs text-[var(--muted)]">
             {t({
               en: "From the AWS SDKs and Tools Reference Guide, corrected for the 2025-07-31 Boto3 1.40.0 and CLI v1 1.42.0 releases. The guide's own table still shows the old values for those two.",
-              ja: "AWS SDK とツールのリファレンスガイドの表を、2025-07-31 の Boto3 1.40.0 と CLI v1 1.42.0 のリリースに合わせて補正したもの。ガイド本体の表はこの 2 つについてまだ古い値のままです。",
+              ja: "AWS SDK とツールのリファレンスガイドの表を、2025-07-31 の Boto3 1.40.0 と CLI v1 1.42.0 のリリースに合わせて補正したものです。ガイド本体の表はこの 2 つについてまだ古い値のままです。",
             })}
           </p>
         </More>

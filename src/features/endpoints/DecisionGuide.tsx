@@ -85,7 +85,8 @@ export function DecisionGuide() {
             className="mt-1 font-mono text-lg font-semibold break-all"
             style={{ color: d.host ? "var(--sts)" : "var(--deny)" }}
           >
-            {d.host ?? t({ en: "No FIPS window here", ja: "ここに FIPS の窓口はない" })}
+            {d.host ??
+              t({ en: "No FIPS window here", ja: "ここに FIPS の窓口はありません" })}
           </div>
           <p className="mt-3 text-sm">{t(d.why)}</p>
         </div>

@@ -51,14 +51,14 @@ const WIDE: Geo = {
 
 const NARROW: Geo = {
   w: 360,
-  h: 560,
+  h: 420,
   boxW: 150,
-  boxH: 70,
-  station: (i) => ({ x: 270, y: 80 + i * 130 }),
-  caller: (i) => ({ x: 62, y: 80 + i * 130 }),
+  boxH: 64,
+  station: (i) => ({ x: 270, y: 54 + i * 102 }),
+  caller: (i) => ({ x: 62, y: 54 + i * 102 }),
   path: (from, to) => {
-    const a = 80 + from * 130;
-    const b = 80 + to * 130;
+    const a = 54 + from * 102;
+    const b = 54 + to * 102;
     return a === b ? `M110,${a} L190,${a}` : `M110,${a} L150,${a} L150,${b} L190,${b}`;
   },
 };
@@ -105,7 +105,10 @@ export function RouterSim() {
           value={era}
           onChange={setEra}
           options={[
-            { value: "before", label: { en: "Before Apr 2025", ja: "2025年4月より前" } },
+            {
+              value: "before",
+              label: { en: "Before Apr 2025", ja: "2025 年 4 月より前" },
+            },
             { value: "after", label: { en: "Since 2025-04-18", ja: "2025-04-18 以降" } },
           ]}
         />
@@ -120,7 +123,10 @@ export function RouterSim() {
             },
             {
               value: "regional",
-              label: { en: `sts.${c.region}…`, ja: `sts.${c.region}…` },
+              label: {
+                en: `sts.${c.region}.amazonaws.com`,
+                ja: `sts.${c.region}.amazonaws.com`,
+              },
             },
           ]}
         />
@@ -320,21 +326,27 @@ export function RouterSim() {
               <animateMotion dur="1.4s" repeatCount="indefinite" path={d} />
             </circle>
           )}
-          {/* Resolver tag at the bend */}
-          {!narrow && (
-            <text
-              x={g.caller(from).x + 30}
-              y={g.caller(from).y + 6}
-              fontSize={fs - 2}
-              fill="var(--muted)"
-            >
-              {r.resolver === "amazon"
-                ? t({ en: "resolved by Amazon DNS", ja: "Amazon DNS で解決" })
-                : c.inVpc
-                  ? t({ en: "resolved by custom DNS", ja: "独自 DNS で解決" })
-                  : t({ en: "resolved by your ISP", ja: "ISP の DNS で解決" })}
-            </text>
-          )}
+          {/* Resolver tag next to the caller; flips under the label at the east edge. */}
+          {!narrow &&
+            (() => {
+              const p = g.caller(from);
+              const edge = from === STATIONS.length - 1;
+              return (
+                <text
+                  x={edge ? p.x - 32 : p.x + 30}
+                  y={edge ? p.y + 24 : p.y + 6}
+                  textAnchor={edge ? "end" : "start"}
+                  fontSize={fs - 2}
+                  fill="var(--muted)"
+                >
+                  {r.resolver === "amazon"
+                    ? t({ en: "resolved by Amazon DNS", ja: "Amazon DNS で解決" })
+                    : c.inVpc
+                      ? t({ en: "resolved by custom DNS", ja: "独自 DNS で解決" })
+                      : t({ en: "resolved by your ISP", ja: "ISP の DNS で解決" })}
+                </text>
+              );
+            })()}
         </svg>
       </div>
 
@@ -386,7 +398,7 @@ export function RouterSim() {
             <span className="text-[var(--muted)]">
               {t({
                 en: "Not present (fields arrived with the April 2025 change)",
-                ja: "なし (2025年4月の変更で追加されたフィールド)",
+                ja: "なし (2025 年 4 月の変更で追加されたフィールドです)",
               })}
             </span>
           )}

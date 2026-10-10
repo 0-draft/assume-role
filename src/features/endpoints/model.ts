@@ -105,7 +105,7 @@ export function route(input: RouteInput): RouteResult {
           http: 403,
           message: {
             en: `STS is not activated in ${region} for the account that is being asked to generate credentials. Activate it in IAM, Account settings, Security Token Service (STS).`,
-            ja: `認証情報を発行するアカウントで ${region} の STS が無効化されています。IAM の「アカウント設定」→「Security Token Service (STS)」で有効化してください。`,
+            ja: `認証情報を発行するアカウントで ${region} の STS が無効化されています。IAM の「アカウント設定」にある「Security Token Service (STS)」で有効化してください。`,
           },
         };
     return {
@@ -122,7 +122,7 @@ export function route(input: RouteInput): RouteResult {
       tokenWorksInOptIn: true,
       quota: {
         en: `Regional bucket for ${region}: 600 requests/second per account, shared by AssumeRole, GetCallerIdentity, GetSessionToken and friends.`,
-        ja: `${region} のリージョナル枠: アカウントあたり 600 リクエスト/秒。AssumeRole や GetCallerIdentity、GetSessionToken などで共有。`,
+        ja: `${region} のリージョナル枠: アカウントあたり 600 リクエスト/秒。AssumeRole や GetCallerIdentity、GetSessionToken などで共有します。`,
       },
       error,
       warnings,
@@ -167,11 +167,11 @@ export function route(input: RouteInput): RouteResult {
     quota: servedLocally
       ? {
           en: `The global endpoint's own quota, not shared with Regional endpoints. Because this request originates in ${c.region}, that Region gets its own independent bucket.`,
-          ja: `グローバルエンドポイント専用の枠 (リージョナルとは共有しない)。${c.region} から来たリクエストなので、このリージョン用に独立した枠が割り当てられます。`,
+          ja: `グローバルエンドポイント専用の枠 (リージョナルとは共有しません)。${c.region} から来たリクエストなので、このリージョン用に独立した枠が割り当てられます。`,
         }
       : {
           en: "The global endpoint's own quota, not shared with Regional endpoints.",
-          ja: "グローバルエンドポイント専用の枠 (リージョナルとは共有しない)。",
+          ja: "グローバルエンドポイント専用の枠 (リージョナルとは共有しません)。",
         },
     error: null,
     warnings,

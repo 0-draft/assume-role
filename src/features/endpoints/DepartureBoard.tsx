@@ -3,11 +3,20 @@ import { useLang } from "@/i18n/useLang";
 import { Figure, Segmented } from "@/components/ui";
 import { canDeactivate, filterRegions, REGIONS, type RegionFilter } from "./regions";
 
+type Variant = "regional" | "dual" | "fips";
+
+const VARIANT_HEAD: Record<Variant, { en: string; ja: string }> = {
+  regional: { en: "Regional hostname", ja: "リージョナルのホスト名" },
+  dual: { en: "Dual-stack hostname", ja: "デュアルスタックのホスト名" },
+  fips: { en: "FIPS hostname", ja: "FIPS のホスト名" },
+};
+
 export function DepartureBoard() {
   const { t } = useLang();
   const inputId = useId();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<RegionFilter>("all");
+  const [variant, setVariant] = useState<Variant>("regional");
   const rows = filterRegions(query, filter);
 
   const th =
@@ -21,8 +30,8 @@ export function DepartureBoard() {
         ja: "全リージョンの窓口を一枚のボードに",
       }}
       hint={{
-        en: "All 34 commercial Regions as of 2026-10-10. Type to filter by code or name.",
-        ja: "2026-10-10 時点の商用 34 リージョン。コードや名前で絞り込めます。",
+        en: "All 34 commercial Regions as of 2026-10-10. Type to filter by code or name, and switch which hostname family the board shows.",
+        ja: "2026-10-10 時点の商用 34 リージョンです。コードや名前で絞り込み、表示するホスト名の種類を切り替えられます。",
       }}
     >
       <div className="flex flex-wrap items-end gap-4">
@@ -59,6 +68,16 @@ export function DepartureBoard() {
             { value: "fips", label: { en: "Has FIPS", ja: "FIPS あり" } },
           ]}
         />
+        <Segmented
+          label={{ en: "Hostname family", ja: "ホスト名の種類" }}
+          value={variant}
+          onChange={setVariant}
+          options={[
+            { value: "regional", label: { en: "Regional", ja: "リージョナル" } },
+            { value: "dual", label: { en: "Dual-stack", ja: "デュアルスタック" } },
+            { value: "fips", label: { en: "FIPS", ja: "FIPS" } },
+          ]}
+        />
       </div>
 
       <div
@@ -89,19 +108,13 @@ export function DepartureBoard() {
                 {t({ en: "Type", ja: "種別" })}
               </th>
               <th scope="col" className={th}>
-                {t({ en: "Regional", ja: "リージョナル" })}
-              </th>
-              <th scope="col" className={th}>
-                {t({ en: "Dual-stack", ja: "デュアルスタック" })}
-              </th>
-              <th scope="col" className={th}>
-                FIPS
+                {t(VARIANT_HEAD[variant])}
               </th>
               <th scope="col" className={th}>
                 {t({ en: "Can switch STS off", ja: "STS を無効化できる" })}
               </th>
               <th scope="col" className={th}>
-                {t({ en: "VPC endpoint in IAM list", ja: "IAM の VPCE 一覧" })}
+                {t({ en: "In IAM VPC endpoint list", ja: "IAM の VPCE 一覧" })}
               </th>
             </tr>
           </thead>
@@ -141,15 +154,21 @@ export function DepartureBoard() {
                       : t({ en: "default", ja: "デフォルト" })}
                   </span>
                 </td>
-                <td className={td}>sts.{r.code}.amazonaws.com</td>
-                <td className={td}>sts.{r.code}.api.aws</td>
                 <td className={td}>
-                  {r.fips ? (
-                    `sts-fips.${r.code}.amazonaws.com`
-                  ) : (
-                    <span className="text-[var(--muted)]">
-                      {t({ en: "none", ja: "なし" })}
+                  {variant === "fips" && !r.fips ? (
+                    <span className="font-sans text-[var(--muted)]">
+                      {t({ en: "none in this Region", ja: "このリージョンにはなし" })}
                     </span>
+                  ) : (
+                    <>
+                      <span className="text-[var(--muted)]">
+                        {variant === "fips" ? "sts-fips." : "sts."}
+                      </span>
+                      <span className="font-semibold text-[var(--sts)]">{r.code}</span>
+                      <span className="text-[var(--muted)]">
+                        {variant === "dual" ? ".api.aws" : ".amazonaws.com"}
+                      </span>
+                    </>
                   )}
                 </td>
                 <td className={`${td} font-sans`}>
@@ -172,12 +191,12 @@ export function DepartureBoard() {
             {rows.length === 0 && (
               <tr>
                 <td
-                  colSpan={8}
+                  colSpan={6}
                   className="px-3 py-6 text-center font-sans text-[var(--muted)]"
                 >
                   {t({
                     en: "No Region matches. Try a code like eu- or a city name.",
-                    ja: "該当なし。eu- のようなコードか都市名で探してください。",
+                    ja: "該当するリージョンはありません。eu- のようなコードか都市名で探してください。",
                   })}
                 </td>
               </tr>
@@ -188,7 +207,7 @@ export function DepartureBoard() {
       <p className="mt-3 text-xs text-[var(--muted)]">
         {t({
           en: `${rows.length} of ${REGIONS.length} shown. * Taipei and New Zealand are missing from the IAM table but present in the General Reference. "Not listed" may only mean the IAM page is stale: check with aws ec2 describe-vpc-endpoint-services.`,
-          ja: `${REGIONS.length} 件中 ${rows.length} 件を表示。* 台北とニュージーランドは IAM の表に載っていないが General Reference には載っている。「未掲載」は IAM のページが古いだけの可能性あり。aws ec2 describe-vpc-endpoint-services で確認を。`,
+          ja: `${REGIONS.length} 件中 ${rows.length} 件を表示しています。* 台北とニュージーランドは IAM の表に載っていませんが、General Reference には載っています。「未掲載」は IAM のページが古いだけかもしれません。aws ec2 describe-vpc-endpoint-services で確認してください。`,
         })}
       </p>
     </Figure>

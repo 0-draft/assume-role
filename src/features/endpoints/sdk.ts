@@ -39,7 +39,7 @@ export const TOOLS: Tool[] = [
     fallback: "global",
     note: {
       en: "Flipped to `regional` on 2025-07-31. AWS's SDK table and the CLI v1 docs still say `legacy`; the release announcement wins.",
-      ja: "2025-07-31 に `regional` へ変更。AWS の SDK 一覧表と CLI v1 のドキュメントはまだ `legacy` と書いているが、リリース告知のほうが正しい。",
+      ja: "2025-07-31 に `regional` へ変わりました。AWS の SDK 一覧表と CLI v1 のドキュメントはまだ `legacy` と書いていますが、リリース告知のほうが正しい情報です。",
     },
   },
   {
@@ -57,7 +57,7 @@ export const TOOLS: Tool[] = [
     fallback: "global",
     note: {
       en: "Flipped to `regional` on 2025-07-31. Allowlists that only permit sts.amazonaws.com break on upgrade.",
-      ja: "2025-07-31 に `regional` へ変更。sts.amazonaws.com しか許可していない許可リストはアップグレードで壊れる。",
+      ja: "2025-07-31 に `regional` へ変わりました。sts.amazonaws.com しか許可していない許可リストは、アップグレードで壊れます。",
     },
   },
   {
@@ -103,7 +103,7 @@ export const TOOLS: Tool[] = [
     fallback: "fail",
     note: {
       en: "With no Region, AWS's table says requests fail, except AssumeRole and AssumeRoleWithWebIdentity, which use the global endpoint.",
-      ja: "リージョン未設定だと失敗する。ただし AssumeRole と AssumeRoleWithWebIdentity だけはグローバルエンドポイントを使う (AWS の表より)。",
+      ja: "リージョン未設定だと失敗します。ただし AssumeRole と AssumeRoleWithWebIdentity だけはグローバルエンドポイントを使います (AWS の表より)。",
     },
   },
   {
@@ -163,7 +163,7 @@ export const TOOLS: Tool[] = [
     fallback: "fail",
     note: {
       en: "Switched to `regional` in the 2025-07-31 change; the exact first version is not documented (unverified).",
-      ja: "2025-07-31 の変更で `regional` に。切り替わった最初のバージョンは文書化されていない (未検証)。",
+      ja: "2025-07-31 の変更で `regional` になりました。切り替わった最初のバージョンは文書化されていません (未検証)。",
     },
   },
 ];
@@ -210,16 +210,16 @@ export function resolveSdk(
         tool.fallback === "fail"
           ? {
               en: "No Region configured: this SDK fails the request instead of guessing.",
-              ja: "リージョン未設定: この SDK は推測せずにリクエストを失敗させる。",
+              ja: "リージョン未設定: この SDK は推測せず、リクエストを失敗させます。",
             }
           : tool.fallback === "global"
             ? {
                 en: "No Region configured: this tool silently falls back to the global endpoint.",
-                ja: "リージョン未設定: このツールは黙ってグローバルエンドポイントに落ちる。",
+                ja: "リージョン未設定: このツールは黙ってグローバルエンドポイントを使います。",
               }
             : {
                 en: "No Region configured: this SDK silently falls back to us-east-1.",
-                ja: "リージョン未設定: この SDK は黙って us-east-1 に落ちる。",
+                ja: "リージョン未設定: この SDK は黙って us-east-1 を使います。",
               },
     };
   }
@@ -231,7 +231,7 @@ export function resolveSdk(
       ignoredSetting,
       why: {
         en: "The pseudo-Region `aws-global` always means the global endpoint.",
-        ja: "疑似リージョン `aws-global` は常にグローバルエンドポイントを意味する。",
+        ja: "疑似リージョン `aws-global` は常にグローバルエンドポイントを指します。",
       },
     };
 
@@ -242,7 +242,7 @@ export function resolveSdk(
       ignoredSetting,
       why: {
         en: `\`legacy\` mode, and ${region} is on the fixed list of 15 Regions that legacy sends to the global endpoint.`,
-        ja: `\`legacy\` モードで、${region} は legacy がグローバルに送る固定の 15 リージョンに含まれる。`,
+        ja: `\`legacy\` モードで、${region} は、legacy がグローバルに送る固定の 15 リージョンに含まれます。`,
       },
     };
 
@@ -254,11 +254,11 @@ export function resolveSdk(
       mode === "legacy"
         ? {
             en: `\`legacy\` mode, but ${region} is not on the legacy list, so it goes Regional anyway.`,
-            ja: `\`legacy\` モードだが ${region} は legacy の一覧に入っていないので、結局リージョナルに行く。`,
+            ja: `\`legacy\` モードだが ${region} は legacy の一覧に入っていないので、結局リージョナルに行きます。`,
           }
         : {
             en: "`regional` mode: the endpoint of the configured Region.",
-            ja: "`regional` モード: 設定されたリージョンのエンドポイント。",
+            ja: "`regional` モード: 設定されたリージョンのエンドポイントを使います。",
           },
   };
 }

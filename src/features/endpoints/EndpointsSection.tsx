@@ -17,7 +17,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "Global (legacy)", ja: "グローバル (レガシー)" },
     note: {
       en: "One name, no Region. Logged in us-east-1. IPv4 only.",
-      ja: "リージョンなしの 1 つの名前。記録は us-east-1。IPv4 のみ。",
+      ja: "リージョンなしの 1 つの名前です。記録は us-east-1、IPv4 のみ。",
     },
     color: "var(--caller)",
   },
@@ -26,14 +26,17 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "Regional", ja: "リージョナル" },
     note: {
       en: "One per Region. What AWS recommends.",
-      ja: "リージョンごとに 1 つ。AWS 推奨。",
+      ja: "リージョンごとに 1 つあります。AWS の推奨です。",
     },
     color: "var(--sts)",
   },
   {
     host: "sts.<region>.api.aws",
     name: { en: "Dual-stack", ja: "デュアルスタック" },
-    note: { en: "IPv4 + IPv6, since 2025-11-21.", ja: "IPv4 + IPv6。2025-11-21 から。" },
+    note: {
+      en: "IPv4 + IPv6, since 2025-11-21.",
+      ja: "IPv4 と IPv6 の両方に対応。2025-11-21 からです。",
+    },
     color: "var(--resource)",
   },
   {
@@ -41,7 +44,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "FIPS", ja: "FIPS" },
     note: {
       en: "Six US and Canada Regions only (plus a dual-stack twin).",
-      ja: "米国・カナダの 6 リージョンだけ (デュアルスタック版もあり)。",
+      ja: "米国とカナダの 6 リージョンだけです (デュアルスタック版もあります)。",
     },
     color: "var(--idp)",
   },
@@ -50,7 +53,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "VPC endpoint", ja: "VPC エンドポイント" },
     note: {
       en: "PrivateLink. Same Regional name, private IPs.",
-      ja: "PrivateLink。名前はリージョナルと同じで、IP がプライベート。",
+      ja: "PrivateLink です。名前はリージョナルと同じで、IP がプライベートになります。",
     },
     color: "var(--role)",
   },
@@ -59,7 +62,7 @@ const WINDOWS: { host: string; name: L; note: L; color: string }[] = [
     name: { en: "Other partitions", ja: "他のパーティション" },
     note: {
       en: "China, GovCloud, ESC: Regional only, own DNS suffix.",
-      ja: "中国・GovCloud・ESC はリージョナルのみ。DNS サフィックスが別。",
+      ja: "中国、GovCloud、ESC はリージョナルのみで、DNS サフィックスも別です。",
     },
     color: "var(--muted)",
   },
@@ -80,26 +83,37 @@ export function EndpointsSection() {
         ja: "STS の API は 1 つですが、入口はグローバルのホスト名、リージョンごとのホスト名、FIPS や IPv6 の別名、VPC のプライベートエンドポイント、別パーティションと何通りもあります。どれを叩くかで、処理されるリージョン、ログが残る場所、トークンが使える範囲が変わります。",
       }}
     >
-      <div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" role="list">
-          {WINDOWS.map((w) => (
+      <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {WINDOWS.map((w, i) => (
+          <li
+            key={w.host}
+            className="guilloche relative flex flex-col overflow-hidden rounded-t-2xl rounded-b-md border-2 border-b-0"
+            style={{ borderColor: w.color }}
+          >
             <div
-              key={w.host}
-              role="listitem"
-              className="flex overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--surface)]"
+              className="flex items-baseline justify-between gap-2 px-3 py-1.5 text-[var(--on-color)]"
+              style={{ background: w.color }}
             >
-              <div className="w-2 shrink-0" style={{ background: w.color }} aria-hidden />
-              <div className="min-w-0 p-3">
-                <div className="text-sm font-bold" style={{ color: w.color }}>
-                  {t(w.name)}
-                </div>
-                <div className="mt-0.5 font-mono text-[0.8rem] break-all">{w.host}</div>
-                <div className="mt-1 text-xs text-[var(--muted)]">{t(w.note)}</div>
-              </div>
+              <span className="text-sm font-bold">{t(w.name)}</span>
+              <span className="font-mono text-xs font-semibold tabular-nums">
+                {t({ en: "Window", ja: "窓口" })} {i + 1}
+              </span>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="flex-1 px-3 pt-3 pb-2">
+              <div className="font-mono text-[0.8rem] font-semibold break-all">
+                {w.host}
+              </div>
+              <div className="mt-1.5 text-xs text-[var(--muted)]">{t(w.note)}</div>
+            </div>
+            {/* The counter: a perforated sill under each window. */}
+            <div
+              aria-hidden
+              className="h-2.5 border-t-2 border-dashed bg-[var(--sunk)]"
+              style={{ borderColor: w.color }}
+            />
+          </li>
+        ))}
+      </ol>
 
       <P>
         {{
@@ -113,7 +127,7 @@ export function EndpointsSection() {
       <Callout kind="new">
         {{
           en: "What the 2025 change did **not** change: CloudTrail still logs global calls in `us-east-1`, `aws:RequestedRegion` is still `us-east-1`, opt-in Regions and non-Amazon DNS still go to N. Virginia, the global endpoint still bypasses VPC endpoints, and it still has no IPv6.",
-          ja: "2025 年の変更で**変わらなかった**こと: グローバル呼び出しの CloudTrail 記録先は `us-east-1` のまま、`aws:RequestedRegion` も `us-east-1` のまま。オプトインリージョンや Amazon 以外の DNS からは今もバージニア北部行き。VPC エンドポイントは素通りし、IPv6 も非対応のまま。",
+          ja: "2025 年の変更で**変わらなかった**ことがあります。グローバル呼び出しの CloudTrail の記録先は `us-east-1` のままで、`aws:RequestedRegion` も `us-east-1` のままです。オプトインリージョンや Amazon 以外の DNS からは今もバージニア北部に向かいます。VPC エンドポイントは通らず、IPv6 にも対応していません。",
         }}
       </Callout>
 
@@ -126,7 +140,7 @@ export function EndpointsSection() {
         }}
         hint={{
           en: "Two account-level switches in IAM, Account settings, Security Token Service (STS).",
-          ja: "IAM の「アカウント設定」→「Security Token Service (STS)」にある、アカウント単位のスイッチ 2 つ。",
+          ja: "IAM の「アカウント設定」にある「Security Token Service (STS)」の、アカウント単位のスイッチ 2 つです。",
         }}
       >
         <div className="grid gap-6 md:grid-cols-2">
@@ -138,19 +152,19 @@ export function EndpointsSection() {
               {[
                 {
                   en: "Default-enabled Regions: on by default, can be switched off. Exceptions: `us-east-1` and the global endpoint can never be switched off.",
-                  ja: "デフォルト有効リージョン: 既定でオン、オフにもできる。ただし `us-east-1` とグローバルエンドポイントはオフにできない。",
+                  ja: "デフォルト有効リージョンは既定でオンで、オフにもできます。ただし `us-east-1` とグローバルエンドポイントはオフにできません。",
                 },
                 {
                   en: "Opt-in Regions: STS turns on when you enable the Region and cannot be switched off.",
-                  ja: "オプトインリージョン: リージョンを有効化すると STS もオンになり、オフにはできない。",
+                  ja: "オプトインリージョンは、リージョンを有効化すると STS もオンになり、オフにはできません。",
                 },
                 {
                   en: "The switch that matters is in the account that **issues** the credentials (the role's account), not the caller's.",
-                  ja: "効くのは認証情報を**発行する**側 (ロールのある) アカウントの設定で、呼び出し側ではない。",
+                  ja: "効くのは認証情報を**発行する**側 (ロールのある) アカウントの設定です。呼び出し側の設定ではありません。",
                 },
                 {
                   en: "Off means `RegionDisabledException` (HTTP 403) from AssumeRole*, AssumeRoot, GetFederationToken, GetSessionToken and GetDelegatedAccessToken in that Region.",
-                  ja: "オフにすると、そのリージョンの AssumeRole* / AssumeRoot / GetFederationToken / GetSessionToken / GetDelegatedAccessToken が `RegionDisabledException` (HTTP 403) を返す。",
+                  ja: "オフにすると、そのリージョンの AssumeRole* / AssumeRoot / GetFederationToken / GetSessionToken / GetDelegatedAccessToken が `RegionDisabledException` (HTTP 403) を返します。",
                 },
               ].map((x, i) => (
                 <li key={i} className="flex gap-2">
@@ -176,12 +190,12 @@ export function EndpointsSection() {
               <div className="rounded-xl border-2 border-[var(--caller)] p-3">
                 <div className="font-mono font-semibold">v1Token</div>
                 <div className="mt-1 text-xs text-[var(--muted)]">
-                  {t({ en: "Default. Shorter.", ja: "既定。短い。" })}
+                  {t({ en: "Default. Shorter.", ja: "既定値です。短め。" })}
                 </div>
                 <div className="mt-2">
                   {t({
                     en: "Valid only in Regions enabled by default. Fails in opt-in Regions such as Hong Kong.",
-                    ja: "デフォルト有効リージョンでのみ有効。香港などのオプトインリージョンでは失敗する。",
+                    ja: "デフォルト有効リージョンでのみ使えます。香港などのオプトインリージョンでは失敗します。",
                   })}
                 </div>
               </div>
@@ -190,18 +204,18 @@ export function EndpointsSection() {
                 <div className="mt-1 text-xs text-[var(--muted)]">
                   {t({
                     en: "Opt in per account. Longer.",
-                    ja: "アカウント単位で選択。長い。",
+                    ja: "アカウント単位で選びます。長め。",
                   })}
                 </div>
                 <div className="mt-2">
-                  {t({ en: "Valid in every Region.", ja: "全リージョンで有効。" })}
+                  {t({ en: "Valid in every Region.", ja: "全リージョンで使えます。" })}
                 </div>
               </div>
             </div>
             <p className="text-sm text-[var(--muted)]">
               {t({
                 en: "This setting only affects tokens from the global endpoint. Regional endpoints always issue tokens that work everywhere. AWS publishes no fixed byte length for either version, so never store tokens in fixed-width columns.",
-                ja: "この設定が効くのはグローバルが発行するトークンだけ。リージョナルが出すトークンは常にどこでも使える。どちらのバージョンも長さは公表されていないので、固定長カラムに保存しないこと。",
+                ja: "この設定が効くのはグローバルが発行するトークンだけです。リージョナルが出すトークンは常にどこでも使えます。どちらのバージョンも長さは公表されていないので、固定長のカラムには保存しないでください。",
               })}
             </p>
             <Code label="bash">{`aws iam set-security-token-service-preferences \\
@@ -232,48 +246,48 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
             ja: "エンドポイントでハマる 4 つのパターン",
           })}
         </h3>
-        <Callout kind="warn">
-          {{
-            en: "**Region-deny policies block global STS.** Global calls always carry `aws:RequestedRegion = us-east-1`. The IAM User Guide's sample Region-deny policy exempts `cloudfront:*`, `iam:*`, `organizations:*`, `route53:*` and `support:*`, but not `sts:*`. Copy it into an EU-only SCP and `sts:AssumeRole` sent to `sts.amazonaws.com` is denied. (Control Tower's Region-deny SCP does exempt `sts:*`.) Better fix: move callers to Regional endpoints in allowed Regions.",
-            ja: "**リージョン制限ポリシーがグローバル STS を止める。** グローバル呼び出しは常に `aws:RequestedRegion = us-east-1`。IAM ユーザーガイドのサンプル (リージョン制限ポリシー) は `cloudfront:*`・`iam:*`・`organizations:*`・`route53:*`・`support:*` を除外しているが `sts:*` は除外していない。これを EU 限定の SCP に流用すると `sts.amazonaws.com` への `sts:AssumeRole` が拒否される (Control Tower のリージョン拒否 SCP は `sts:*` を除外している)。根本対策は呼び出し側を許可リージョンのリージョナルに移すこと。",
-          }}
-        </Callout>
-        <Callout kind="warn">
-          {{
-            en: "**A VPC endpoint policy keyed only on aws:PrincipalOrgID breaks federation.** AssumeRoleWithSAML and AssumeRoleWithWebIdentity carry no principal keys, so GitHub Actions OIDC, IRSA and SAML are implicitly denied. Add a statement for those two actions conditioned on `aws:ResourceOrgID` or `aws:ResourceAccount`.",
-            ja: "**aws:PrincipalOrgID だけで絞った VPC エンドポイントポリシーはフェデレーションを壊す。** AssumeRoleWithSAML と AssumeRoleWithWebIdentity にはプリンシパル系のキーが付かないため、GitHub Actions の OIDC や IRSA、SAML が暗黙的に拒否される。この 2 アクション用に `aws:ResourceOrgID` か `aws:ResourceAccount` で絞るステートメントを足す。",
-          }}
-        </Callout>
-        <Callout kind="warn">
-          {{
-            en: "**The global endpoint bypasses VPC endpoints.** Private DNS only rewrites the Regional hostname. A workload with no internet egress that still calls `sts.amazonaws.com` fails even though an STS VPC endpoint exists, before and after the 2025 change.",
-            ja: "**グローバルエンドポイントは VPC エンドポイントを素通りする。** プライベート DNS が書き換えるのはリージョナルのホスト名だけ。STS の VPC エンドポイントがあっても、出口のない VPC から `sts.amazonaws.com` を呼べば失敗する。2025 年の変更後も同じ。",
-          }}
-        </Callout>
-        <Callout kind="warn">
-          {{
-            en: '**EKS IRSA needs an annotation, then new Pods.** Setting the service-account annotation `sts-regional-endpoints` (prefix `eks.amazonaws.com/`) to `"true"` makes the Pod identity webhook inject `AWS_STS_REGIONAL_ENDPOINTS`. Existing Pods keep the old value until they are re-created.',
-            ja: '**EKS の IRSA はアノテーションのあと Pod の作り直しが要る。** サービスアカウントのアノテーション `sts-regional-endpoints` (接頭辞 `eks.amazonaws.com/`) を `"true"` にすると、Pod Identity Webhook が `AWS_STS_REGIONAL_ENDPOINTS` を注入する。既存の Pod は作り直すまで古い値のまま。',
-          }}
-        </Callout>
+        <ol className="space-y-2">
+          {PITFALLS.map((p, i) => (
+            <li key={i}>
+              <details className="group rounded-xl border border-l-4 border-[var(--line)] border-l-[var(--deny)] bg-[var(--surface)]">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 px-4 py-2.5 [&::-webkit-details-marker]:hidden">
+                  <span
+                    aria-hidden
+                    className="font-display text-lg font-bold text-[var(--deny)] tabular-nums"
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="flex-1 font-semibold">{rich(t(p.head))}</span>
+                  <span
+                    aria-hidden
+                    className="text-sm text-[var(--muted)] transition-transform group-open:rotate-90"
+                  >
+                    ▸
+                  </span>
+                </summary>
+                <p className="prose-col px-4 pb-3 pl-11 text-sm">{rich(t(p.body))}</p>
+              </details>
+            </li>
+          ))}
+        </ol>
         <More summary={{ en: "More endpoint pitfalls", ja: "その他の落とし穴" }}>
           <ul className="space-y-2 text-sm">
             {[
               {
                 en: "Upgrading to Boto3 1.40.0+ or CLI v1 1.42.0+ moves traffic from `sts.amazonaws.com` to Regional hostnames. Egress allowlists that only allow the global name break.",
-                ja: "Boto3 1.40.0 以降や CLI v1 1.42.0 以降に上げると通信先が `sts.amazonaws.com` からリージョナルに変わる。グローバルの名前しか許可していない出口制御は壊れる。",
+                ja: "Boto3 1.40.0 以降や CLI v1 1.42.0 以降に上げると通信先が `sts.amazonaws.com` からリージョナルに変わります。グローバルの名前しか許可していない出口制御は壊れます。",
               },
               {
                 en: "Switching to Regional changes `aws:RequestedRegion` from `us-east-1` to the real Region, which can start matching deny statements that never fired before.",
-                ja: "リージョナルに切り替えると `aws:RequestedRegion` が `us-east-1` から実際のリージョンに変わり、今まで発火しなかった Deny に引っかかることがある。",
+                ja: "リージョナルに切り替えると `aws:RequestedRegion` が `us-east-1` から実際のリージョンに変わり、今まで発火しなかった Deny に引っかかることがあります。",
               },
               {
                 en: 'Single-Region trails or Region-filtered detections miss global calls, which land in `us-east-1`. To find them, filter CloudTrail for `endpointType` = `global` under additionalEventData.RequestDetails; Trusted Advisor\'s free "STS global endpoint" check also flags them.',
-                ja: "単一リージョンの証跡やリージョンで絞った検知は、`us-east-1` に落ちるグローバル呼び出しを見逃す。探すなら additionalEventData.RequestDetails の `endpointType` が `global` のイベントを絞り込む。Trusted Advisor の無料チェック「STS global endpoint」でも見つかる。",
+                ja: "単一リージョンの証跡やリージョンで絞った検知は、`us-east-1` に記録されるグローバル呼び出しを見逃します。探すなら additionalEventData.RequestDetails の `endpointType` が `global` のイベントを絞り込みます。Trusted Advisor の無料チェック「STS global endpoint」でも見つかります。",
               },
               {
                 en: "Under IRSA, switching the STS endpoint type also changes the shape of pre-signed S3 URLs (`bucket.s3.<region>.amazonaws.com` vs `bucket.s3.amazonaws.com`).",
-                ja: "IRSA では STS エンドポイントの種類を変えると、S3 の署名付き URL の形 (`bucket.s3.<region>.amazonaws.com` か `bucket.s3.amazonaws.com` か) も変わる。",
+                ja: "IRSA では STS エンドポイントの種類を変えると、S3 の署名付き URL の形 (`bucket.s3.<region>.amazonaws.com` か `bucket.s3.amazonaws.com` か) も変わります。",
               },
             ].map((x, i) => (
               <li key={i} className="flex gap-2">
@@ -337,6 +351,50 @@ sts_regional_endpoints = regional   # read by CLI v1, Boto3, JS v2, Go v1, Java 
     </Section>
   );
 }
+
+/** Each pitfall leads with the one-line symptom; the explanation opens on demand. */
+const PITFALLS: { head: L; body: L }[] = [
+  {
+    head: {
+      en: "A Region-deny policy blocks the global endpoint",
+      ja: "リージョン制限ポリシーがグローバルエンドポイントを止める",
+    },
+    body: {
+      en: "Global calls always carry `aws:RequestedRegion = us-east-1`. The IAM User Guide's sample Region-deny policy exempts `cloudfront:*`, `iam:*`, `organizations:*`, `route53:*` and `support:*`, but not `sts:*`. Copy it into an EU-only SCP and `sts:AssumeRole` sent to `sts.amazonaws.com` is denied. (Control Tower's Region-deny SCP does exempt `sts:*`.) The better fix is to move callers to Regional endpoints in allowed Regions.",
+      ja: "グローバル呼び出しの `aws:RequestedRegion` は常に `us-east-1` です。IAM ユーザーガイドにあるリージョン制限ポリシーのサンプルは `cloudfront:*`、`iam:*`、`organizations:*`、`route53:*`、`support:*` を除外していますが、`sts:*` は除外していません。これを EU 限定の SCP に流用すると、`sts.amazonaws.com` への `sts:AssumeRole` が拒否されます (Control Tower のリージョン拒否 SCP は `sts:*` を除外しています)。根本的には、呼び出し側を許可リージョンのリージョナルエンドポイントに移すのが確実です。",
+    },
+  },
+  {
+    head: {
+      en: "A VPC endpoint policy on `aws:PrincipalOrgID` breaks OIDC and SAML",
+      ja: "`aws:PrincipalOrgID` だけの VPC エンドポイントポリシーで OIDC と SAML が壊れる",
+    },
+    body: {
+      en: "AssumeRoleWithSAML and AssumeRoleWithWebIdentity are unsigned, so they carry no principal keys. GitHub Actions OIDC, IRSA and SAML are implicitly denied. Add a statement for those two actions conditioned on `aws:ResourceOrgID` or `aws:ResourceAccount`.",
+      ja: "AssumeRoleWithSAML と AssumeRoleWithWebIdentity は署名なしで呼ばれるため、プリンシパル系のキーが付きません。そのため GitHub Actions の OIDC、IRSA、SAML が暗黙的に拒否されます。この 2 つのアクション向けに、`aws:ResourceOrgID` か `aws:ResourceAccount` で絞るステートメントを追加してください。",
+    },
+  },
+  {
+    head: {
+      en: "The global endpoint skips your VPC endpoint",
+      ja: "グローバルエンドポイントは VPC エンドポイントを通らない",
+    },
+    body: {
+      en: "Private DNS only rewrites the Regional hostname. A workload with no internet egress that still calls `sts.amazonaws.com` fails even though an STS VPC endpoint exists, before and after the 2025 change.",
+      ja: "プライベート DNS が書き換えるのはリージョナルのホスト名だけです。STS の VPC エンドポイントがあっても、インターネットへの出口がない VPC から `sts.amazonaws.com` を呼ぶと失敗します。2025 年の変更後も同じです。",
+    },
+  },
+  {
+    head: {
+      en: "IRSA picks up the Regional setting only in new Pods",
+      ja: "IRSA のリージョナル設定は新しい Pod にしか反映されない",
+    },
+    body: {
+      en: 'Setting the service-account annotation `sts-regional-endpoints` (prefix `eks.amazonaws.com/`) to `"true"` makes the Pod identity webhook inject `AWS_STS_REGIONAL_ENDPOINTS`. Existing Pods keep the old value until they are re-created.',
+      ja: 'サービスアカウントのアノテーション `sts-regional-endpoints` (接頭辞 `eks.amazonaws.com/`) を `"true"` にすると、Pod Identity Webhook が `AWS_STS_REGIONAL_ENDPOINTS` を注入します。既存の Pod は作り直すまで古い値のままです。',
+    },
+  },
+];
 
 function RichText({ copy }: { copy: L }) {
   const { t } = useLang();

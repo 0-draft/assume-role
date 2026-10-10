@@ -113,7 +113,7 @@ export function buildHostname(
           kind: "suffix",
           note: {
             en: "No Region in the name: that's what makes it global",
-            ja: "リージョン名が入らない。だから「グローバル」",
+            ja: "リージョン名が入らないので「グローバル」です",
           },
         },
       ];
@@ -124,11 +124,11 @@ export function buildHostname(
         notes: [
           {
             en: "IPv4 only. Cannot be deactivated. Always logged to CloudTrail in us-east-1, and `aws:RequestedRegion` is always `us-east-1`.",
-            ja: "IPv4 のみ。無効化できない。CloudTrail は常に us-east-1 に記録され、`aws:RequestedRegion` も常に `us-east-1`。",
+            ja: "IPv4 のみで、無効化できません。CloudTrail は常に us-east-1 に記録され、`aws:RequestedRegion` も常に `us-east-1` です。",
           },
           {
             en: "Not reachable through an STS VPC endpoint: the global endpoint bypasses it.",
-            ja: "STS の VPC エンドポイント経由では届かない (グローバルはバイパスする)。",
+            ja: "STS の VPC エンドポイント経由では届きません (グローバルは VPC エンドポイントを通りません)。",
           },
         ],
       };
@@ -139,12 +139,12 @@ export function buildHostname(
       if (partitionId === "aws-us-gov")
         notes.push({
           en: "In GovCloud the standard endpoint is itself the FIPS endpoint.",
-          ja: "GovCloud では標準エンドポイントがそのまま FIPS エンドポイント。",
+          ja: "GovCloud では標準エンドポイントがそのまま FIPS エンドポイントです。",
         });
       if (commercial)
         notes.push({
           en: "Recommended by AWS. Tokens it issues are valid in every Region.",
-          ja: "AWS 推奨。発行されたトークンは全リージョンで有効。",
+          ja: "AWS の推奨です。発行されたトークンは全リージョンで使えます。",
         });
       return { kind: "ok", host: join(segments), segments, notes };
     }
@@ -157,7 +157,7 @@ export function buildHostname(
       const notes: L[] = [
         {
           en: "Dual-stack (IPv4 + IPv6) endpoints launched on 2025-11-21. If policies use `aws:SourceIp`, add your IPv6 ranges first.",
-          ja: "デュアルスタック (IPv4 + IPv6) は 2025-11-21 に提供開始。`aws:SourceIp` を使うポリシーは先に IPv6 レンジを足すこと。",
+          ja: "デュアルスタック (IPv4 + IPv6) は 2025-11-21 に提供が始まりました。`aws:SourceIp` を使うポリシーには、先に IPv6 のレンジを足してください。",
         },
       ];
       if (p.dualStackUnverified)
@@ -187,7 +187,7 @@ export function buildHostname(
           notes: [
             {
               en: "No `sts-fips` prefix here: in GovCloud the standard endpoint is the FIPS endpoint.",
-              ja: "`sts-fips` は付かない。GovCloud では標準エンドポイントが FIPS エンドポイント。",
+              ja: "`sts-fips` は付きません。GovCloud では標準エンドポイントがそのまま FIPS エンドポイントです。",
             },
           ],
         };
@@ -213,7 +213,7 @@ export function buildHostname(
           kind: "none",
           reason: {
             en: `FIPS STS endpoints exist only in us-east-1, us-east-2, us-west-1, us-west-2, ca-central-1 and ca-west-1. With use_fips_endpoint on, the SDK still builds the name below and the call fails.`,
-            ja: `FIPS の STS エンドポイントは us-east-1 / us-east-2 / us-west-1 / us-west-2 / ca-central-1 / ca-west-1 だけ。use_fips_endpoint を有効にすると SDK は下の名前を組み立ててしまい、呼び出しは失敗します。`,
+            ja: `FIPS の STS エンドポイントは us-east-1 / us-east-2 / us-west-1 / us-west-2 / ca-central-1 / ca-west-1 だけです。use_fips_endpoint を有効にすると SDK は下の名前を組み立ててしまい、呼び出しは失敗します。`,
           },
           sdkWouldBuild: wouldBuild,
         };
@@ -229,7 +229,7 @@ export function buildHostname(
         notes: [
           {
             en: "Turn on with `use_fips_endpoint` / `AWS_USE_FIPS_ENDPOINT`.",
-            ja: "`use_fips_endpoint` / `AWS_USE_FIPS_ENDPOINT` で有効化。",
+            ja: "`use_fips_endpoint` か `AWS_USE_FIPS_ENDPOINT` で有効にします。",
           },
         ],
       };
@@ -248,17 +248,17 @@ export function buildHostname(
       const notes: L[] = [
         {
           en: `Same name as the Regional endpoint. With private DNS on, it resolves to the interface endpoint's private IPs (service \`com.amazonaws.${region}.sts\`).`,
-          ja: `名前はリージョナルと同じ。プライベート DNS を有効にすると、インターフェースエンドポイントのプライベート IP に解決される (サービス名 \`com.amazonaws.${region}.sts\`)。`,
+          ja: `名前はリージョナルと同じです。プライベート DNS を有効にすると、インターフェースエンドポイントのプライベート IP に解決されます (サービス名 \`com.amazonaws.${region}.sts\`)。`,
         },
         {
           en: "Only the Regional hostname is intercepted. `sts.amazonaws.com` bypasses the VPC endpoint.",
-          ja: "横取りされるのはリージョナルのホスト名だけ。`sts.amazonaws.com` は VPC エンドポイントを素通りする。",
+          ja: "書き換わるのはリージョナルのホスト名だけです。`sts.amazonaws.com` は VPC エンドポイントを通りません。",
         },
       ];
       if (!reg.vpceListed)
         notes.push({
           en: "This Region is not in the IAM guide's STS VPC endpoint list (unverified; the list may be stale). Check with `aws ec2 describe-vpc-endpoint-services`.",
-          ja: "このリージョンは IAM ガイドの STS VPC エンドポイント一覧に載っていません (未検証、一覧が古い可能性あり)。`aws ec2 describe-vpc-endpoint-services` で確認を。",
+          ja: "このリージョンは IAM ガイドの STS VPC エンドポイント一覧に載っていません (未検証、一覧が古い可能性あり)。`aws ec2 describe-vpc-endpoint-services` で確認してください。",
         });
       return { kind: "ok", host: join(segments), segments, notes };
     }
