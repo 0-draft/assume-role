@@ -34,7 +34,7 @@ export const SCENARIOS: Scenario[] = [
     label: { en: "Cross-account AssumeRole", ja: "クロスアカウント AssumeRole" },
     summary: {
       en: "One call, two records: one in each account, joined by the same sharedEventID.",
-      ja: "1 回の呼び出しで記録は 2 件。両方のアカウントに 1 件ずつ、同じ sharedEventID で結び付く。",
+      ja: "1 回の呼び出しで記録は 2 件残ります。両方のアカウントに 1 件ずつで、同じ sharedEventID で結び付きます。",
     },
     callerAccount: CALLER,
     roleAccount: ROLE,
@@ -105,7 +105,7 @@ export const SCENARIOS: Scenario[] = [
     label: { en: "Denied cross-account call", ja: "拒否されたクロスアカウント呼び出し" },
     summary: {
       en: "The role owner sees nothing. A denied cross-account AssumeRole is logged only in the caller's account.",
-      ja: "ロールの持ち主には何も見えない。拒否されたクロスアカウントの AssumeRole は呼び出し側アカウントにしか記録されない。",
+      ja: "ロールの持ち主には何も見えません。拒否されたクロスアカウントの AssumeRole は、呼び出し側のアカウントにしか記録されません。",
     },
     callerAccount: CALLER,
     roleAccount: ROLE,
@@ -135,7 +135,7 @@ export const SCENARIOS: Scenario[] = [
     ],
     missingNote: {
       en: "Nothing here. CloudTrail does not log denied cross-account role assumptions (or AssumeRoot) in the target account, which also means role-name probing is invisible to you.",
-      ja: "何も残らない。拒否されたクロスアカウントのロール引き受け (と AssumeRoot) は対象アカウントに記録されない。つまりロール名の探り打ちもあなたからは見えない。",
+      ja: "何も残りません。拒否されたクロスアカウントのロール引き受け (と AssumeRoot) は対象アカウントに記録されないので、ロール名の探り打ちもあなたからは見えません。",
     },
   },
   {
@@ -146,7 +146,7 @@ export const SCENARIOS: Scenario[] = [
     },
     summary: {
       en: "Called sts.amazonaws.com from eu-north-1. Served in eu-north-1, but the record is delivered to us-east-1.",
-      ja: "eu-north-1 から sts.amazonaws.com を呼んだ。処理は eu-north-1 だが、記録が届くのは us-east-1。",
+      ja: "eu-north-1 から sts.amazonaws.com を呼んだ例です。処理は eu-north-1 ですが、記録が届くのは us-east-1 です。",
     },
     callerAccount: CALLER,
     roleAccount: CALLER,
@@ -177,7 +177,7 @@ export const SCENARIOS: Scenario[] = [
     label: { en: "GitHub Actions (OIDC)", ja: "GitHub Actions (OIDC)" },
     summary: {
       en: "AssumeRoleWithWebIdentity is unsigned, so there is no caller account: only the role account logs it, with the GitHub subject.",
-      ja: "AssumeRoleWithWebIdentity は署名なしなので呼び出し側アカウントが無い。記録はロール側だけで、GitHub の subject が残る。",
+      ja: "AssumeRoleWithWebIdentity は署名なしなので、呼び出し側のアカウントがありません。記録はロール側だけで、GitHub の subject が残ります。",
     },
     callerAccount: "GitHub",
     roleAccount: ROLE,
@@ -216,7 +216,7 @@ export const SCENARIOS: Scenario[] = [
     ],
     missingNote: {
       en: "There is no AWS caller account. The request came from a GitHub runner holding a JWT, not from AWS credentials.",
-      ja: "AWS 上の呼び出し側アカウントは存在しない。リクエストは AWS の認証情報ではなく JWT を持った GitHub ランナーから来ている。",
+      ja: "AWS 上に呼び出し側のアカウントはありません。リクエストは AWS の認証情報ではなく、JWT を持った GitHub ランナーから来ています。",
     },
   },
   {
@@ -227,7 +227,7 @@ export const SCENARIOS: Scenario[] = [
     },
     summary: {
       en: "A role session assumes a second role. sessionContext names the issuer, and sourceIdentity still says who the human was.",
-      ja: "ロールセッションが 2 つ目のロールを引き受ける。sessionContext に発行元が、sourceIdentity に元の人間が残る。",
+      ja: "ロールセッションが 2 つ目のロールを引き受けます。sessionContext に発行元が、sourceIdentity に元の人が残ります。",
     },
     callerAccount: CALLER,
     roleAccount: CALLER,
@@ -278,82 +278,82 @@ export const SCENARIOS: Scenario[] = [
 export const FIELDS: Record<string, L> = {
   awsRegion: {
     en: "The Region the event is delivered to. Regional endpoint calls land in that Region; global endpoint calls always land in us-east-1.",
-    ja: "イベントが届くリージョン。リージョナルエンドポイントならそのリージョン、グローバルエンドポイントなら常に us-east-1。",
+    ja: "イベントが届くリージョンです。リージョナルエンドポイントならそのリージョン、グローバルエンドポイントなら常に us-east-1 です。",
   },
   "userIdentity.type": {
     en: "Who signed the request: IAMUser, AssumedRole, FederatedUser, Root, or for the role account's copy AWSAccount / AWSService. SAMLUser and WebIdentityUser mark unsigned federation calls.",
-    ja: "誰が署名したか。IAMUser、AssumedRole、FederatedUser、Root、ロール側の記録では AWSAccount や AWSService。SAMLUser と WebIdentityUser は署名なしのフェデレーション呼び出し。",
+    ja: "誰が署名したかを示します。IAMUser、AssumedRole、FederatedUser、Root のほか、ロール側の記録では AWSAccount や AWSService になります。SAMLUser と WebIdentityUser は署名なしのフェデレーション呼び出しです。",
   },
   "userIdentity.sessionContext": {
     en: "Present when the caller is itself a session: which role issued it (sessionIssuer), when it was created, whether MFA was used.",
-    ja: "呼び出し元自体がセッションのときに付く。どのロールが発行したか (sessionIssuer)、作成時刻、MFA の有無。",
+    ja: "呼び出し元自体がセッションのときに付きます。どのロールが発行したか (sessionIssuer)、作成時刻、MFA の有無が入ります。",
   },
   "userIdentity.sessionContext.sessionIssuer": {
     en: "The role that issued the current session. Follow it backwards to walk a role chain.",
-    ja: "現在のセッションを発行したロール。逆にたどればロールチェーンを遡れる。",
+    ja: "現在のセッションを発行したロールです。これをたどればロールチェーンを遡れます。",
   },
   "userIdentity.sessionContext.sourceIdentity": {
     en: "Set once with sts:SetSourceIdentity and immutable through every hop. If you require it, you never have to walk the chain to find the human.",
-    ja: "sts:SetSourceIdentity で一度だけ設定され、どのホップでも変わらない。必須にしておけば、人を探すためにチェーンを遡る必要がなくなる。",
+    ja: "sts:SetSourceIdentity で一度だけ設定され、どのホップでも変わりません。必須にしておけば、誰がやったかを探すためにチェーンを遡る必要がなくなります。",
   },
   "userIdentity.principalId": {
     en: "Unique ID of the caller. For role sessions it is AROA…:session-name; for web identity it combines issuer, audience and subject.",
-    ja: "呼び出し元の一意 ID。ロールセッションなら AROA…:セッション名、Web ID なら発行者・audience・subject の組み合わせ。",
+    ja: "呼び出し元の一意 ID です。ロールセッションなら AROA…:セッション名、Web ID なら発行者、audience、subject の組み合わせです。",
   },
   "responseElements.credentials.accessKeyId": {
     en: "The ASIA key that was issued. Search for it in later events to trace what the session did; the secret key is never logged.",
-    ja: "発行された ASIA キー。後続イベントでこれを検索すればセッションの行動を追える。シークレットキーは記録されない。",
+    ja: "発行された ASIA キーです。後続のイベントでこれを検索すれば、セッションの行動を追えます。シークレットキーは記録されません。",
   },
   "responseElements.sourceIdentity": {
     en: "The source identity carried into the new session.",
-    ja: "新しいセッションに引き継がれたソースアイデンティティ。",
+    ja: "新しいセッションに引き継がれたソースアイデンティティです。",
   },
   "responseElements.subjectFromWebIdentityToken": {
     en: "The `sub` claim from the OIDC token: for GitHub, which repo and ref asked.",
-    ja: "OIDC トークンの `sub` クレーム。GitHub ならどのリポジトリとブランチが要求したか。",
+    ja: "OIDC トークンの `sub` クレームです。GitHub なら、どのリポジトリとブランチが要求したかがわかります。",
   },
   "responseElements.sessionTokenUtilization": {
     en: "Percentage of the 4,096-byte session token limit this session used (since September 2026).",
-    ja: "このセッションが 4,096 バイトのトークン上限の何 % を使ったか (2026 年 9 月から)。",
+    ja: "このセッションが 4,096 バイトのトークン上限の何 % を使ったかを示します (2026 年 9 月から)。",
   },
   "additionalEventData.RequestDetails": {
     en: "Added with the 2025 global endpoint change.",
-    ja: "2025 年のグローバルエンドポイント変更で追加された。",
+    ja: "2025 年のグローバルエンドポイント変更で追加されました。",
   },
   "additionalEventData.RequestDetails.endpointType": {
     en: "global or regional: which hostname family the client called.",
-    ja: "global か regional。クライアントがどちらのホスト名を呼んだか。",
+    ja: "global か regional で、クライアントがどちらのホスト名を呼んだかを示します。",
   },
   "additionalEventData.RequestDetails.awsServingRegion": {
     en: "The Region that actually served the request. For a global call from a default-enabled Region using Amazon DNS, that is the caller's own Region.",
-    ja: "実際に処理したリージョン。Amazon DNS を使うデフォルト有効リージョンからのグローバル呼び出しなら、呼び出し元自身のリージョン。",
+    ja: "実際に処理したリージョンです。Amazon DNS を使うデフォルト有効リージョンからのグローバル呼び出しなら、呼び出し元自身のリージョンになります。",
   },
   "additionalEventData.identityProviderConnectionVerificationMethod": {
     en: "IAMTrustStore if AWS verified the IdP through its trusted root CAs, Thumbprint if it used a configured thumbprint.",
-    ja: "IAMTrustStore なら AWS が信頼済みルート CA で IdP を検証した。Thumbprint なら登録済みサムプリントを使った。",
+    ja: "IAMTrustStore なら、AWS が信頼済みルート CA で IdP を検証しています。Thumbprint なら、登録済みのサムプリントを使っています。",
   },
   "tlsDetails.clientProvidedHostHeader": {
     en: "The hostname the client actually called. The quickest way to find code still using sts.amazonaws.com. The sts-global.<region> value comes from AWS's own example and is not an endpoint to call.",
-    ja: "クライアントが実際に呼んだホスト名。sts.amazonaws.com を使い続けているコードを探す一番の近道。sts-global.<region> は AWS の例に出てくる値で、呼び出し先として使うものではない。",
+    ja: "クライアントが実際に呼んだホスト名です。sts.amazonaws.com を使い続けているコードを探す一番の近道です。sts-global.<region> は AWS の例に出てくる値で、呼び出し先として使うものではありません。",
   },
   recipientAccountId: {
     en: "The account this copy of the event was delivered to.",
-    ja: "このイベントのコピーが届いたアカウント。",
+    ja: "このイベントのコピーが届いたアカウントです。",
   },
   sharedEventID: {
     en: "Shared by the caller-side and role-side copies of one cross-account call. Join on it to see both halves.",
-    ja: "1 回のクロスアカウント呼び出しの、呼び出し側とロール側の記録が共有する ID。これで結合すれば両側が見える。",
+    ja: "1 回のクロスアカウント呼び出しで、呼び出し側とロール側の記録が共有する ID です。これで結合すれば両側が見えます。",
   },
   readOnly: {
     en: "AssumeRole, AssumeRoleWithSAML and AssumeRoleWithWebIdentity are logged as read-only, yet the response elements (minus the secret) are still included.",
-    ja: "AssumeRole・AssumeRoleWithSAML・AssumeRoleWithWebIdentity は読み取り扱いで記録されるが、レスポンス要素 (シークレット以外) は含まれる。",
+    ja: "AssumeRole、AssumeRoleWithSAML、AssumeRoleWithWebIdentity は読み取り扱いで記録されますが、レスポンス要素 (シークレット以外) も含まれます。",
   },
   managementEvent: {
     en: "All STS events are management events. STS has no data events.",
-    ja: "STS のイベントはすべて管理イベント。データイベントは無い。",
+    ja: "STS のイベントはすべて管理イベントです。データイベントはありません。",
   },
   errorCode: {
     en: "Set on failed calls. Denied cross-account attempts appear only here, in the caller's account.",
-    ja: "失敗した呼び出しに付く。拒否されたクロスアカウントの試行は、呼び出し側アカウントのここにしか出ない。",
+    ja: "失敗した呼び出しに付きます。拒否されたクロスアカウントの試行は、呼び出し側アカウントのこの欄にしか出ません。",
   },
 };

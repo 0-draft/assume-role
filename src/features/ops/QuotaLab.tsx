@@ -157,7 +157,7 @@ export function QuotaLab() {
           <p className="text-xs text-[var(--muted)]">
             {t({
               en: "Shared by AssumeRole, GetCallerIdentity, GetSessionToken, GetFederationToken, GetAccessKeyInfo and DecodeAuthorizationMessage. Raise it through AWS Support, not Service Quotas.",
-              ja: "AssumeRole・GetCallerIdentity・GetSessionToken・GetFederationToken・GetAccessKeyInfo・DecodeAuthorizationMessage で共有。引き上げは Service Quotas ではなく AWS サポート経由。",
+              ja: "AssumeRole、GetCallerIdentity、GetSessionToken、GetFederationToken、GetAccessKeyInfo、DecodeAuthorizationMessage で共有します。引き上げは Service Quotas ではなく AWS サポート経由です。",
             })}
           </p>
         </div>
