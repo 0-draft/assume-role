@@ -1,4 +1,12 @@
-import { CATEGORIES, EVENTS, dateKey, isValidDate } from "./events";
+import { NAV } from "@/data/nav";
+import {
+  CATEGORIES,
+  EVENTS,
+  chapterOf,
+  dateKey,
+  isValidDate,
+  softBreakPoints,
+} from "./events";
 
 describe("timeline events", () => {
   it("every date is a valid YYYY, YYYY-MM or YYYY-MM-DD", () => {
@@ -35,5 +43,25 @@ describe("date helpers", () => {
     expect(isValidDate("2025-02-30")).toBe(false);
     expect(isValidDate("2025-13")).toBe(false);
     expect(isValidDate("25-01")).toBe(false);
+  });
+});
+
+describe("chapter links", () => {
+  it("every event links to a real chapter", () => {
+    const ids = new Set(NAV.map((n) => n.id));
+    for (const e of EVENTS) expect(ids.has(chapterOf(e)), e.title.en).toBe(true);
+  });
+});
+
+describe("softBreakPoints", () => {
+  it("splits long camel-case identifiers at word boundaries", () => {
+    expect(softBreakPoints("AssumeRoleWithWebIdentity")).toEqual([
+      "Assume",
+      "Role",
+      "With",
+      "Web",
+      "Identity",
+    ]);
+    expect(softBreakPoints("Session tags")).toEqual(["Session tags"]);
   });
 });

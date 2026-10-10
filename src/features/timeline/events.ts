@@ -13,6 +13,29 @@ export interface TimelineEvent {
   unverified?: boolean;
 }
 
+/** Chapter each category is explained in, unless an event overrides it. */
+const CATEGORY_CHAPTER: Record<Category, string> = {
+  api: "api",
+  endpoints: "endpoints",
+  federation: "paths",
+  policy: "sessions",
+  limits: "sessions",
+};
+
+/** Events explained somewhere other than their category's chapter, keyed by English title. */
+const CHAPTER_OVERRIDE: Record<string, string> = {
+  "GitHub OIDC without thumbprints": "trust",
+  "OIDC thumbprints optional": "trust",
+  "RCPs cover STS": "trust",
+  "Provider-specific OIDC claims": "trust",
+  "STS over PrivateLink": "endpoints",
+};
+
+/** Chapter id (without #) that explains this event. */
+export function chapterOf(e: TimelineEvent): string {
+  return CHAPTER_OVERRIDE[e.title.en] ?? CATEGORY_CHAPTER[e.category];
+}
+
 export const CATEGORIES: { id: Category; label: L; color: string }[] = [
   { id: "api", label: { en: "APIs", ja: "API" }, color: "var(--sts)" },
   {
@@ -37,7 +60,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "STS launches", ja: "STS 登場" },
     detail: {
       en: "One global endpoint, `sts.amazonaws.com`, hosted in US East (N. Virginia). The API version string `2011-06-15` is still used by every operation today.",
-      ja: "グローバルエンドポイント `sts.amazonaws.com` が 1 つだけ、US East (バージニア北部) で稼働。API バージョン `2011-06-15` はいまも全操作で使われている。",
+      ja: "グローバルエンドポイント `sts.amazonaws.com` が 1 つだけ、US East (バージニア北部) で動いていました。API バージョン `2011-06-15` は今も全操作で使われています。",
     },
     source:
       "https://aws.amazon.com/blogs/security/announcing-upcoming-changes-to-the-aws-security-token-service-global-endpoint/",
@@ -51,7 +74,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "Both are on the 2011-06-15 API version, but no AWS page states the launch set explicitly.",
-      ja: "どちらも 2011-06-15 版の API だが、ローンチ時の API 一覧を明記した AWS のページは見つからない。",
+      ja: "どちらも 2011-06-15 版の API ですが、ローンチ時の API 一覧を明記した AWS のページは見つかっていません。",
     },
     unverified: true,
   },
@@ -64,7 +87,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "Delegate access between accounts without sharing long-term keys. Roles become the cross-account primitive.",
-      ja: "長期キーを共有せずにアカウント間でアクセスを委任できるように。ロールがクロスアカウントの基本単位になる。",
+      ja: "長期キーを共有せずに、アカウント間でアクセスを委任できるようになりました。以後、クロスアカウントの基本単位はロールです。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2012/11/19/Announcing-Cross-Account-API-Access-Using-IAM-Roles/",
@@ -75,7 +98,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "AssumeRoleWithWebIdentity", ja: "AssumeRoleWithWebIdentity" },
     detail: {
       en: "Web identity federation for Login with Amazon, Facebook and Google.",
-      ja: "Login with Amazon・Facebook・Google の Web ID フェデレーション。",
+      ja: "Login with Amazon、Facebook、Google の ID でロールを引き受けられるようになりました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2013/05/28/announcing-iam-web-identity-federation/",
@@ -86,7 +109,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "AssumeRoleWithSAML", ja: "AssumeRoleWithSAML" },
     detail: {
       en: "SAML 2.0 providers and the `https://signin.aws.amazon.com/saml` sign-in endpoint for enterprise SSO.",
-      ja: "SAML 2.0 プロバイダと、企業 SSO 用のサインインエンドポイント `https://signin.aws.amazon.com/saml`。",
+      ja: "SAML 2.0 プロバイダと、企業 SSO 用のサインインエンドポイント `https://signin.aws.amazon.com/saml` が加わりました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2013/11/11/aws-identity-and-access-management-iam-adds-support-for-saml-security-assertion-markup-language-2-0/",
@@ -97,7 +120,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "Regional STS endpoints", ja: "リージョナルエンドポイント" },
     detail: {
       en: "STS becomes available in every Region. Regional endpoints are activated per account; us-east-1 is always on.",
-      ja: "全リージョンで STS が使えるように。リージョナルエンドポイントはアカウントごとに有効化し、us-east-1 は常に有効。",
+      ja: "全リージョンで STS を呼べるようになりました。リージョナルエンドポイントはアカウントごとに有効化し、us-east-1 だけは常に有効です。",
     },
     source:
       "https://aws.amazon.com/blogs/security/aws-security-token-service-is-now-available-in-every-aws-region/",
@@ -108,7 +131,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "GetCallerIdentity appears", ja: "GetCallerIdentity 登場" },
     detail: {
       en: "API Reference samples are dated early 2016; no announcement was found.",
-      ja: "API リファレンスのサンプルが 2016 年初頭の日付。告知は見つからない。",
+      ja: "API リファレンスのサンプルが 2016 年初頭の日付になっています。告知は見つかっていません。",
     },
     unverified: true,
   },
@@ -118,7 +141,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "Role sessions up to 12 hours", ja: "ロールセッションが最大 12 時間に" },
     detail: {
       en: "`MaxSessionDuration` on a role can be set from 1 to 12 hours.",
-      ja: "ロールの `MaxSessionDuration` を 1〜12 時間で設定できるように。",
+      ja: "ロールの `MaxSessionDuration` を 1〜12 時間で設定できるようになりました。",
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2018/03/longer-role-sessions/",
   },
@@ -128,7 +151,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "STS over PrivateLink", ja: "PrivateLink 経由の STS" },
     detail: {
       en: "Interface VPC endpoints for STS, starting in US West (Oregon).",
-      ja: "STS のインターフェイス VPC エンドポイント。US West (オレゴン) から提供開始。",
+      ja: "STS のインターフェイス VPC エンドポイントが、US West (オレゴン) から提供開始されました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2018/07/aws-sts-support-for-privatelink-us-west-2/",
@@ -142,7 +165,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`SetSecurityTokenServicePreferences` lets global-endpoint tokens work in opt-in Regions. Exact introduction date unknown.",
-      ja: "`SetSecurityTokenServicePreferences` でグローバルエンドポイントのトークンをオプトインリージョンでも使えるように。導入日は不明。",
+      ja: "`SetSecurityTokenServicePreferences` で、グローバルエンドポイントのトークンをオプトインリージョンでも使えるようになりました。導入日はわかっていません。",
     },
     source:
       "https://docs.aws.amazon.com/IAM/latest/APIReference/API_SetSecurityTokenServicePreferences.html",
@@ -154,7 +177,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "EKS IRSA", ja: "EKS IRSA" },
     detail: {
       en: "IAM roles for Kubernetes service accounts: pods call `AssumeRoleWithWebIdentity` with a projected token.",
-      ja: "Kubernetes サービスアカウント用 IAM ロール。Pod が投影トークンで `AssumeRoleWithWebIdentity` を呼ぶ。",
+      ja: "Kubernetes のサービスアカウントに IAM ロールを割り当てる仕組みです。Pod が投影トークンで `AssumeRoleWithWebIdentity` を呼びます。",
     },
     source:
       "https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/",
@@ -165,7 +188,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "Session tags", ja: "セッションタグ" },
     detail: {
       en: "`sts:TagSession`, transitive tags and up to 50 tags per session, for ABAC from IdP attributes.",
-      ja: "`sts:TagSession`、推移タグ、セッションあたり最大 50 タグ。IdP の属性で ABAC ができるように。",
+      ja: "`sts:TagSession`、推移タグ、セッションあたり最大 50 個のタグが入り、IdP の属性で ABAC ができるようになりました。",
     },
     source:
       "https://aws.amazon.com/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/",
@@ -176,7 +199,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "Source identity", ja: "ソースアイデンティティ" },
     detail: {
       en: "`sts:SetSourceIdentity`: an immutable value that survives role chaining and shows up in CloudTrail.",
-      ja: "`sts:SetSourceIdentity`。ロールチェーンを通しても変わらず、CloudTrail に残る値。",
+      ja: "`sts:SetSourceIdentity` が登場しました。ロールチェーンを通しても変わらず、CloudTrail に残る値です。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2021/04/aws-identity-and-access-management-now-makes-it-easier-to-relate-a-users-iam-role-activity-to-their-corporate-identity/",
@@ -190,7 +213,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "SDK major versions released after July 2022 default to Regional STS endpoints. boto3 and CLI v1 kept the global default until 2025.",
-      ja: "2022 年 7 月以降の SDK メジャー版はリージョナルエンドポイントが既定。boto3 と CLI v1 は 2025 年までグローバルのまま。",
+      ja: "2022 年 7 月以降の SDK メジャー版はリージョナルエンドポイントが既定です。boto3 と CLI v1 は 2025 年までグローバルのままでした。",
     },
     source:
       "https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html",
@@ -201,7 +224,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "IAM Roles Anywhere", ja: "IAM Roles Anywhere" },
     detail: {
       en: "Workloads outside AWS trade X.509 certificates for role sessions.",
-      ja: "AWS 外のワークロードが X.509 証明書とロールセッションを交換できるように。",
+      ja: "AWS 外のワークロードが、X.509 証明書と引き換えにロールセッションを得られるようになりました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2022/07/aws-identity-access-management-iam-roles-anywhere-workloads-outside-aws/",
@@ -215,7 +238,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "AWS verifies GitHub's OIDC provider through its trusted root CAs instead of the configured thumbprint.",
-      ja: "AWS が GitHub の OIDC プロバイダを、設定されたサムプリントではなく信頼済みルート CA で検証するように。",
+      ja: "AWS は GitHub の OIDC プロバイダを、設定されたサムプリントではなく信頼済みルート CA で検証するようになりました。",
     },
     source:
       "https://github.blog/changelog/2023-07-13-github-actions-oidc-integration-with-aws-no-longer-requires-pinning-of-intermediate-tls-certificates/",
@@ -226,7 +249,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "EKS Pod Identity", ja: "EKS Pod Identity" },
     detail: {
       en: "Pod credentials with session tags for cluster, namespace and service account; no per-cluster OIDC provider.",
-      ja: "クラスタ・名前空間・サービスアカウントのセッションタグ付きで Pod に認証情報。クラスタごとの OIDC プロバイダは不要。",
+      ja: "クラスタ、名前空間、サービスアカウントのセッションタグ付きで Pod に認証情報を渡します。クラスタごとの OIDC プロバイダは要りません。",
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2023/11/amazon-eks-pod-identity/",
   },
@@ -236,7 +259,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "OIDC thumbprints optional", ja: "OIDC サムプリントが原則不要に" },
     detail: {
       en: "IAM trusts the root CA behind the IdP's TLS certificate; thumbprints only matter for uncommon or self-signed CAs.",
-      ja: "IAM は IdP の TLS 証明書のルート CA を信頼する。サムプリントが効くのは珍しい CA や自己署名の場合だけ。",
+      ja: "IAM は IdP の TLS 証明書のルート CA を信頼します。サムプリントが効くのは、珍しい CA や自己署名の場合だけです。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2024/07/aws-identity-access-management-open-id-connect-identity-providers",
@@ -247,7 +270,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "RCPs cover STS", ja: "RCP が STS に対応" },
     detail: {
       en: "Resource control policies launch with STS among the first services: org-wide guardrails on `sts:AssumeRole*`.",
-      ja: "リソースコントロールポリシーが STS を含めて登場。`sts:AssumeRole*` に組織全体のガードレールをかけられる。",
+      ja: "リソースコントロールポリシーが STS 対応で登場し、`sts:AssumeRole*` に組織全体のガードレールをかけられるようになりました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2024/11/resource-control-policies-restrict-access-aws-resources/",
@@ -258,7 +281,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "AssumeRoot", ja: "AssumeRoot" },
     detail: {
       en: "Root sessions in member accounts, scoped to one of five task policies, at most 15 minutes, Regional endpoints only.",
-      ja: "メンバーアカウントのルートセッション。5 つのタスクポリシーのどれかに限定、最大 15 分、リージョナルエンドポイントのみ。",
+      ja: "メンバーアカウントのルートとしてのセッションです。5 つのタスクポリシーのどれかに限られ、最大 15 分、リージョナルエンドポイントのみです。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2024/11/manage-root-access-aws-identity-access-management/",
@@ -272,7 +295,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`sts.amazonaws.com` will be served in the caller's Region, starting with Europe (Stockholm).",
-      ja: "`sts.amazonaws.com` を呼び出し元のリージョンで処理する方針。欧州 (ストックホルム) から開始。",
+      ja: "`sts.amazonaws.com` を呼び出し元のリージョンで処理する方針が発表され、欧州 (ストックホルム) から始まりました。",
     },
     source:
       "https://aws.amazon.com/blogs/security/announcing-upcoming-changes-to-the-aws-security-token-service-global-endpoint/",
@@ -286,7 +309,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "Requests from default-enabled Regions that resolve through Amazon VPC DNS are served in-Region. CloudTrail still logs them in us-east-1.",
-      ja: "Amazon VPC DNS で名前解決したデフォルト有効リージョンからのリクエストは、そのリージョンで処理される。CloudTrail の記録先は us-east-1 のまま。",
+      ja: "Amazon VPC DNS で名前解決したデフォルト有効リージョンからのリクエストは、そのリージョンで処理されます。CloudTrail の記録先は us-east-1 のままです。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2025/04/aws-sts-global-endpoint-requests-locally-regions-default/",
@@ -300,7 +323,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "Python (boto3 1.40.0), CLI v1 1.42.0, PHP, C++, .NET and PowerShell switch their default to Regional endpoints.",
-      ja: "Python (boto3 1.40.0)、CLI v1 1.42.0、PHP、C++、.NET、PowerShell が既定をリージョナルに切り替え。",
+      ja: "Python (boto3 1.40.0)、CLI v1 1.42.0、PHP、C++、.NET、PowerShell が既定をリージョナルに切り替えました。",
     },
     source:
       "https://aws.amazon.com/blogs/developer/updating-aws-sdk-defaults-aws-sts-service-endpoint-and-retry-strategy/",
@@ -314,7 +337,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`sts.<region>.api.aws`, public and over PrivateLink. The global endpoint stays IPv4-only.",
-      ja: "`sts.<region>.api.aws`。パブリックと PrivateLink の両方。グローバルエンドポイントは IPv4 のみのまま。",
+      ja: "`sts.<region>.api.aws` がパブリックと PrivateLink の両方で使えます。グローバルエンドポイントは IPv4 のみのままです。",
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2025/11/aws-sts-ipv6/",
   },
@@ -324,7 +347,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "GetWebIdentityToken", ja: "GetWebIdentityToken" },
     detail: {
       en: "Outbound identity federation: STS signs a JWT (RS256 or ES384, 60 to 3,600 s) for services outside AWS.",
-      ja: "アウトバウンド ID フェデレーション。STS が AWS 外のサービス向けに JWT (RS256 か ES384、60〜3,600 秒) を署名する。",
+      ja: "アウトバウンド ID フェデレーションです。STS が AWS 外のサービス向けに JWT (RS256 か ES384、60〜3,600 秒) を署名します。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2025/11/aws-iam-identity-federation-external-services-jwts/",
@@ -335,7 +358,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "GetDelegatedAccessToken", ja: "GetDelegatedAccessToken" },
     detail: {
       en: "IAM temporary delegation: onboarded partners redeem a customer-approved trade-in token for credentials.",
-      ja: "IAM 一時委任。オンボード済みパートナーが、顧客の承認したトレードイントークンを認証情報に交換する。",
+      ja: "IAM の一時委任です。オンボード済みのパートナーが、顧客の承認したトレードイントークンを認証情報に交換します。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2025/11/streamline-integration-partner-products-iam-delegation/",
@@ -346,7 +369,7 @@ export const EVENTS: TimelineEvent[] = [
     title: { en: "Provider-specific OIDC claims", ja: "IdP 固有の OIDC クレーム" },
     detail: {
       en: "Claims from GitHub, Google, CircleCI and OCI usable as condition keys, e.g. `token.actions.githubusercontent.com:repository_id`.",
-      ja: "GitHub・Google・CircleCI・OCI のクレームが条件キーに。例: `token.actions.githubusercontent.com:repository_id`。",
+      ja: "GitHub、Google、CircleCI、OCI のクレームを条件キーに使えるようになりました。例: `token.actions.githubusercontent.com:repository_id`。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2026/01/aws-sts-supports-validation-identity-provider-claims/",
@@ -360,7 +383,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`GetWebIdentityToken` becomes available in the AWS European Sovereign Cloud.",
-      ja: "AWS European Sovereign Cloud で `GetWebIdentityToken` が利用可能に。",
+      ja: "AWS European Sovereign Cloud でも `GetWebIdentityToken` が使えるようになりました。",
     },
     source:
       "https://aws.amazon.com/about-aws/whats-new/2026/08/aws-iam-european-sovereign-cloud/",
@@ -374,7 +397,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "`SessionTokenSize` and `SessionTokenUtilization` in responses, `PackedPolicySize` deprecated, CloudWatch `AWS/STS` metrics.",
-      ja: "レスポンスに `SessionTokenSize` と `SessionTokenUtilization`。`PackedPolicySize` は非推奨。CloudWatch に `AWS/STS` メトリクス。",
+      ja: "レスポンスに `SessionTokenSize` と `SessionTokenUtilization` が加わり、`PackedPolicySize` は非推奨になりました。CloudWatch には `AWS/STS` メトリクスが出ます。",
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts/",
   },
@@ -387,7 +410,7 @@ export const EVENTS: TimelineEvent[] = [
     },
     detail: {
       en: "Private access to the outbound-federation discovery document and JWKS.",
-      ja: "アウトバウンドフェデレーションのディスカバリ文書と JWKS にプライベートにアクセスできるように。",
+      ja: "アウトバウンドフェデレーションのディスカバリ文書と JWKS に、プライベートにアクセスできるようになりました。",
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts-vpc-oidc/",
   },
@@ -406,4 +429,14 @@ export function isValidDate(d: string): boolean {
   return (
     dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === day
   );
+}
+
+/**
+ * Pieces of a title between which a line break is allowed. Long camel-case API
+ * names (AssumeRoleWithWebIdentity) may break at word boundaries instead of
+ * mid-word; everything else is returned whole.
+ */
+export function softBreakPoints(title: string): string[] {
+  if (!/^[A-Za-z]{17,}$/.test(title)) return [title];
+  return title.split(/(?<=[a-z])(?=[A-Z])/);
 }
