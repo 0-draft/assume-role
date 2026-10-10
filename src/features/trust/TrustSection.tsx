@@ -54,7 +54,7 @@ export function TrustSection() {
       <P>
         {{
           en: "An `AssumeRole` call is checked from two sides. The **trust policy** on the role must allow the caller, and the **caller's identity policy** must allow `sts:AssumeRole` on the role, except when the role is in the same account and the trust policy names the caller directly. SCPs on the caller's account, RCPs on the role's account and the caller's permissions boundary can still deny.",
-          ja: "`AssumeRole` は両側からチェックされます。ロールの **信頼ポリシー** が呼び出し元を許可し、かつ **呼び出し元の ID ポリシー** がそのロールへの `sts:AssumeRole` を許可していること。ただし同じアカウントで信頼ポリシーが呼び出し元を名指ししている場合は ID ポリシー側の許可が要りません。呼び出し元アカウントの SCP、ロール側アカウントの RCP、呼び出し元の Permissions Boundary はそれでも拒否できます。",
+          ja: "`AssumeRole` は両側からチェックされます。ロールの **信頼ポリシー** が呼び出し元を許可し、かつ **呼び出し元の ID ポリシー** がそのロールへの `sts:AssumeRole` を許可している必要があります。ただし同じアカウントで信頼ポリシーが呼び出し元を名指ししている場合は ID ポリシー側の許可が要りません。呼び出し元アカウントの SCP、ロール側アカウントの RCP、呼び出し元の Permissions Boundary はそれでも拒否できます。",
         }}
       </P>
       <GatesLab />
@@ -81,7 +81,7 @@ export function TrustSection() {
       <Callout kind="new">
         {{
           en: "GitHub immutable subject claims: repositories created after 2026-07-15, and repositories renamed or transferred after that date, send `repo:OWNER@OWNER_ID/REPO@REPO_ID:...` (github.com only, not GHES). Older repositories keep the name-only form unless an admin opts in. A trust policy that only lists the name form will start failing for those repositories.",
-          ja: "GitHub の immutable subject claims: 2026-07-15 以降に作成されたリポジトリと、その日以降にリネーム・移管されたリポジトリは `repo:OWNER@OWNER_ID/REPO@REPO_ID:...` を送ります (github.com のみ、GHES は対象外)。それ以前のリポジトリは管理者がオプトインしない限り名前だけの形のままです。名前の形しか書いていない信頼ポリシーは、こうしたリポジトリで失敗し始めます。",
+          ja: "GitHub の sub クレームが ID 入りの不変な形式に: 2026-07-15 以降に作成されたリポジトリと、その日以降にリネーム・移管されたリポジトリは `repo:OWNER@OWNER_ID/REPO@REPO_ID:...` を送ります (github.com のみ、GHES は対象外)。それ以前のリポジトリは管理者がオプトインしない限り名前だけの形のままです。名前の形しか書いていない信頼ポリシーは、こうしたリポジトリで失敗し始めます。",
         }}
       </Callout>
 

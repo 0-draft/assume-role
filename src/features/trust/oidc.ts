@@ -137,7 +137,7 @@ export const TOKENS: TokenScenario[] = [
     id: "immutable",
     label: {
       en: "New repo, immutable subject (after 2026-07-15)",
-      ja: "新しいリポジトリ (2026-07-15 以降の immutable subject)",
+      ja: "新しいリポジトリ (2026-07-15 以降の ID 入り subject)",
     },
     mine: true,
     claims: token(

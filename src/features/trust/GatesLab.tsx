@@ -214,13 +214,19 @@ export function GatesLab() {
           <div className="text-xs font-semibold text-[var(--muted)]">
             {t({ en: "Result", ja: "結果" })}
           </div>
+          {/* Drawn as a rubber stamp: issued or rejected at the window. */}
           <div
-            className="font-bold"
-            style={{ color: r.allowed ? "var(--sts)" : "var(--deny)" }}
+            className="mt-1 inline-block -rotate-3 rounded-md border-2 px-2 py-0.5 text-sm font-bold whitespace-nowrap"
+            style={{
+              color: r.allowed ? "var(--sts)" : "var(--deny)",
+              borderColor: r.allowed ? "var(--sts)" : "var(--deny)",
+            }}
           >
-            {r.allowed
-              ? t({ en: "Session issued", ja: "セッション発行" })
-              : t({ en: "AccessDenied", ja: "AccessDenied" })}
+            {r.allowed ? (
+              t({ en: "Session issued", ja: "セッション発行" })
+            ) : (
+              <span className="font-mono">AccessDenied</span>
+            )}
           </div>
         </Box>
       </div>

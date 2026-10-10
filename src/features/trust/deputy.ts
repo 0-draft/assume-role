@@ -33,7 +33,7 @@ export const DEPUTY_STEPS: Message[] = [
   {
     from: "vendor",
     to: "a",
-    label: { en: "your ExternalId: ext-A-7f3c", ja: "あなたの ExternalId: ext-A-7f3c" },
+    label: { en: "your ExternalId: ext-A", ja: "あなたの ExternalId: ext-A" },
     detail: {
       en: "The vendor generates a unique external ID for each customer and keeps it under its own control. Customers do not choose it.",
       ja: "ベンダーは顧客ごとに一意な外部 ID を生成し、自分の管理下に置きます。顧客が自分で決めるものではありません。",
@@ -47,8 +47,8 @@ export const DEPUTY_STEPS: Message[] = [
       ja: `ロール ARN: …:role/VendorScanner`,
     },
     detail: {
-      en: "Customer A creates a role that trusts the vendor's account and requires `sts:ExternalId` = ext-A-7f3c, then registers the role ARN with the vendor.",
-      ja: "顧客 A はベンダーのアカウントを信頼し、`sts:ExternalId` = ext-A-7f3c を必須にしたロールを作り、そのロール ARN をベンダーに登録します。",
+      en: "Customer A creates a role that trusts the vendor's account and requires `sts:ExternalId` = ext-A, then registers the role ARN with the vendor.",
+      ja: "顧客 A はベンダーのアカウントを信頼し、`sts:ExternalId` = ext-A を必須にしたロールを作り、そのロール ARN をベンダーに登録します。",
     },
     payload: {
       label: "trust policy (customer A)",
@@ -57,7 +57,7 @@ export const DEPUTY_STEPS: Message[] = [
           Effect: "Allow",
           Principal: { AWS: "arn:aws:iam::999988887777:role/VendorScanner" },
           Action: "sts:AssumeRole",
-          Condition: { StringEquals: { "sts:ExternalId": "ext-A-7f3c" } },
+          Condition: { StringEquals: { "sts:ExternalId": "ext-A" } },
         },
         null,
         2,
@@ -77,8 +77,8 @@ export const DEPUTY_STEPS: Message[] = [
     from: "vendor",
     to: "sts",
     label: {
-      en: "AssumeRole(A's role, ExternalId=ext-B-91d0)",
-      ja: "AssumeRole(A のロール, ExternalId=ext-B-91d0)",
+      en: "AssumeRole(A's role, ExternalId=ext-B)",
+      ja: "AssumeRole(A のロール, ExternalId=ext-B)",
     },
     detail: {
       en: "When the vendor runs B's job it always sends the external ID **it issued to B**. Without that rule, the vendor would happily act as a confused deputy and read A's account for B.",
@@ -86,15 +86,15 @@ export const DEPUTY_STEPS: Message[] = [
     },
     payload: {
       label: "request",
-      body: `aws sts assume-role \\\n  --role-arn ${ROLE_A} \\\n  --role-session-name job-for-customer-b \\\n  --external-id ext-B-91d0`,
+      body: `aws sts assume-role \\\n  --role-arn ${ROLE_A} \\\n  --role-session-name job-for-customer-b \\\n  --external-id ext-B`,
     },
   },
   {
     from: "sts",
     to: "sts",
     label: {
-      en: "trust: ext-B-91d0 ≠ ext-A-7f3c",
-      ja: "信頼ポリシー: ext-B-91d0 ≠ ext-A-7f3c",
+      en: "ext-B ≠ ext-A",
+      ja: "ext-B ≠ ext-A",
     },
     detail: {
       en: "STS evaluates A's trust policy. The principal matches (it really is the vendor), but the `sts:ExternalId` condition does not.",
@@ -107,8 +107,8 @@ export const DEPUTY_STEPS: Message[] = [
     reply: true,
     label: { en: "AccessDenied", ja: "AccessDenied" },
     detail: {
-      en: "Denied. B never gets into A's account. Jobs the vendor runs for A send ext-A-7f3c and still succeed.",
-      ja: "拒否。B は A のアカウントに入れません。ベンダーが A のために動かすジョブは ext-A-7f3c を送るので、これまでどおり成功します。",
+      en: "Denied. B never gets into A's account. Jobs the vendor runs for A send ext-A and still succeed.",
+      ja: "拒否。B は A のアカウントに入れません。ベンダーが A のために動かすジョブは ext-A を送るので、これまでどおり成功します。",
     },
     payload: {
       label: "error",

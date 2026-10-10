@@ -13,12 +13,18 @@ const FAMILY: Record<KeyFamily, { color: string; label: L }> = {
   global: { color: "var(--role)", label: { en: "aws: global", ja: "aws: グローバル" } },
 };
 
+const PREVIEW = 6;
+
 export function KeyCatalog() {
   const { t } = useLang();
   const id = useId();
   const [q, setQ] = useState("");
   const [family, setFamily] = useState<KeyFamily | "all">("all");
   const rows = filterCatalog(q, family);
+  const [all, setAll] = useState(false);
+  // A wall of 31 cards hides the point; show a few until the reader asks or searches.
+  const filtered = q.trim() !== "" || family !== "all";
+  const shown = all || filtered ? rows : rows.slice(0, PREVIEW);
 
   return (
     <Figure
@@ -61,7 +67,7 @@ export function KeyCatalog() {
         {t({ en: `${rows.length} keys`, ja: `${rows.length} 件` })}
       </p>
       <ul className="mt-2 grid gap-2 md:grid-cols-2">
-        {rows.map((k) => (
+        {shown.map((k) => (
           <li
             key={k.key}
             className="rounded-xl border border-l-4 border-[var(--line)] bg-[var(--surface)] px-3 py-2"
@@ -78,6 +84,15 @@ export function KeyCatalog() {
           </li>
         ))}
       </ul>
+      {shown.length < rows.length && (
+        <button
+          type="button"
+          onClick={() => setAll(true)}
+          className="mt-3 min-h-10 rounded-lg border border-[var(--line)] px-3 text-sm font-semibold"
+        >
+          {t({ en: `Show all ${rows.length} keys`, ja: `${rows.length} 件すべて表示` })}
+        </button>
+      )}
       {rows.length === 0 && (
         <p className="mt-2 text-sm">
           {t({
