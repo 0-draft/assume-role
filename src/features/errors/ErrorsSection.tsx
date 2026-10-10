@@ -49,7 +49,7 @@ export function ErrorsSection() {
       title={{ en: "Decode the error you just got", ja: "いま出たエラーを読み解く" }}
       lede={{
         en: "STS errors are terse and several share the same words. Paste one in, or pick it from the list, and see what actually went wrong and where to look.",
-        ja: "STS のエラーは短く、似た文言も多い。貼り付けるか一覧から選ぶと、何が起きていて、どこを見ればいいかがわかります。",
+        ja: "STS のエラーは短く、似た文言も多いです。メッセージを貼り付けるか一覧から選ぶと、何が起きていて、どこを見ればいいかがわかります。",
       }}
     >
       <Figure
@@ -146,14 +146,12 @@ export function ErrorsSection() {
                       : "var(--surface)",
                   }}
                 >
-                  <span className="min-w-0 font-mono text-[0.8rem] font-semibold break-words">
+                  <span
+                    className={`min-w-0 break-words ${e.kind === "symptom" ? "text-[0.85rem] font-semibold" : "font-mono text-[0.8rem] font-semibold"}`}
+                  >
                     {e.code}
                   </span>
-                  {e.http !== null && (
-                    <span className="shrink-0 font-mono text-xs text-[var(--muted)] tabular-nums">
-                      {e.http}
-                    </span>
-                  )}
+                  <Badge error={e} />
                 </button>
               </li>
             );
@@ -164,13 +162,13 @@ export function ErrorsSection() {
       <Callout kind="note">
         {{
           en: "SDK exception classes add an `Exception` suffix (`RegionDisabledException`); the wire error code in the API Reference omits it (`RegionDisabled`). Search for both.",
-          ja: "SDK の例外クラスには `Exception` が付く (`RegionDisabledException`)。API リファレンスのワイヤ上のエラーコードには付かない (`RegionDisabled`)。両方で検索しよう。",
+          ja: "SDK の例外クラスには `Exception` が付きます (`RegionDisabledException`)。API リファレンスに載っているワイヤ上のエラーコードには付きません (`RegionDisabled`)。調べるときは両方で検索してください。",
         }}
       </Callout>
       <P>
         {{
           en: "A failed cross-account `AssumeRole` is logged only in the caller's account, never in the role's account. If you own the role and cannot find the failure in your CloudTrail, that is why.",
-          ja: "失敗したクロスアカウントの `AssumeRole` は呼び出し側アカウントにしか記録されず、ロール側には残らない。ロールの持ち主が自分の CloudTrail で失敗を見つけられないのはこのため。",
+          ja: "失敗したクロスアカウントの `AssumeRole` は呼び出し側のアカウントにしか記録されず、ロール側には残りません。ロールの持ち主が自分の CloudTrail で失敗を見つけられないのはこのためです。",
         }}
       </P>
     </Section>
@@ -187,32 +185,84 @@ const STEPS: { key: "symptom" | "cause" | "fix"; label: L; color: string }[] = [
   { key: "fix", label: { en: "What to do", ja: "対処" }, color: "var(--resource)" },
 ];
 
+function Badge({ error }: { error: StsError }) {
+  const { t } = useLang();
+  if (error.kind === "symptom")
+    return (
+      <span className="shrink-0 rounded-full border border-dashed border-[var(--muted)] px-2 text-xs font-semibold text-[var(--muted)]">
+        {t({ en: "symptom", ja: "症状" })}
+      </span>
+    );
+  if (error.origin)
+    return (
+      <span className="shrink-0 rounded-full border border-[var(--line)] px-2 text-xs font-semibold text-[var(--muted)]">
+        {t(error.origin)}
+      </span>
+    );
+  if (error.http !== null)
+    return (
+      <span className="shrink-0 font-mono text-xs text-[var(--muted)] tabular-nums">
+        {error.http}
+      </span>
+    );
+  return null;
+}
+
 function Diagnosis({ error }: { error: StsError }) {
   const { t } = useLang();
   const nav = NAV.find((n) => n.id === error.chapter);
+  const symptom = error.kind === "symptom";
   return (
     <div>
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="font-mono text-xl font-semibold break-all text-[var(--deny)]">
-          {error.code}
-        </span>
-        {error.http !== null && (
-          <span className="rounded-md border border-[var(--line)] px-1.5 font-mono text-xs">
-            HTTP {error.http}
+      <div className="guilloche relative grid grid-cols-[1fr_auto_auto] overflow-hidden rounded-2xl border-2 border-[var(--deny)] shadow-[var(--shadow)]">
+        <div className="min-w-0 p-4 sm:p-5">
+          <div className="text-xs font-semibold text-[var(--deny)]">
+            {symptom
+              ? t({
+                  en: "Known failure, no error code of its own",
+                  ja: "専用のエラーコードがない既知の失敗",
+                })
+              : error.origin
+                ? t({
+                    en: "Refused by another service, caused by STS",
+                    ja: "原因は STS、拒否したのは別サービス",
+                  })
+                : t({ en: "Request refused", ja: "リクエスト不受理" })}
+          </div>
+          <div
+            className={`mt-1 break-words text-[var(--deny)] ${symptom ? "font-display text-2xl font-bold" : "font-mono text-xl font-semibold sm:text-2xl"}`}
+          >
+            {error.code}
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
+            <span className="text-[var(--muted)]">
+              {t({ en: "Returned by", ja: "返す API" })}
+            </span>
+            {error.apis.map((a) => (
+              <code key={a} className="chip">
+                {a}
+              </code>
+            ))}
+          </div>
+        </div>
+        <div className="perforated w-3" aria-hidden />
+        <div className="flex w-24 flex-col items-center justify-center gap-0.5 border-l border-[var(--line)] bg-[var(--sunk)] px-2 text-center sm:w-28">
+          <span className="text-[0.7rem] text-[var(--muted)]">HTTP</span>
+          <span className="font-mono text-2xl font-semibold text-[var(--deny)] tabular-nums">
+            {error.http ?? "—"}
           </span>
-        )}
-      </div>
-      <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
-        <span className="text-[var(--muted)]">
-          {t({ en: "Returned by", ja: "返す API" })}
+          {error.origin && (
+            <span className="text-[0.7rem] text-[var(--muted)]">{t(error.origin)}</span>
+          )}
+        </div>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute top-3 right-32 hidden rotate-[-8deg] rounded-md border-[3px] border-[var(--deny)] px-2 font-display text-lg font-bold text-[var(--deny)] opacity-80 sm:block"
+        >
+          {t({ en: "Refused", ja: "不受理" })}
         </span>
-        {error.apis.map((a) => (
-          <code key={a} className="chip">
-            {a}
-          </code>
-        ))}
       </div>
-      <ol className="mt-4 grid gap-3 md:grid-cols-3">
+      <ol className="mt-5 grid gap-7 md:grid-cols-3 md:gap-6">
         {STEPS.map((s, i) => (
           <li
             key={s.key}
@@ -238,13 +288,19 @@ function Diagnosis({ error }: { error: StsError }) {
               {rich(t(error[s.key]))}
             </p>
             {i < 2 && (
-              <span
+              <svg
                 aria-hidden
-                className="absolute -bottom-3 left-1/2 z-10 -translate-x-1/2 text-lg text-[var(--muted)] md:top-1/2 md:-right-3 md:bottom-auto md:left-auto md:translate-x-0 md:-translate-y-1/2"
+                viewBox="0 0 12 12"
+                className="absolute -bottom-[1.45rem] left-1/2 size-4 -translate-x-1/2 text-[var(--muted)] md:top-1/2 md:-right-[1.2rem] md:bottom-auto md:left-auto md:translate-x-0 md:-translate-y-1/2 md:-rotate-90"
               >
-                <span className="md:hidden">↓</span>
-                <span className="hidden md:inline">›</span>
-              </span>
+                <path
+                  d="M6 1v9M2 6l4 4 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
             )}
           </li>
         ))}
