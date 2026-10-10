@@ -257,8 +257,8 @@ export function buildHostname(
       ];
       if (!reg.vpceListed)
         notes.push({
-          en: "This Region is not in the IAM guide's STS VPC endpoint list (unverified; the list may be stale). Check with `aws ec2 describe-vpc-endpoint-services`.",
-          ja: "このリージョンは IAM ガイドの STS VPC エンドポイント一覧に載っていません (未検証、一覧が古い可能性あり)。`aws ec2 describe-vpc-endpoint-services` で確認してください。",
+          en: "This Region is not in the IAM guide's STS VPC endpoint list (33 Regions as of 2026-10). Whether the endpoint exists here is unverified; check with `aws ec2 describe-vpc-endpoint-services`.",
+          ja: "このリージョンは IAM ガイドの STS VPC エンドポイント一覧 (2026 年 10 月時点で 33 リージョン) に載っていません。ここでエンドポイントが使えるかは未検証なので、`aws ec2 describe-vpc-endpoint-services` で確認してください。",
         });
       return { kind: "ok", host: join(segments), segments, notes };
     }

@@ -310,7 +310,7 @@ export const OPS: Op[] = [
     "AssumedRoleId": "AROACLKWSDQRAOEXAMPLE:app1",
     "Arn": "arn:aws:sts::123456789012:assumed-role/FederatedWebIdentityRole/app1"
   },
-  "Provider": "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com",
+  "Provider": "https://token.actions.githubusercontent.com",
   "Audience": "sts.amazonaws.com",
   "SourceIdentity": "SourceIdentityValue",
   "PackedPolicySize": 8,
@@ -318,8 +318,8 @@ export const OPS: Op[] = [
   "SessionTokenUtilization": 11
 }`,
     responseNote: {
-      en: "The `Provider` value is illustrative (unverified): the API Reference says it holds the token's `iss` for OIDC.",
-      ja: "`Provider` の値は例示で、未検証です。API リファレンスによると、OIDC の場合はトークンの `iss` が入ります。",
+      en: "For OIDC tokens `Provider` holds the token's `iss` value, per the API Reference. It is not the IAM OIDC provider ARN.",
+      ja: "API リファレンスによると、OIDC トークンの場合 `Provider` にはトークンの `iss` の値が入ります。IAM の OIDC プロバイダ ARN ではありません。",
     },
     ref: `${REF}AssumeRoleWithWebIdentity.html`,
     matrix: {
@@ -365,8 +365,8 @@ export const OPS: Op[] = [
       "SessionTokenUtilization",
     ],
     restrictions: {
-      en: "Scoped to the chosen task policy: IAMAuditRootUserCredentials, IAMCreateRootUserPassword, IAMDeleteRootUserCredentials, S3UnlockBucketPolicy or SQSUnlockQueuePolicy. No `AssumedRoleUser` in the response.",
-      ja: "選んだタスクポリシーの範囲だけ: IAMAuditRootUserCredentials、IAMCreateRootUserPassword、IAMDeleteRootUserCredentials、S3UnlockBucketPolicy、SQSUnlockQueuePolicy。レスポンスに `AssumedRoleUser` は含まれません。",
+      en: "Scoped to the chosen task policy: IAMAuditRootUserCredentials, IAMCreateRootUserPassword, IAMDeleteRootUserCredentials, S3UnlockBucketPolicy or SQSUnlockQueuePolicy. No `AssumedRoleUser` in the response. Actions in the session are logged in CloudTrail as `type: Root`, `arn:aws:iam::MEMBER:root`.",
+      ja: "選んだタスクポリシーの範囲だけです: IAMAuditRootUserCredentials、IAMCreateRootUserPassword、IAMDeleteRootUserCredentials、S3UnlockBucketPolicy、SQSUnlockQueuePolicy。レスポンスに `AssumedRoleUser` は含まれません。セッション内の操作は CloudTrail に `type: Root`、`arn:aws:iam::MEMBER:root` として記録されます。",
     },
     cli: `aws sts assume-root \\
   --region us-east-1 \\
@@ -390,7 +390,7 @@ export const OPS: Op[] = [
         en: "Management / delegated admin account",
         ja: "管理 / 委任管理者アカウント",
       },
-      temp: { en: "Yes (unverified)", ja: "可 (未検証)" },
+      temp: { en: "Yes", ja: "可" },
       duration: { en: "15 min, fixed ceiling", ja: "15 分が上限" },
     },
   },
@@ -662,7 +662,10 @@ export const OPS: Op[] = [
     ref: `${REF}GetAccessKeyInfo.html`,
     matrix: {
       caller: { en: "Principal with permission", ja: "権限を持つプリンシパル" },
-      temp: { en: "Yes (unverified)", ja: "可 (未検証)" },
+      temp: {
+        en: "Role sessions only (not GetSessionToken / GetFederationToken creds)",
+        ja: "ロールセッションのみ (GetSessionToken / GetFederationToken の認証情報は不可)",
+      },
       duration: NA,
     },
   },
@@ -706,13 +709,16 @@ export const OPS: Op[] = [
   }
 }`,
     responseNote: {
-      en: "The nested `items` wrapping follows typical real output and is unverified against the official sample, which shows a simpler shape.",
-      ja: "入れ子の `items` は実際によく見る出力に合わせたもので、公式サンプル (より単純な形) とは照合していません。",
+      en: "The nested `items` wrapping of `matchedStatements` and `principals` matches an AWS Knowledge Center example; the shape of `conditions.items` is not shown there.",
+      ja: "`matchedStatements` と `principals` の入れ子の `items` は AWS ナレッジセンターの例と一致します。`conditions.items` の形はそこに載っていません。",
     },
     ref: `${REF}DecodeAuthorizationMessage.html`,
     matrix: {
       caller: { en: "Principal with permission", ja: "権限を持つプリンシパル" },
-      temp: { en: "Yes (unverified)", ja: "可 (未検証)" },
+      temp: {
+        en: "Role sessions only (not GetSessionToken / GetFederationToken creds)",
+        ja: "ロールセッションのみ (GetSessionToken / GetFederationToken の認証情報は不可)",
+      },
       duration: NA,
     },
   },

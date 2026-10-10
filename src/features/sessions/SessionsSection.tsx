@@ -78,8 +78,8 @@ const PRINCIPALS: { kind: L; arn: string; userid: string; note?: L }[] = [
     arn: "arn:aws:sts::111122223333:assumed-role/WebServer/i-0abc12345def67890",
     userid: "AROAEXAMPLEID:i-0abc12345def67890",
     note: {
-      en: "AWS documents the aws:userid form; the ARN is inferred from it.",
-      ja: "aws:userid の形式はドキュメントにあり、ARN はそこからの推定です。",
+      en: "Both forms appear in an AWS Knowledge Center example; the session name is the instance ID.",
+      ja: "どちらの形式も AWS ナレッジセンターの例に載っています。セッション名はインスタンス ID です。",
     },
   },
   {

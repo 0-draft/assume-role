@@ -214,8 +214,8 @@ export function EndpointsSection() {
             </div>
             <p className="text-sm text-[var(--muted)]">
               {t({
-                en: "This setting only affects tokens from the global endpoint. Regional endpoints always issue tokens that work everywhere. AWS publishes no fixed byte length for either version, so never store tokens in fixed-width columns.",
-                ja: "この設定が効くのはグローバルが発行するトークンだけです。リージョナルが出すトークンは常にどこでも使えます。どちらのバージョンも長さは公表されていないので、固定長のカラムには保存しないでください。",
+                en: "This setting only affects tokens from the global endpoint. Regional endpoints always issue tokens that work everywhere. AWS says only that v2 tokens are longer. Since September 2026 every session token is capped at 4,096 bytes, so size storage for the full 4,096.",
+                ja: "この設定が効くのはグローバルが発行するトークンだけです。リージョナルが出すトークンは常にどこでも使えます。AWS が示しているのは v2 のほうが長いということだけです。2026 年 9 月からすべてのセッショントークンの上限は 4,096 バイトなので、保存先はその長さを見込んでおいてください。",
               })}
             </p>
             <Code label="bash">{`aws iam set-security-token-service-preferences \\

@@ -184,7 +184,7 @@ export function DepartureBoard() {
                 <td className={`${td} font-sans`}>
                   {r.vpceListed
                     ? t({ en: "Listed", ja: "掲載" })
-                    : t({ en: "Not listed (unverified)", ja: "未掲載 (未検証)" })}
+                    : t({ en: "Not listed", ja: "未掲載" })}
                 </td>
               </tr>
             ))}

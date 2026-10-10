@@ -73,10 +73,21 @@ export const EVENTS: TimelineEvent[] = [
       ja: "最初の API は GetSessionToken と GetFederationToken",
     },
     detail: {
-      en: "Both are on the 2011-06-15 API version, but no AWS page states the launch set explicitly.",
-      ja: "どちらも 2011-06-15 版の API ですが、ローンチ時の API 一覧を明記した AWS のページは見つかっていません。",
+      en: 'The launch post names GetFederationToken as "one of two functions" but not the other; GetSessionToken as the second is likely but unconfirmed.',
+      ja: "ローンチ時のブログは GetFederationToken を「2 つの機能のうちの 1 つ」と書いていますが、もう 1 つの名前は出していません。GetSessionToken である可能性は高いものの、確認できていません。",
     },
     unverified: true,
+  },
+  {
+    date: "2012-06-11",
+    category: "federation",
+    title: { en: "IAM roles for EC2 instances", ja: "EC2 インスタンス用の IAM ロール" },
+    detail: {
+      en: "Instance profiles: EC2 assumes the role for you and serves the keys from instance metadata.",
+      ja: "インスタンスプロファイルの登場です。EC2 がロールを引き受け、キーをインスタンスメタデータから配ります。",
+    },
+    source:
+      "https://aws.amazon.com/blogs/aws/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2/",
   },
   {
     date: "2012-11-19",
@@ -126,14 +137,14 @@ export const EVENTS: TimelineEvent[] = [
       "https://aws.amazon.com/blogs/security/aws-security-token-service-is-now-available-in-every-aws-region/",
   },
   {
-    date: "2016",
+    date: "2016-04-05",
     category: "api",
     title: { en: "GetCallerIdentity appears", ja: "GetCallerIdentity 登場" },
     detail: {
-      en: "API Reference samples are dated early 2016; no announcement was found.",
-      ja: "API リファレンスのサンプルが 2016 年初頭の日付になっています。告知は見つかっていません。",
+      en: "SDK support lands (botocore 1.4.9). AWS made no announcement.",
+      ja: "SDK が対応しました (botocore 1.4.9)。AWS からの告知はありません。",
     },
-    unverified: true,
+    source: "https://github.com/boto/botocore/blob/develop/CHANGELOG.rst",
   },
   {
     date: "2018-03",
@@ -157,19 +168,27 @@ export const EVENTS: TimelineEvent[] = [
       "https://aws.amazon.com/about-aws/whats-new/2018/07/aws-sts-support-for-privatelink-us-west-2/",
   },
   {
-    date: "2019",
+    date: "2019-04-26",
     category: "endpoints",
     title: {
       en: "v1 and v2 global-endpoint tokens",
       ja: "グローバルエンドポイントの v1/v2 トークン",
     },
     detail: {
-      en: "`SetSecurityTokenServicePreferences` lets global-endpoint tokens work in opt-in Regions. Exact introduction date unknown.",
-      ja: "`SetSecurityTokenServicePreferences` で、グローバルエンドポイントのトークンをオプトインリージョンでも使えるようになりました。導入日はわかっていません。",
+      en: "`SetSecurityTokenServicePreferences` lets global-endpoint tokens work in opt-in Regions. The date is when it entered the SDK models; AWS made no announcement.",
+      ja: "`SetSecurityTokenServicePreferences` で、グローバルエンドポイントのトークンをオプトインリージョンでも使えるようになりました。日付は SDK のモデルに入った日で、AWS からの告知はありません。",
     },
-    source:
-      "https://docs.aws.amazon.com/IAM/latest/APIReference/API_SetSecurityTokenServicePreferences.html",
-    unverified: true,
+    source: "https://github.com/boto/botocore/commit/088f3c8cc9",
+  },
+  {
+    date: "2019-07-24",
+    category: "api",
+    title: { en: "GetAccessKeyInfo appears", ja: "GetAccessKeyInfo 登場" },
+    detail: {
+      en: "Look up the account that owns an access key ID. Added to the SDK models; AWS made no announcement.",
+      ja: "アクセスキー ID の持ち主のアカウントを調べる API です。SDK のモデルに追加されたもので、AWS からの告知はありません。",
+    },
+    source: "https://github.com/boto/botocore/blob/develop/CHANGELOG.rst",
   },
   {
     date: "2019-09-04",

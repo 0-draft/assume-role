@@ -126,6 +126,10 @@ export const TOOLS: Tool[] = [
     readsSetting: false,
     defaultMode: "regional",
     fallback: "us-east-1",
+    note: {
+      en: "Always regional since 4.0.0; the StsRegionalEndpointsValue setting was removed. .NET 3.x switched its default to `regional` in AWSSDK.Core 3.7.500.0 (2025-07-31). Tools for PowerShell V5 builds on .NET 4.x and inherits this.",
+      ja: "4.0.0 から常にリージョナルで、StsRegionalEndpointsValue 設定は削除されました。.NET 3.x は AWSSDK.Core 3.7.500.0 (2025-07-31) で既定が `regional` になりました。Tools for PowerShell V5 は .NET 4.x の上に作られているので同じ挙動です。",
+    },
   },
   {
     id: "cpp",
@@ -133,6 +137,10 @@ export const TOOLS: Tool[] = [
     readsSetting: false,
     defaultMode: "regional",
     fallback: "us-east-1",
+    note: {
+      en: "Has no sts_regional_endpoints setting. Since 1.11.617 (2025-07-31) the web-identity credentials provider uses the client's configured Region instead of falling back to us-east-1.",
+      ja: "sts_regional_endpoints 設定はありません。1.11.617 (2025-07-31) から、Web ID の認証情報プロバイダは us-east-1 に戻らず、クライアントに設定したリージョンを使います。",
+    },
   },
   {
     id: "ruby-3",
@@ -157,13 +165,13 @@ export const TOOLS: Tool[] = [
   },
   {
     id: "php-3",
-    label: "PHP 3.x (current)",
+    label: "PHP 3.x ≥ 3.351.12",
     readsSetting: true,
     defaultMode: "regional",
     fallback: "fail",
     note: {
-      en: "Switched to `regional` in the 2025-07-31 change; the exact first version is not documented (unverified).",
-      ja: "2025-07-31 の変更で `regional` になりました。切り替わった最初のバージョンは文書化されていません (未検証)。",
+      en: "3.351.12 (2025-07-31) changed the STS default endpoint configuration to `regional`, per the SDK changelog.",
+      ja: "SDK の changelog によると、3.351.12 (2025-07-31) で STS の既定エンドポイント設定が `regional` に変わりました。",
     },
   },
 ];

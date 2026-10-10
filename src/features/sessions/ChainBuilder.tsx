@@ -360,8 +360,8 @@ export function ChainBuilder() {
       {origin === "service-role" && (
         <p className="prose-col text-xs text-[var(--muted)]">
           {t({
-            en: "The EC2 or Lambda service assuming your role is not chaining, and the role's MaxSessionDuration does not limit it. Your code then using those credentials to assume another role is a role session assuming a role, which is chaining by AWS's definition; AWS does not spell this case out separately.",
-            ja: "EC2 や Lambda のサービスがロールを引き受ける部分はチェーンではなく、ロールの MaxSessionDuration にも縛られません。その認証情報を使ってコードが別のロールを引き受けるのは「ロールセッションがロールを引き受ける」ことなので、AWS の定義上はチェーンです。ただしこのケースを個別に明記したドキュメントはありません。",
+            en: 'The EC2 or Lambda service assuming your role is not chaining, and the role\'s MaxSessionDuration does not limit it. Your code then using those credentials to assume another role is a role session assuming a role, which is chaining. For EC2 AWS confirms it: instance-profile callers asking for more than an hour get "The requested DurationSeconds exceeds the 1 hour session limit for roles". Lambda is not called out separately.',
+            ja: "EC2 や Lambda のサービスがロールを引き受ける部分はチェーンではなく、ロールの MaxSessionDuration にも縛られません。その認証情報を使ってコードが別のロールを引き受けるのは「ロールセッションがロールを引き受ける」ことなので、チェーンです。EC2 については AWS が明記しており、インスタンスプロファイルから 1 時間を超えて要求すると「The requested DurationSeconds exceeds the 1 hour session limit for roles」になります。Lambda は個別には書かれていません。",
           })}
         </p>
       )}
