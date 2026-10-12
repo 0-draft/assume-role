@@ -63,6 +63,10 @@ e2e/            Playwright layout and axe accessibility checks
 | `claude-review.yml` | Claude reviews each pull request for factual accuracy and EN/JA parity; it comments, it does not gate |
 | Dependabot | Weekly grouped updates for npm and GitHub Actions |
 
+## License
+
+Code is under the [MIT License](./LICENSE). Documentation in `docs/` is under [CC BY 4.0](./LICENSE-docs.md).
+
 ## Disclaimer
 
 An independent explainer, not affiliated with or endorsed by Amazon Web Services. All account IDs, keys and tokens shown are fake. AWS changes STS behaviour from time to time; check the linked AWS documentation before you rely on a detail.

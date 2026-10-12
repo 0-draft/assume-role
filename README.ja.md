@@ -51,6 +51,10 @@ npm run test:e2e   # 実ブラウザでのチェック (要: npx playwright inst
 | `claude-review.yml` | PR ごとに Claude が事実の正確さと EN/JA の内容一致をレビュー。コメントのみでマージは止めない |
 | Dependabot | npm と GitHub Actions をグループ化して週次更新 |
 
+## ライセンス
+
+コードは [MIT License](./LICENSE)、`docs/` のドキュメントは [CC BY 4.0](./LICENSE-docs.md) です。
+
 ## 免責
 
 Amazon Web Services とは無関係の個人プロジェクトです。表示しているアカウント ID・キー・トークンはすべて架空です。STS の挙動は変わることがあるので、細部に頼る前にリンク先の AWS ドキュメントを確認してください。

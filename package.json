@@ -2,6 +2,7 @@
   "name": "assume-role",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
   "description": "AWS STS, drawn: every endpoint, every API, every way a workload or a human ends up holding temporary credentials. Bilingual (EN/JA).",
   "engines": {
