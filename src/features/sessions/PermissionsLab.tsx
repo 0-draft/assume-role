@@ -90,15 +90,20 @@ export function PermissionsLab() {
     const listed = cfg[id].actions.has(r.action);
     const isDeny = id === "deny";
     const symbol = !present ? "–" : isDeny ? (listed ? "✕" : "") : listed ? "✓" : "✕";
-    const label = isDeny
-      ? t({
-          en: `${r.action}: ${listed ? "denied" : "not denied"}. Toggle explicit deny.`,
-          ja: `${r.action}: ${listed ? "Deny あり" : "Deny なし"}。切り替える`,
-        })
-      : t({
-          en: `${copy.name.en} ${listed ? "allows" : "does not allow"} ${r.action}. Toggle.`,
-          ja: `${copy.name.ja} は ${r.action} を${listed ? "許可" : "許可しない"}。切り替える`,
-        });
+    const stops = t({ en: "stops here", ja: "ここで止まる" });
+    // The badge is visible text, so the accessible name has to carry it too
+    // (WCAG 2.5.3 Label in Name).
+    const label =
+      (v === "blocked" ? `${stops}. ` : "") +
+      (isDeny
+        ? t({
+            en: `${r.action}: ${listed ? "denied" : "not denied"}. Toggle explicit deny.`,
+            ja: `${r.action}: ${listed ? "Deny あり" : "Deny なし"}。切り替える`,
+          })
+        : t({
+            en: `${copy.name.en} ${listed ? "allows" : "does not allow"} ${r.action}. Toggle.`,
+            ja: `${copy.name.ja} は ${r.action} を${listed ? "許可" : "許可しない"}。切り替える`,
+          }));
     return (
       <button
         type="button"
@@ -123,7 +128,7 @@ export function PermissionsLab() {
         <span aria-hidden>{symbol}</span>
         {v === "blocked" && (
           <span className="absolute -bottom-px left-1/2 -translate-x-1/2 translate-y-1/2 rounded bg-[var(--deny)] px-1 text-[0.7rem] leading-tight font-bold whitespace-nowrap text-[var(--on-color)]">
-            {t({ en: "stops here", ja: "ここで止まる" })}
+            {stops}
           </span>
         )}
       </button>
