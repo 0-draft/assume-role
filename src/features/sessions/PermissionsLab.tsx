@@ -94,7 +94,7 @@ export function PermissionsLab() {
     // The badge is visible text, so the accessible name has to carry it too
     // (WCAG 2.5.3 Label in Name).
     const label =
-      (v === "blocked" ? `${stops}. ` : "") +
+      (v === "blocked" ? stops + t({ en: ". ", ja: "。" }) : "") +
       (isDeny
         ? t({
             en: `${r.action}: ${listed ? "denied" : "not denied"}. Toggle explicit deny.`,
