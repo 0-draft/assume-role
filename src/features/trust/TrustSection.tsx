@@ -74,6 +74,12 @@ export function TrustSection() {
       <OidcLab />
       <Callout kind="warn">
         {{
+          en: "The `Action` in an OIDC trust policy must be `sts:AssumeRoleWithWebIdentity`. Writing `sts:AssumeRole` there, out of habit from cross-account roles, is the classic mismatch: the principal and conditions all match and the call is still denied.",
+          ja: "OIDC 向け信頼ポリシーの `Action` は `sts:AssumeRoleWithWebIdentity` でなければなりません。クロスアカウントのロールの癖で `sts:AssumeRole` と書くのが典型的な取り違えで、プリンシパルも条件も一致しているのに拒否されます。",
+        }}
+      </Callout>
+      <Callout kind="warn">
+        {{
           en: "IAM now refuses to save a trust policy for GitHub's provider unless `token.actions.githubusercontent.com:sub` is present and is not only a wildcard. It does not stop `repo:*` or `repo:my-org*` (no slash), which still match repositories anyone can create.",
           ja: "IAM は GitHub プロバイダ向けの信頼ポリシーについて、`token.actions.githubusercontent.com:sub` があってワイルドカードだけではないことを保存時に検査するようになりました。ただし `repo:*` や `repo:my-org*` (スラッシュなし) は止めてくれません。これらは誰でも作れるリポジトリに一致します。",
         }}

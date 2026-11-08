@@ -11,5 +11,6 @@ The research behind the site, one topic per file. Every non-obvious claim links 
 | [05-credential-paths.md](05-credential-paths.md) | How EC2, Lambda, ECS, EKS, Roles Anywhere, CI/CD OIDC, Identity Center, `aws login`, SAML, brokers, Cognito, AssumeRoot and outbound federation get credentials; SDK provider chains |
 | [06-operations-and-security.md](06-operations-and-security.md) | CloudTrail, quotas and throttling, pricing, error catalogue, threats, best practices |
 | [07-timeline.md](07-timeline.md) | STS history from 2011 to 2026 |
+| [signing/](signing/README.md) | SigV4 in full, presigned URLs and SigV4a, the credential map, federation notes, and how the signer was verified against AWS's published examples (EN and JA) |
 
 Where official AWS sources contradict each other (for example the SDK defaults table versus the 2025-07-31 release announcements), the notes say which source was followed and why.

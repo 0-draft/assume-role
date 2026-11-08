@@ -130,8 +130,8 @@ export const PATHS: PathDef[] = [
         "imds",
         "PUT /latest/api/token",
         {
-          en: "IMDSv2 starts with a PUT for a session token (TTL 1 s to 21600 s). The PUT response only survives `HttpPutResponseHopLimit` IP hops, which is what keeps bridged containers out when the limit is 1.",
-          ja: "IMDSv2 はまずセッショントークンを PUT で取ります (TTL 1〜21600 秒)。PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。上限 1 ならブリッジ接続のコンテナからは取れません。",
+          en: "IMDSv2 starts with a PUT for a session token (TTL 1 s to 21600 s). The PUT response only survives `HttpPutResponseHopLimit` IP hops, which is what keeps bridged containers out when the limit is 1. The PUT with a custom header is the defence: an SSRF bug can usually coerce a GET out of a vulnerable app, rarely a PUT with a custom header, and IMDSv1's bare GET is what turned SSRF into credential theft. None of this leaves the host, so there is no SigV4 and no CloudTrail entry.",
+          ja: "IMDSv2 はまずセッショントークンを PUT で取ります (TTL 1〜21600 秒)。PUT の応答は `HttpPutResponseHopLimit` 分の IP ホップしか届きません。上限 1 ならブリッジ接続のコンテナからは取れません。カスタムヘッダー付きの PUT であること自体が防御です。SSRF の脆弱性は GET なら引き出せても、カスタムヘッダー付きの PUT はまず引き出せません。IMDSv1 の素の GET が、SSRF を認証情報の窃取に変えていました。この通信はホストの外に出ないので、SigV4 も CloudTrail の記録もありません。",
         },
         {
           payload: {
@@ -147,8 +147,8 @@ X-aws-ec2-metadata-token-ttl-seconds: 21600`,
         "imds",
         "GET …/iam/security-credentials/<role>",
         {
-          en: "With the token in a header, the SDK reads the role's credentials. Policies can tell IMDSv1 from v2 deliveries via `ec2:RoleDelivery` (`1.0` / `2.0`).",
-          ja: "SDK はトークンをヘッダーに付けてロールの認証情報を読みます。ポリシーでは `ec2:RoleDelivery` (`1.0` / `2.0`) で、IMDSv1 と v2 のどちらで渡されたかを区別できます。",
+          en: "With the token in a header, the SDK reads the role's credentials. Policies can tell IMDSv1 from v2 deliveries via `ec2:RoleDelivery` (`1.0` / `2.0`). The JSON calls the session token `Token`; the SDK maps it to what `AWS_SESSION_TOKEN` would hold.",
+          ja: "SDK はトークンをヘッダーに付けてロールの認証情報を読みます。ポリシーでは `ec2:RoleDelivery` (`1.0` / `2.0`) で、IMDSv1 と v2 のどちらで渡されたかを区別できます。JSON ではセッショントークンの名前が `Token` で、SDK はこれを `AWS_SESSION_TOKEN` に当たる値として扱います。",
         },
         {
           payload: {
@@ -669,8 +669,8 @@ AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE=/var/run/secrets/pods.eks.amazonaws.com/s
         "gh",
         "request ID token (aud sts.amazonaws.com)",
         {
-          en: "The job needs `permissions: id-token: write`. `aws-actions/configure-aws-credentials` (v6) asks for audience `sts.amazonaws.com`.",
-          ja: "ジョブに `permissions: id-token: write` が必要です。`aws-actions/configure-aws-credentials` (v6) が audience `sts.amazonaws.com` でトークンを要求します。",
+          en: "The job needs `permissions: id-token: write`. `aws-actions/configure-aws-credentials` (v6) asks for audience `sts.amazonaws.com` by appending `&audience=sts.amazonaws.com` to `ACTIONS_ID_TOKEN_REQUEST_URL` (which already has a query string) and authenticating with `ACTIONS_ID_TOKEN_REQUEST_TOKEN`. Both variables exist only when the job has `id-token: write`. Without an audience, `aud` defaults to the repository owner's URL, which no AWS trust policy expects.",
+          ja: "ジョブに `permissions: id-token: write` が必要です。`aws-actions/configure-aws-credentials` (v6) が audience `sts.amazonaws.com` でトークンを要求します。`ACTIONS_ID_TOKEN_REQUEST_URL` (すでにクエリ文字列を持つ) に `&audience=sts.amazonaws.com` を付け、`ACTIONS_ID_TOKEN_REQUEST_TOKEN` で認証します。どちらの変数も `id-token: write` があるジョブにしか入りません。audience を指定しないと `aud` はリポジトリ所有者の URL になり、それを期待する AWS の信頼ポリシーはありません。",
         },
         {
           payload: {
@@ -709,20 +709,20 @@ steps:
         },
       ),
       m("runner", "sts", "AssumeRoleWithWebIdentity", {
-        en: "Unsigned call. The default role session name is `GitHubActions`.",
-        ja: "署名なしの呼び出しです。既定のロールセッション名は `GitHubActions` です。",
+        en: "Unsigned call: there is no `Authorization` header at all, and the JWT in `WebIdentityToken` (an OIDC ID token, despite the parameter name) is the only proof of identity. The default role session name is `GitHubActions`.",
+        ja: "署名なしの呼び出しです。`Authorization` ヘッダーそのものがなく、`WebIdentityToken` の JWT (パラメータ名に反して OIDC の ID トークン) だけが身元の証明です。既定のロールセッション名は `GitHubActions` です。",
       }),
       m("sts", "iam", "match iss, aud, sub against trust policy", {
-        en: "STS checks `aud` against the OIDC provider's client ID list, verifies the signature (TLS checked against trusted root CAs, so no thumbprint needed), then evaluates `token.actions.githubusercontent.com:sub`. IAM refuses to save a trust policy for this provider without a non-wildcard `sub` condition.",
-        ja: "STS は `aud` を OIDC プロバイダのクライアント ID リストと照合し、署名を検証し (TLS は信頼済みルート CA で検証するのでサムプリント不要)、`token.actions.githubusercontent.com:sub` を評価します。IAM はワイルドカードだけでない `sub` 条件がないと、このプロバイダ向けの信頼ポリシーを保存させません。",
+        en: "STS checks `aud` against the OIDC provider's client ID list, verifies the signature against the keys from the issuer's JWKS (TLS checked against trusted root CAs, so no thumbprint needed), then evaluates `token.actions.githubusercontent.com:sub`. IAM refuses to save a trust policy for this provider without a non-wildcard `sub` condition.",
+        ja: "STS は `aud` を OIDC プロバイダのクライアント ID リストと照合し、発行者の JWKS の鍵で署名を検証し (TLS は信頼済みルート CA で検証するのでサムプリント不要)、`token.actions.githubusercontent.com:sub` を評価します。IAM はワイルドカードだけでない `sub` 条件がないと、このプロバイダ向けの信頼ポリシーを保存させません。",
       }),
       m(
         "sts",
         "runner",
         "assumed-role/deploy/GitHubActions",
         {
-          en: "Credentials are exported for the following steps. If `DurationSeconds` exceeds the role max, STS rejects the call instead of clamping it.",
-          ja: "認証情報が後続ステップに export されます。`DurationSeconds` がロール上限を超えると、STS は切り詰めずにエラーにします。",
+          en: "Credentials are exported for the following steps. If `DurationSeconds` exceeds the role max, STS rejects the call instead of clamping it. The result echoes `SubjectFromWebIdentityToken`, `Audience` and `Provider` (the `iss` for an OIDC ID token); the credentials themselves carry no trace of which repository asked.",
+          ja: "認証情報が後続ステップに export されます。`DurationSeconds` がロール上限を超えると、STS は切り詰めずにエラーにします。結果には `SubjectFromWebIdentityToken`・`Audience`・`Provider` (OIDC の ID トークンなら `iss` の値) が返りますが、認証情報そのものにはどのリポジトリが要求したかの痕跡は残りません。",
         },
         {
           reply: true,

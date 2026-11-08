@@ -18,15 +18,16 @@ AWS STS, drawn. An interactive, bilingual (English / 日本語) explainer of the
 | 2 | Endpoints | Request router: where a call to `sts.amazonaws.com` or a regional hostname is served, logged and throttled, before and after the April 2025 change; hostname builder for every partition and family; SDK default explorer; board of all 34 commercial Regions |
 | 3 | Every API | "What are you holding?" picker over all 11 operations, detail passes with CLI examples, duration ruler, comparison matrix, access-key prefix decoder |
 | 4 | Credential paths | Step-through sequence diagrams for EC2, Lambda, ECS, IRSA, Pod Identity, Roles Anywhere, GitHub Actions, Identity Center, `aws login`, SAML, Cognito, AssumeRoot, outbound federation; credential provider chain lab |
-| 5 | Sessions | Effective-permissions gates, role-chaining builder (1 h cap, transitive tags, source identity), session-token size meter, revoke-sessions timeline |
-| 6 | Trust policies | Two-gates lab, GitHub OIDC trust policy evaluator, confused-deputy walkthrough, condition-key catalogue |
-| 7 | Logs & limits | Annotated CloudTrail records, 600 RPS quota lab, threat cards and hardening checklist |
-| 8 | Errors | Paste an error message and get the cause and the fix |
-| 9–10 | Timeline, glossary | STS history 2011–2026, 43 terms in EN/JA |
+| 5 | Signing | Live SigV4 signer (long-term key, the AssumeRole call itself, temporary credentials) showing the canonical request, string to sign, key derivation and signature, with a "break it" panel; presigned URL builder; SigV4a keypair derivation and multi-Region signature; Bedrock API key bearer call |
+| 6 | Sessions | Effective-permissions gates, role-chaining builder (1 h cap, transitive tags, source identity), session-token size meter, revoke-sessions timeline |
+| 7 | Trust policies | Two-gates lab, GitHub OIDC trust policy evaluator, confused-deputy walkthrough, condition-key catalogue |
+| 8 | Logs & limits | Annotated CloudTrail records, 600 RPS quota lab, threat cards and hardening checklist |
+| 9 | Errors | Paste an error message and get the cause and the fix |
+| 10–11 | Timeline, glossary | STS history 2011–2026, 43 terms in EN/JA |
 
 The research behind every number lives in [`docs/`](docs/README.md), with sources. Facts were checked against AWS documentation, What's New posts, the AWS SDK endpoint data and the GitHub changelog on 2026-10-10. Where AWS sources disagree, the docs say so.
 
-The SigV4 signature itself is drawn step by step in the sibling project [caller-identity](https://github.com/0-draft/caller-identity); this one is about STS.
+The Signing chapter runs a real SigV4 and SigV4a implementation in the browser (WebCrypto plus `@noble/curves`). Its tests assert it byte for byte against the signature examples AWS publishes; how that was checked, and an error found in the AWS documentation along the way, is in [`docs/signing/`](docs/signing/README.md). That chapter and its notes came from the former `caller-identity` project, merged in on 2026-11-08.
 
 ## Development
 
