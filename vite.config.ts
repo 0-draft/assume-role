@@ -4,9 +4,9 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "node:url";
 
-// Served from https://0-draft.github.io/assume-role/ on GitHub Pages.
+// Served from https://0-draft.github.io/aws-credentials/ on GitHub Pages.
 export default defineConfig({
-  base: process.env.BASE_PATH ?? "/assume-role/",
+  base: process.env.BASE_PATH ?? "/aws-credentials/",
   plugins: [react(), tailwindcss()],
   build: {
     rolldownOptions: {

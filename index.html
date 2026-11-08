@@ -3,21 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>assume-role: AWS STS, drawn</title>
+    <title>aws-credentials: AWS credentials, drawn</title>
     <meta
       name="description"
-      content="AWS Security Token Service, drawn: global and regional endpoints, every STS API, every way a workload or a human ends up holding temporary credentials, session policies, role chaining and the errors you will meet. Bilingual (EN/JA)."
+      content="AWS credentials, drawn: how they are issued (STS global and regional endpoints, every STS API, every way a workload or a human ends up holding temporary credentials, session policies, role chaining, errors) and how they are used (SigV4 and SigV4a signing, presigned URLs, bearer API keys). Bilingual (EN/JA)."
     />
-    <link rel="canonical" href="https://0-draft.github.io/assume-role/" />
+    <link rel="canonical" href="https://0-draft.github.io/aws-credentials/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="assume-role" />
-    <meta property="og:title" content="assume-role: AWS STS, drawn" />
+    <meta property="og:site_name" content="aws-credentials" />
+    <meta property="og:title" content="aws-credentials: AWS credentials, drawn" />
     <meta
       property="og:description"
-      content="Every STS endpoint, all 11 APIs, every way a workload or a person ends up holding temporary credentials. Interactive, EN / 日本語."
+      content="Every STS endpoint, all 11 APIs, every way a workload or a person ends up holding temporary credentials, and how SigV4 signs every request with them. Interactive, EN / 日本語."
     />
-    <meta property="og:url" content="https://0-draft.github.io/assume-role/" />
-    <meta property="og:image" content="https://0-draft.github.io/assume-role/og.png" />
+    <meta property="og:url" content="https://0-draft.github.io/aws-credentials/" />
+    <meta
+      property="og:image"
+      content="https://0-draft.github.io/aws-credentials/og.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -27,7 +30,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#8a1538" />
     <script>
-      // Apply a saved theme before first paint so it never flashes.
+      // Apply a saved theme before first paint so it never flashes. The key keeps
+      // the site's former name so saved choices survive the rename.
       try {
         const t = localStorage.getItem("assume-role:theme");
         if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;

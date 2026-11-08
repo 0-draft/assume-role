@@ -21,9 +21,9 @@ export function Footer() {
         <p>
           <a
             className="underline underline-offset-2"
-            href="https://github.com/0-draft/assume-role"
+            href="https://github.com/0-draft/aws-credentials"
           >
-            github.com/0-draft/assume-role
+            github.com/0-draft/aws-credentials
           </a>
         </p>
       </div>
