@@ -127,6 +127,7 @@ point by a scalar you chose, and `SubtleCrypto` exposes no scalar multiplication
 curve arithmetic has to come from a library. This repository uses `@noble/curves`.
 
 One consequence worth stating: `@noble/curves` defaults to the RFC 6979 deterministic
-nonce, so signing the same request twice here gives identical bytes. AWS SDKs sign through
-libcrypto and will not. Both verify; only one is reproducible, which matters if you ever
-try to write a fixed test vector for a SigV4a signature.
+nonce, so signing the same request twice here gives identical bytes. SDK signers typically
+use a randomised nonce and will not (unverified per SDK). Both verify; only one is
+reproducible, which matters if you ever try to write a fixed test vector for a SigV4a
+signature.

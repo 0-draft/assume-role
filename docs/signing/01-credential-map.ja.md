@@ -13,9 +13,9 @@ AWS の API を呼ぶという目的に限れば、形は2つだけ。それに�
 | --- | --- | --- | --- |
 | 長期キー | `AKIA...` + secret | `iam:CreateAccessKey` | 無し |
 | 一時クレデンシャル | `ASIA...` + secret + session token | STS | 必ずある |
-| bearer token | 不透明な文字列1本 | Bedrock, CloudWatch | 種類による |
+| bearer token | 不透明な文字列1本 | Bedrock の API キー | 種類による |
 
-長期キーは、期限を持たない唯一の AWS API クレデンシャル。このページに書く残り全部は、その1点から
+SigV4 のキーペアの中で、期限を持たないのは長期キーだけ (長期の Bedrock API キーは作成時に決めた期限まで有効で、専用の IAM user に紐づく)。このページに書く残り全部は、その1点から
 派生している。
 
 ## 入り口の問題
@@ -55,7 +55,7 @@ IMDS は別のやり方で循環を断つ。プラットフォームが既に As
   途中の1ステップ。
 - **OIDC フェデレーション。** CI から長期キーを消す。仕事をしているのは trust policy で、そこを
   間違える話は [フェデレーション](03-federation.ja.md) で扱う。
-- **IMDS。** EC2 や Lambda のディスクに何も置かなくてよい理由。IMDSv2 の `PUT` は趣味ではない。SSRF
+- **IMDS。** EC2 のディスクに何も置かなくてよい理由 (Lambda は同じ 3 つの値を環境変数で、ECS や EKS Pod Identity はコンテナ用エンドポイントで受け取る)。IMDSv2 の `PUT` は趣味ではない。SSRF
   は脆弱なアプリから `GET` を引き出せても、カスタムヘッダ付きの `PUT` はまず引き出せない。
 - **bearer token。** API キーを期待していて署名を教え込めないツール向け。AWS 自身の案内も「STS が
   不可能な場合に限れ」。

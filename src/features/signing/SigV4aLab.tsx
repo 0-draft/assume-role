@@ -136,8 +136,8 @@ export function SigV4aLab() {
               </output>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 {t({
-                  en: "Reproducible here because this implementation uses the RFC 6979 deterministic nonce. AWS SDKs sign through libcrypto and produce different bytes for the same request. Both verify; only one is reproducible.",
-                  ja: "この実装は RFC 6979 の決定的 nonce を使うので、毎回同じ結果になります。AWS SDK は libcrypto 経由で署名するため、同じリクエストでも毎回バイト列が変わります。どちらも検証は通り、再現できるのは片方だけです。",
+                  en: "Reproducible here because this implementation uses the RFC 6979 deterministic nonce. SDK signers typically use a randomised nonce, so the same request gives different bytes each time. Both verify; only one is reproducible.",
+                  ja: "この実装は RFC 6979 の決定的 nonce を使うので、毎回同じ結果になります。SDK の署名処理は一般に乱数の nonce を使うので、同じリクエストでも毎回バイト列が変わります。どちらも検証は通り、再現できるのは片方だけです。",
                 })}
               </p>
             </div>

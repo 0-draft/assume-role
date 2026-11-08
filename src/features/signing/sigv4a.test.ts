@@ -23,8 +23,8 @@ import {
  * The signature is a separate matter. ECDSA is randomised in general, so a
  * SigV4a signature is not something a vendor could publish as a fixed vector
  * anyway. @noble/curves happens to default to the deterministic RFC 6979 nonce,
- * which makes ours reproducible, but AWS's own implementations sign through
- * libcrypto and theirs will not be. What is portable across both is that the
+ * which makes ours reproducible, while SDK signers typically use a randomised
+ * nonce (unverified per SDK). What is portable across both is that the
  * signature verifies against the derived public key, which is the check AWS
  * actually performs.
  */
@@ -205,8 +205,8 @@ describe("signing", () => {
     const b = await signSigV4a(canonicalRequest, AWS_EXAMPLE, "host", options);
 
     // Worth stating rather than assuming: ECDSA is randomised in general, and
-    // AWS's own implementations sign through libcrypto, so the same request
-    // signed twice by an AWS SDK will not produce identical bytes. @noble's
+    // SDK signers typically use a randomised nonce, so the same request signed
+    // twice by an SDK is not expected to produce identical bytes. @noble's
     // default is the deterministic RFC 6979 nonce, so ours does. Both verify;
     // only one is reproducible.
     expect(a.signature).toBe(b.signature);

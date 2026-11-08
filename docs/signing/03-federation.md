@@ -113,7 +113,8 @@ Four recurring mistakes, in rough order of how often they appear.
    GitHub.
 3. **`repo:my-org/*`.** Narrower, and still wrong in a specific way: it covers
    repositories added to the org later, including ones created by a compromised account,
-   and it does not distinguish a pull request from a fork.
+   and it matches every trigger, so a `pull_request` run (`sub` ending in `:pull_request`)
+   gets the same role as a push to `main` (`:ref:refs/heads/main`).
 4. **`sts:AssumeRole` written as the `Action`.** The API you call is the `Action` the
    policy must name. OIDC needs `sts:AssumeRoleWithWebIdentity`, SAML needs
    `sts:AssumeRoleWithSAML`. This one fails closed, which makes it the least dangerous of

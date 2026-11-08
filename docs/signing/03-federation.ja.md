@@ -107,7 +107,7 @@ STS が欲しいのは身元の主張なので、ID token が正しい形。こ�
    このロールを assume できる。
 2. **`repo:*` や裸の `*`。** 制約に見える。GitHub 上の全リポジトリに一致する。
 3. **`repo:my-org/*`。** これは狭いが、特定の意味でまだ間違っている。後から org に追加された
-   リポジトリを含み、乗っ取られたアカウントが作ったものも含み、pull request と fork を区別しない。
+   リポジトリを含み、乗っ取られたアカウントが作ったものも含み、トリガーも区別しない。`pull_request` の実行 (`sub` が `:pull_request` で終わる) が `main` への push (`:ref:refs/heads/main`) と同じロールを得る。
 4. **`Action` に `sts:AssumeRole` と書く。** 呼び出す API 名がそのまま policy に書くべき `Action` 名
    になる。OIDC なら `sts:AssumeRoleWithWebIdentity`、SAML なら `sts:AssumeRoleWithSAML`。これは
    fail closed なので、4つの中では一番害が小さい。

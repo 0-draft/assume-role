@@ -74,7 +74,7 @@ transcription slips; it does not rule out both having read the prose the same wr
 **SigV4a signatures.** Not pinnable in principle: ECDSA is randomised. What is asserted
 instead is that a signature verifies against the derived public key, which is the check
 AWS performs. (This implementation happens to be deterministic because `@noble/curves`
-defaults to RFC 6979; AWS's is not.)
+defaults to RFC 6979; SDK signers typically are not, though that is unverified per SDK.)
 
 ## Corrections found while reviewing
 

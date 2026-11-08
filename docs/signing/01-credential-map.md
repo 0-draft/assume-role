@@ -13,10 +13,11 @@ and does not fit either.
 | --- | --- | --- | --- |
 | Long-term key | `AKIA...` + secret | `iam:CreateAccessKey` | Never |
 | Temporary credential | `ASIA...` + secret + session token | STS | Yes, always |
-| Bearer token | One opaque string | Bedrock, CloudWatch | Depends |
+| Bearer token | One opaque string | Bedrock API keys | Depends |
 
-The long-term key is the only AWS API credential with no expiry. That single property is
-the reason for everything else on this page.
+Among the SigV4 key pairs, the long-term key is the only one with no expiry. That single
+property is the reason for everything else on this page. (A long-term Bedrock API key lasts
+until the expiry configured at creation, and is tied to an IAM user of its own.)
 
 ## The entry problem
 
@@ -56,7 +57,8 @@ leaves the result on a link-local address.
   already, so it is a step in a chain rather than an entry point.
 - **OIDC federation.** Ends long-term keys in CI. The trust policy does the work, and
   getting it wrong is the subject of [Federation](03-federation.md).
-- **IMDS.** Why an EC2 instance or a Lambda needs nothing on disk. The `PUT` in IMDSv2 is
+- **IMDS.** Why an EC2 instance needs nothing on disk. (Lambda gets the same three values
+  as environment variables instead, and ECS and EKS Pod Identity from a container endpoint.) The `PUT` in IMDSv2 is
   not stylistic: server-side request forgery can usually coerce a `GET` out of a
   vulnerable application, rarely a `PUT` carrying a custom header.
 - **Bearer tokens.** For tools that expect an API key and cannot be taught to sign. AWS's
