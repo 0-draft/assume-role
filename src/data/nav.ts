@@ -6,6 +6,7 @@ export const NAV: { id: string; label: L }[] = [
   { id: "endpoints", label: { en: "Endpoints", ja: "エンドポイント" } },
   { id: "api", label: { en: "Every API", ja: "全 API" } },
   { id: "paths", label: { en: "Credential paths", ja: "取得経路" } },
+  { id: "signing", label: { en: "Signing", ja: "署名" } },
   { id: "sessions", label: { en: "Sessions", ja: "セッション" } },
   { id: "trust", label: { en: "Trust policies", ja: "信頼ポリシー" } },
   { id: "ops", label: { en: "Logs & limits", ja: "ログと上限" } },

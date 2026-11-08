@@ -17,6 +17,10 @@ const EndpointsSection = named(
 );
 const ApiSection = named(import("@/features/api/ApiSection"), "ApiSection");
 const PathsSection = named(import("@/features/paths/PathsSection"), "PathsSection");
+const SigningSection = named(
+  import("@/features/signing/SigningSection"),
+  "SigningSection",
+);
 const SessionsSection = named(
   import("@/features/sessions/SessionsSection"),
   "SessionsSection",
@@ -68,6 +72,7 @@ export default function App() {
           <EndpointsSection />
           <ApiSection />
           <PathsSection />
+          <SigningSection />
           <SessionsSection />
           <TrustSection />
           <OpsSection />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLang } from "@/i18n/useLang";
-import { Callout, Code, Figure, P, Section, Src } from "@/components/ui";
+import { Callout, Code, Figure, P, Section } from "@/components/ui";
 import { chapter } from "@/data/nav";
 import { exposureHours, LIFETIMES } from "./exposure";
 
@@ -47,11 +47,13 @@ Action=GetCallerIdentity&Version=2011-06-15`}
       </Callout>
       <p className="prose-col text-sm text-[var(--muted)]">
         {t({
-          en: "How the signature itself is computed is drawn step by step in the sibling project ",
-          ja: "署名そのものの計算は、姉妹プロジェクト ",
+          en: "How the signature itself is computed, and broken, is worked through live in chapter ",
+          ja: "署名そのものの計算 (と壊し方) は、第 ",
         })}
-        <Src href="https://0-draft.github.io/caller-identity/">caller-identity</Src>
-        {t({ en: ".", ja: " で一歩ずつ図解しています。" })}
+        <a href="#signing" className="text-[var(--sts)] underline underline-offset-2">
+          {String(chapter("signing")).padStart(2, "0")}
+        </a>
+        {t({ en: ".", ja: " 章でその場で計算しながら説明します。" })}
       </p>
     </Section>
   );
