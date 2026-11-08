@@ -214,7 +214,7 @@ async function finishSignature(
 }
 
 export interface PresignOptions extends SigV4Options {
-  /** Seconds the URL stays valid. S3 caps this at 604800 (seven days). */
+  /** Seconds the URL stays valid. The CLI and SDKs allow up to 604800 (seven days). */
   expiresIn: number;
 }
 

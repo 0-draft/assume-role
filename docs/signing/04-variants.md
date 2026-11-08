@@ -54,8 +54,12 @@ Three consequences that follow directly and surprise people anyway.
 - **URLs leak in ordinary ways.** Browser history, referrer headers, proxy logs, chat
   messages. A presigned URL pasted into a ticket is a credential in a ticket.
 
-`X-Amz-Expires` is the only thing bounding the damage. S3 caps it at 604800 seconds,
-seven days, because the signing key itself is valid only that long.
+`X-Amz-Expires` is the main thing bounding the damage. With the CLI or SDKs it can be
+set as high as 604800 seconds, seven days (the S3 console allows 1 minute to 12 hours).
+A URL presigned with temporary credentials also dies when those credentials expire,
+whatever `X-Amz-Expires` says, and any presigned URL stops working once the credential
+that signed it is revoked, deleted or deactivated
+([S3 user guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)).
 
 ## SigV4a
 

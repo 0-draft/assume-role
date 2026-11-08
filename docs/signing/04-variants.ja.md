@@ -52,8 +52,10 @@ flowchart LR
 - **URL はごく普通の経路で漏れる。** ブラウザ履歴、referrer ヘッダ、プロキシログ、チャット。チケットに
   貼られた presigned URL は、チケットに貼られたクレデンシャル。
 
-被害を限定しているのは `X-Amz-Expires` だけ。S3 の上限は604800秒 (7日) で、signing key 自体がその
-期間しか有効でないため。
+被害を限定している主な要素は `X-Amz-Expires`。CLI や SDK なら最大604800秒 (7日) まで設定できる
+(S3 コンソールでは 1 分〜12 時間)。一時クレデンシャルで署名した URL は、`X-Amz-Expires` に関係なく
+そのクレデンシャルの失効と同時に使えなくなる。どの presigned URL も、署名したクレデンシャルが失効・
+削除・無効化されれば止まる ([S3 ユーザーガイド](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html))。
 
 ## SigV4a
 

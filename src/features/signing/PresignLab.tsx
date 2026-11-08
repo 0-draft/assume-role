@@ -75,8 +75,8 @@ export function PresignLab() {
       {expiry === "604800" && (
         <p className="mt-2 text-sm text-[var(--deny)]">
           {t({
-            en: "604800 seconds is seven days, the ceiling S3 allows, because the signing key itself is only valid that long.",
-            ja: "604800 秒は 7 日で、S3 が認める上限です。署名キー自体がその期間しか有効でないためです。",
+            en: "604800 seconds is seven days, the most the CLI and SDKs allow. A URL signed with temporary credentials stops working when they expire anyway, whatever X-Amz-Expires says.",
+            ja: "604800 秒は 7 日で、CLI と SDK で設定できる上限です。一時認証情報で署名した URL は、X-Amz-Expires に関係なく、その認証情報が失効した時点で使えなくなります。",
           })}
         </p>
       )}

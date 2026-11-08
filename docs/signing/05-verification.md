@@ -34,8 +34,8 @@ and the signature. All three match.
 offers itself as a test case. The canonical request, its hash, the signature and the
 complete URL all match.
 
-If either breaks, every signature the site renders is wrong, so both run as their own CI
-job.
+If either breaks, every signature the site renders is wrong. Both run in the `test` job in
+CI on every pull request.
 
 ## An error in the AWS documentation
 
@@ -111,5 +111,5 @@ npm ci
 npm test
 ```
 
-Each check also runs as its own CI job, alongside typecheck, lint, formatting and
-markdown lint.
+CI runs the same tests in its `test` job, alongside separate typecheck, lint, formatting,
+markdown lint and build jobs.
