@@ -5,6 +5,7 @@ export type Lang = (typeof LANGS)[number];
 export type L = Record<Lang, string>;
 
 export const DEFAULT_LANG: Lang = "en";
+// Former site name, kept so saved choices survive the rename.
 const STORAGE_KEY = "assume-role:lang";
 
 export function isLang(v: unknown): v is Lang {

@@ -13,7 +13,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
-    baseURL: `http://localhost:${PORT}/assume-role/`,
+    baseURL: `http://localhost:${PORT}/aws-credentials/`,
     trace: "retain-on-failure",
   },
   projects: [
@@ -28,7 +28,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `npm run build && npx vite preview --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}/assume-role/`,
+    url: `http://localhost:${PORT}/aws-credentials/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

@@ -1,11 +1,13 @@
-# assume-role
+# aws-credentials
 
-[![ci](https://github.com/0-draft/assume-role/actions/workflows/ci.yml/badge.svg)](https://github.com/0-draft/assume-role/actions/workflows/ci.yml)
-[![codeql](https://github.com/0-draft/assume-role/actions/workflows/codeql.yml/badge.svg)](https://github.com/0-draft/assume-role/actions/workflows/codeql.yml)
+[![ci](https://github.com/0-draft/aws-credentials/actions/workflows/ci.yml/badge.svg)](https://github.com/0-draft/aws-credentials/actions/workflows/ci.yml)
+[![codeql](https://github.com/0-draft/aws-credentials/actions/workflows/codeql.yml/badge.svg)](https://github.com/0-draft/aws-credentials/actions/workflows/codeql.yml)
 
-AWS STS を図解するサイトです。英語と日本語に対応したインタラクティブな解説で、AWS Security Token Service のグローバルエンドポイントと、リージョン・FIPS・デュアルスタック・PrivateLink の各ホスト名、STS の API 11 個すべて、ワークロードや人が一時認証情報を手にするまでの全経路、それにまつわるポリシー・上限・エラーを扱います。
+AWS の認証情報を図解するサイトです。英語と日本語に対応したインタラクティブな解説で、認証情報がどう発行され、どう使われるかを扱います。発行の側では、AWS Security Token Service のグローバルエンドポイントと、リージョン・FIPS・デュアルスタック・PrivateLink の各ホスト名、STS の API 11 個すべて、ワークロードや人が一時認証情報を手にするまでの全経路、それにまつわるポリシー・上限・エラー。使う側では、ブラウザ内でその場で計算する SigV4 / SigV4a の署名、presigned URL、bearer 型の API キーです。
 
-**サイト:** <https://0-draft.github.io/assume-role/?lang=ja> ([English](https://0-draft.github.io/assume-role/))
+このリポジトリは 2026-11-08 まで `assume-role` という名前でした。その日に旧 `caller-identity` プロジェクト (リクエスト署名) を統合しています。
+
+**サイト:** <https://0-draft.github.io/aws-credentials/?lang=ja> ([English](https://0-draft.github.io/aws-credentials/))
 
 [English README](README.md)
 
@@ -35,7 +37,7 @@ Node.js 24 が必要です。
 
 ```bash
 npm ci
-npm run dev        # http://localhost:5173/assume-role/
+npm run dev        # http://localhost:5173/aws-credentials/
 npm run check      # 型チェック、lint、フォーマット、markdownlint、テスト、ビルド
 npm run test:e2e   # 実ブラウザでのチェック (要: npx playwright install chromium)
 ```

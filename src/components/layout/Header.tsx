@@ -6,6 +6,7 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 const IDS = NAV.map((n) => n.id);
 
 type Theme = "light" | "dark";
+// Former site name, kept so saved choices survive the rename.
 const THEME_KEY = "assume-role:theme";
 
 function currentTheme(): Theme {

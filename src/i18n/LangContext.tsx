@@ -4,8 +4,8 @@ import { type Lang, readStoredLang, resolveInitialLang, storeLang } from "./lang
 import { LangContext, type LangValue } from "./context";
 
 const TITLE: Record<Lang, string> = {
-  en: "assume-role: AWS STS, drawn",
-  ja: "assume-role: 図解 AWS STS",
+  en: "aws-credentials: AWS credentials, drawn",
+  ja: "aws-credentials: 図解 AWS 認証情報",
 };
 
 export function LangProvider({

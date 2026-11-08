@@ -36,4 +36,4 @@ Temporary credentials matter because they expire on their own. A leaked long-ter
 
 - Running into an error: [06-operations-and-security.md](06-operations-and-security.md) has the error catalogue, CloudTrail fields and quotas.
 - How it got this way: [07-timeline.md](07-timeline.md).
-- The interactive version of all of this: <https://0-draft.github.io/assume-role/>.
+- The interactive version of all of this: <https://0-draft.github.io/aws-credentials/>.

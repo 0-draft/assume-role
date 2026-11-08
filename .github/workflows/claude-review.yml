@@ -87,7 +87,7 @@ jobs:
             REPO: ${{ github.repository }}
             PR: ${{ github.event.pull_request.number }}
 
-            This repository (0-draft/assume-role): AWS STS, drawn: every endpoint, every API, every way a workload or a human ends up holding temporary credentials. EN/JA.
+            This repository (0-draft/aws-credentials): AWS credentials, drawn: every STS endpoint, every API, every way a workload or a human ends up holding temporary credentials, and how requests are signed with them (SigV4, SigV4a, presigned URLs). EN/JA.
 
             Before reviewing, read whatever this repository says about itself: CLAUDE.md,
             AGENTS.md, CONTRIBUTING.md, README.md (and README.ja.md if present), and the

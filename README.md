@@ -1,11 +1,13 @@
-# assume-role
+# aws-credentials
 
-[![ci](https://github.com/0-draft/assume-role/actions/workflows/ci.yml/badge.svg)](https://github.com/0-draft/assume-role/actions/workflows/ci.yml)
-[![codeql](https://github.com/0-draft/assume-role/actions/workflows/codeql.yml/badge.svg)](https://github.com/0-draft/assume-role/actions/workflows/codeql.yml)
+[![ci](https://github.com/0-draft/aws-credentials/actions/workflows/ci.yml/badge.svg)](https://github.com/0-draft/aws-credentials/actions/workflows/ci.yml)
+[![codeql](https://github.com/0-draft/aws-credentials/actions/workflows/codeql.yml/badge.svg)](https://github.com/0-draft/aws-credentials/actions/workflows/codeql.yml)
 
-AWS STS, drawn. An interactive, bilingual (English / 日本語) explainer of the AWS Security Token Service: the global endpoint and every regional, FIPS, dual-stack and PrivateLink hostname, all 11 STS APIs, every path by which a workload or a person ends up holding temporary credentials, and the policies, limits and errors around them.
+AWS credentials, drawn. An interactive, bilingual (English / 日本語) explainer of how AWS credentials are issued and how they are used. Issuance: the AWS Security Token Service's global endpoint and every regional, FIPS, dual-stack and PrivateLink hostname, all 11 STS APIs, every path by which a workload or a person ends up holding temporary credentials, and the policies, limits and errors around them. Use: SigV4 and SigV4a signing computed live in the browser, presigned URLs and bearer API keys.
 
-**Site:** <https://0-draft.github.io/assume-role/> ([日本語](https://0-draft.github.io/assume-role/?lang=ja))
+This repository was called `assume-role` until 2026-11-08, when the former `caller-identity` project (request signing) was merged in.
+
+**Site:** <https://0-draft.github.io/aws-credentials/> ([日本語](https://0-draft.github.io/aws-credentials/?lang=ja))
 
 [日本語の README](README.ja.md)
 
@@ -35,7 +37,7 @@ Requires Node.js 24.
 
 ```bash
 npm ci
-npm run dev        # http://localhost:5173/assume-role/
+npm run dev        # http://localhost:5173/aws-credentials/
 npm run check      # typecheck, lint, format, markdownlint, tests, build
 npm run test:e2e   # real-browser checks (needs: npx playwright install chromium)
 ```
