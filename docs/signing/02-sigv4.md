@@ -47,8 +47,9 @@ Of the three components of a temporary credential, two travel and one does not.
 | `SecretAccessKey` | **Never** | Used locally as HMAC input only |
 
 That asymmetry is the difference between a signature and a bearer token. Intercepting a
-signed request gives you that one request, already spent. Intercepting a bearer token
-gives you the credential.
+signed request gives you that one request, replayable only inside the clock-skew window
+and only with the same method, path and body. Intercepting a bearer token gives you the
+credential.
 
 ## The canonical request
 
