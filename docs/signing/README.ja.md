@@ -2,7 +2,7 @@
 
 # ノート
 
-このノートは[署名の章](https://0-draft.github.io/aws-credentials/?lang=ja#signing)の裏付けです。もとは `caller-identity` プロジェクト向けに書いたもので、2026-11-08 にこのリポジトリへ統合した際に移しました。
+このノートは[署名の章](https://0-draft.github.io/aws-credentials/?lang=ja#signing)の裏付け。もとは `caller-identity` プロジェクト向けに書いたもので、2026-11-08 にこのリポジトリへ統合した際に移した。
 
 サイトがインタラクティブに見せている内容の、長い版。パネルに収まらない部分をここに置く。各仕組みが
 なぜその形なのか、ドキュメントと実装がどこで食い違うのか、そしてここに書いた主張をどう検証したか。
@@ -25,7 +25,7 @@
 flowchart TD
   subgraph issue["クレデンシャルの出所"]
     iam["IAM<br/>CreateAccessKey"]
-    sts["STS<br/>6つの発行 API"]
+    sts["STS<br/>発行 API"]
     imds["IMDS / コンテナエンドポイント<br/>プラットフォームが注入"]
   end
 

@@ -136,8 +136,8 @@ export function SigV4aLab() {
               </output>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 {t({
-                  en: "Reproducible here because this implementation uses the RFC 6979 deterministic nonce. SDK signers typically use a randomised nonce, so the same request gives different bytes each time. Both verify; only one is reproducible.",
-                  ja: "この実装は RFC 6979 の決定的 nonce を使うので、毎回同じ結果になります。SDK の署名処理は一般に乱数の nonce を使うので、同じリクエストでも毎回バイト列が変わります。どちらも検証は通り、再現できるのは片方だけです。",
+                  en: "Reproducible here because this implementation uses the RFC 6979 deterministic nonce. A signer that uses a random nonce, which ECDSA allows, gives different bytes for the same request, and they verify just as well.",
+                  ja: "この実装は RFC 6979 の決定的 nonce を使うので、毎回同じ結果になります。ECDSA は乱数の nonce も許すので、そういう署名処理なら同じリクエストでも毎回バイト列が変わり、それでも同じように検証が通ります。",
                 })}
               </p>
             </div>

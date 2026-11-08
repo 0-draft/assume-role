@@ -4,9 +4,9 @@
 
 [Back to notes](README.md)
 
-## The six issuance APIs
+## The six classic issuance APIs
 
-STS is not one function. These are the operations that hand back credentials.
+STS is not one function. These six are the operations that hand back the classic three-part credential; the full list of all 11 STS operations, including `GetWebIdentityToken` for outbound federation, is in [API operations](../03-api-operations.md).
 
 | API | Entry requirement | Ceiling |
 | --- | --- | --- |
@@ -14,8 +14,8 @@ STS is not one function. These are the operations that hand back credentials.
 | `AssumeRoleWithSAML` | A SAML assertion, **no AWS credential** | Same |
 | `AssumeRoleWithWebIdentity` | An OIDC ID token, **no AWS credential** | Same |
 | `AssumeRoot` | Management account | Fixed 15 minutes |
-| `GetSessionToken` | An IAM user key, optionally with MFA | 12 hours |
-| `GetFederationToken` | An IAM user key | 12 hours |
+| `GetSessionToken` | An IAM user key, optionally with MFA | 36 hours (default 12; root user 1 hour) |
+| `GetFederationToken` | An IAM user key | 36 hours (default 12; root user 1 hour) |
 
 `DurationSeconds` on `AssumeRole` accepts 900 seconds upward, bounded by the role's
 `MaxSessionDuration`, which is itself settable between 1 and 12 hours. The default is

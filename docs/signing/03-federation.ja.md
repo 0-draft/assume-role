@@ -4,9 +4,9 @@
 
 [ノートに戻る](README.ja.md)
 
-## 6つの発行 API
+## 古典的な 6 つの発行 API
 
-STS は単一の関数ではない。クレデンシャルを返すのは次の操作。
+STS は単一の関数ではない。従来型の 3 点セットのクレデンシャルを返すのは次の 6 操作。アウトバウンドフェデレーション用の `GetWebIdentityToken` を含む STS の全 11 操作は [API operations](../03-api-operations.md) にある。
 
 | API | 入り口の条件 | 上限 |
 | --- | --- | --- |
@@ -14,8 +14,8 @@ STS は単一の関数ではない。クレデンシャルを返すのは次の�
 | `AssumeRoleWithSAML` | SAML assertion、**AWS クレデンシャル不要** | 同上 |
 | `AssumeRoleWithWebIdentity` | OIDC ID token、**AWS クレデンシャル不要** | 同上 |
 | `AssumeRoot` | 管理アカウント | 固定15分 |
-| `GetSessionToken` | IAM user のキー、必要なら MFA | 12時間 |
-| `GetFederationToken` | IAM user のキー | 12時間 |
+| `GetSessionToken` | IAM user のキー、必要なら MFA | 36時間 (既定12時間、root user は1時間) |
+| `GetFederationToken` | IAM user のキー | 36時間 (既定12時間、root user は1時間) |
 
 `AssumeRole` の `DurationSeconds` は900秒以上で、ロールの `MaxSessionDuration` が上限。その
 `MaxSessionDuration` 自体は1〜12時間で設定できる。既定は3600秒。assume したロールからさらに assume

@@ -26,7 +26,7 @@ Three layers, and most confusion comes from collapsing them.
 flowchart TD
   subgraph issue["Where credentials come from"]
     iam["IAM<br/>CreateAccessKey"]
-    sts["STS<br/>six issuance APIs"]
+    sts["STS<br/>issuance APIs"]
     imds["IMDS / container endpoint<br/>injected by the platform"]
   end
 
