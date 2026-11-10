@@ -1,6 +1,6 @@
 # Credential Paths: How Workloads and Humans Actually Get STS Credentials
 
-_Last verified: 2026-10-10_
+_Last verified: 2026-11-11_
 
 Every AWS API call that is not anonymous is signed with SigV4 using an access key. Short-term keys (`ASIA...` access key ID plus a session token) almost always come out of AWS STS, but not always from a call that _your_ code makes. This chapter walks through each delivery path end to end: who calls what, which endpoint is hit, what the token looks like, how long the result lives, and where people trip.
 
@@ -384,6 +384,7 @@ Ext svc -> Ext svc      : verify signature, iss, aud, sub, exp; map claims to pe
 - Parameters: `Audience` 1 to 10 values; `DurationSeconds` 60 to 3600, default 300; `SigningAlgorithm` `RS256` or `ES384` (required); up to 50 `Tags`. Not available on the STS global endpoint. Errors include `OutboundWebIdentityFederationDisabled` and `SessionDurationEscalation` (a token cannot outlive the calling session) ([API reference](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetWebIdentityToken.html)).
 - Claims: standard `iss`, `aud`, `sub` (principal ARN), `iat`, `exp`, `jti`; under the `https://sts.amazonaws.com/` namespace: `aws_account`, `source_region`, `org_id`, `ou_path`, `principal_tags`, `request_tags`, and context such as `ec2_source_instance_arn`, `ec2_instance_source_vpc`, `ec2_role_delivery`, `lambda_source_function_arn`, `identity_store_user_id`, `federated_provider`, `source_identity`, `original_session_exp`, `glue_credential_issuing_service` ([token claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_token_claims.html)).
 - Control: `sts:GetWebIdentityToken` permission plus condition keys `sts:IdentityTokenAudience`, `sts:SigningAlgorithm`, `sts:DurationSeconds`, usable in identity policies, SCPs, RCPs and VPC endpoint policies ([AWS News Blog](https://aws.amazon.com/blogs/aws/simplify-access-to-external-services-using-aws-iam-outbound-identity-federation/)).
+- Cross-partition (since 2026-11): the destination partition's STS can be the relying party. Create an IAM OIDC provider there for the source account's issuer URL, request the token with exactly one `Audience` (multi-audience tokens are rejected; [setup](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition_setup.html), [controls](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition_controls.html)), and call `AssumeRoleWithWebIdentity` at a Regional endpoint in the destination partition. Tokens are rejected for `AssumeRoleWithWebIdentity` in the same partition (use `AssumeRole`). Session requests carry `aws:CrossPartitionSourceRegion` ([global condition keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html)); CloudTrail links both sides through `webIdentityTokenId` ([auditing](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition_auditing.html), [IAM User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition.html), [What's New](https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/)).
 - Pitfall: external services must pin the account-specific `iss` _and_ check `sub`/`aud`; trusting all of `*.tokens.sts.global.api.aws` would trust every AWS account.
 
 ### Centralized Root Access (`AssumeRoot`)
@@ -518,6 +519,7 @@ web_identity_token_file = /var/run/secrets/token
 - [AWS News Blog: IAM outbound identity federation](https://aws.amazon.com/blogs/aws/simplify-access-to-external-services-using-aws-iam-outbound-identity-federation/)
 - [IAM: Outbound token claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_token_claims.html)
 - [IAM: Federating AWS identities to external services](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound.html)
+- [IAM: Federating AWS identities across AWS partitions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition.html)
 - [Security Blog: Centralized root access](https://aws.amazon.com/blogs/security/secure-root-user-access-for-member-accounts-in-aws-organizations/)
 - [SDKs and Tools: Standardized credential providers](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html)
 - [SDKs and Tools: Container credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html)

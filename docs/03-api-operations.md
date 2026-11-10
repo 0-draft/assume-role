@@ -1,6 +1,6 @@
 # AWS STS API Operations: Complete Reference
 
-_Last verified: 2026-10-10 against the AWS STS API Reference (last published 2026-10-09), the IAM User Guide, the Service Authorization Reference, and AWS What's New posts._
+_Last verified: 2026-11-11 against the AWS STS API Reference (last published 2026-11-10), the IAM User Guide, the Service Authorization Reference, and AWS What's New posts._
 
 This chapter goes through every operation in the AWS Security Token Service (STS) API one by one. For each operation it covers who calls it, how the call is authenticated, its parameters and limits, what it returns, how long the result lasts, how it handles MFA, and what the resulting session can and cannot do. Each claim cites an official source inline. Anything that could not be confirmed against official documentation is marked **(unverified)**.
 

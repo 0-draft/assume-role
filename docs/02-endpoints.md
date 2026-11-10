@@ -1,6 +1,6 @@
 # AWS STS Endpoints Deep Dive
 
-_Last verified: 2026-10-10. Every claim links to its source. Anything not confirmed in official AWS material is marked "(unverified)". Where AWS documents disagree with each other, both are quoted._
+_Last verified: 2026-11-11. Every claim links to its source. Anything not confirmed in official AWS material is marked "(unverified)". Where AWS documents disagree with each other, both are quoted._
 
 ## TL;DR
 
@@ -157,7 +157,7 @@ export AWS_STS_REGIONAL_ENDPOINTS=regional
 
 ### Default behavior per SDK (current AWS table)
 
-From the [SDK Reference Guide](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html), as published on 2026-10-10. "Fallback" is what happens when a Regional endpoint should be used but no Region is configured.
+From the [SDK Reference Guide](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html), as published on 2026-11-11 (unchanged since 2026-10-10). "Fallback" is what happens when a Regional endpoint should be used but no Region is configured.
 
 | SDK or tool | Supports setting | Default value | Default STS endpoint | Fallback with no Region |
 | --- | --- | --- | --- | --- |
@@ -268,7 +268,7 @@ Dual-stack limitations: "IPv6 clients are not supported on the global endpoint `
 
 ### Other partitions
 
-Credentials never cross partitions. The AWS European Sovereign Cloud landing-zone guidance states plainly that `sts:AssumeRole` is "Not available across the aws and aws-eusc boundary" ([AWS Security Blog: ESC landing zone](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/)). Non-commercial partitions "must use Regional endpoints" ([SDK Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html)).
+A credential issued in one partition is not valid in another, so `AssumeRole` does not work across a partition boundary. The AWS European Sovereign Cloud landing-zone guidance states plainly that `sts:AssumeRole` is "Not available across the aws and aws-eusc boundary" ([AWS Security Blog: ESC landing zone](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/)). Since November 2026 the supported way across is cross-partition identity federation: call `GetWebIdentityToken` in the source partition and exchange the JWT with `AssumeRoleWithWebIdentity` at a Regional endpoint in the destination partition (`aws`, `aws-cn`, `aws-us-gov`, `aws-eusc`; [IAM User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition.html), [What's New](https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/)). Non-commercial partitions "must use Regional endpoints" ([SDK Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html)).
 
 | Partition | Regions | Regional endpoint | Dual-stack | FIPS | Source |
 | --- | --- | --- | --- | --- | --- |
@@ -327,7 +327,7 @@ There are 34 commercial Regions: 17 default-enabled and 17 opt-in. The Region li
 
 Notes:
 
-- The IAM "AWS STS Regions and endpoints" table, as published on 2026-10-10, omits `ap-east-2` (Taipei) and `ap-southeast-6` (New Zealand). The General Reference includes both, and the Account Management guide lists both as opt-in.
+- The IAM "AWS STS Regions and endpoints" table, as published on 2026-11-11, omits `ap-east-2` (Taipei) and `ap-southeast-6` (New Zealand). The General Reference includes both, and the Account Management guide lists both as opt-in.
 - "Not listed" means the Region is absent from the IAM User Guide's STS VPC endpoint list, which names 33 Regions as of 2026-10-10 ([IAM: interface VPC endpoints](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_interface_vpc_endpoints.html)). Whether those five Regions actually offer the endpoint is unverified. The list may simply be stale, because the PrivateLink service catalog lists `com.amazonaws.{region}.sts` without Region restrictions ([PrivateLink: AWS services that integrate](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)). Check with `aws ec2 describe-vpc-endpoint-services` in the target Region.
 - FIPS dual-stack hostnames (`sts-fips.<region>.api.aws`) exist for the same six Regions that have FIPS.
 

@@ -4,7 +4,7 @@ import { GLOBAL_HOST, regionalHost } from "./model";
 
 /**
  * Which STS hostname each SDK or tool calls, from the SDK Reference Guide table
- * (as of 2026-10-10) corrected by the 2025-07-31 release announcements for
+ * (as of 2026-11-11) corrected by the 2025-07-31 release announcements for
  * Boto3 1.40.0 and AWS CLI v1 1.42.0. See docs/02-endpoints.md.
  */
 
