@@ -253,8 +253,8 @@ export const TERMS: Term[] = [
     term: "Outbound identity federation",
     aka: ["GetWebIdentityToken", "アウトバウンドフェデレーション"],
     def: {
-      en: "Since November 2025, STS can sign a JWT about your AWS principal for services outside AWS (`GetWebIdentityToken`). Regional endpoints only.",
-      ja: "2025 年 11 月から、STS が AWS のプリンシパルについての JWT を AWS 外のサービス向けに署名できるようになりました (`GetWebIdentityToken`)。リージョナルエンドポイントのみです。",
+      en: "Since November 2025, STS can sign a JWT about your AWS principal for services outside AWS (`GetWebIdentityToken`). Since November 2026 the same JWT can also be exchanged for credentials in another AWS partition. Regional endpoints only.",
+      ja: "2025 年 11 月から、STS が AWS のプリンシパルについての JWT を AWS 外のサービス向けに署名できるようになりました (`GetWebIdentityToken`)。2026 年 11 月からは、同じ JWT を別の AWS パーティションの認証情報に交換することもできます。リージョナルエンドポイントのみです。",
     },
     chapter: "api",
   },

@@ -433,6 +433,19 @@ export const EVENTS: TimelineEvent[] = [
     },
     source: "https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts-vpc-oidc/",
   },
+  {
+    date: "2026-11",
+    category: "federation",
+    title: {
+      en: "Cross-partition federation",
+      ja: "クロスパーティションフェデレーション",
+    },
+    detail: {
+      en: "A `GetWebIdentityToken` JWT from one partition is exchanged with `AssumeRoleWithWebIdentity` for a role in another (`aws`, `aws-cn`, `aws-us-gov`, `aws-eusc`).",
+      ja: "あるパーティションの `GetWebIdentityToken` の JWT を、別パーティションのロールに対する `AssumeRoleWithWebIdentity` で交換できるようになりました (`aws`、`aws-cn`、`aws-us-gov`、`aws-eusc`)。",
+    },
+    source: "https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/",
+  },
 ];
 
 /** Comparable key: missing month or day sorts as the start of the period. */

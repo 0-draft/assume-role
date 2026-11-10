@@ -1,6 +1,6 @@
 # AWS STS Endpoints Deep Dive
 
-_Last verified: 2026-10-10. Every claim links to its source. Anything not confirmed in official AWS material is marked "(unverified)". Where AWS documents disagree with each other, both are quoted._
+_Last verified: 2026-11-11. Every claim links to its source. Anything not confirmed in official AWS material is marked "(unverified)". Where AWS documents disagree with each other, both are quoted._
 
 ## TL;DR
 
@@ -268,7 +268,7 @@ Dual-stack limitations: "IPv6 clients are not supported on the global endpoint `
 
 ### Other partitions
 
-Credentials never cross partitions. The AWS European Sovereign Cloud landing-zone guidance states plainly that `sts:AssumeRole` is "Not available across the aws and aws-eusc boundary" ([AWS Security Blog: ESC landing zone](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/)). Non-commercial partitions "must use Regional endpoints" ([SDK Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html)).
+A credential issued in one partition is not valid in another, so `AssumeRole` does not work across a partition boundary. The AWS European Sovereign Cloud landing-zone guidance states plainly that `sts:AssumeRole` is "Not available across the aws and aws-eusc boundary" ([AWS Security Blog: ESC landing zone](https://aws.amazon.com/blogs/security/architecting-a-secure-landing-zone-in-the-aws-european-sovereign-cloud/)). Since November 2026 the supported way across is cross-partition identity federation: call `GetWebIdentityToken` in the source partition and exchange the JWT with `AssumeRoleWithWebIdentity` at a Regional endpoint in the destination partition (`aws`, `aws-cn`, `aws-us-gov`, `aws-eusc`; [IAM User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition.html), [What's New](https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/)). Non-commercial partitions "must use Regional endpoints" ([SDK Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html)).
 
 | Partition | Regions | Regional endpoint | Dual-stack | FIPS | Source |
 | --- | --- | --- | --- | --- | --- |

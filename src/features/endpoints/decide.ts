@@ -24,8 +24,8 @@ export function decide(a: Answers): Decision {
       asked: ["commercial"],
       host: "sts.<region>.<partition suffix>",
       why: {
-        en: "China, GovCloud, the European Sovereign Cloud and ISO partitions have no global endpoint. Use that partition's Regional endpoint; credentials never cross partitions.",
-        ja: "中国・GovCloud・European Sovereign Cloud・ISO にはグローバルエンドポイントがありません。そのパーティションのリージョナルを使います。認証情報はパーティションをまたげません。",
+        en: "China, GovCloud, the European Sovereign Cloud and ISO partitions have no global endpoint. Use that partition's Regional endpoint. Credentials from one partition are not valid in another; to reach another partition, exchange a `GetWebIdentityToken` JWT with `AssumeRoleWithWebIdentity` there (cross-partition federation, since November 2026).",
+        ja: "中国・GovCloud・European Sovereign Cloud・ISO にはグローバルエンドポイントがありません。そのパーティションのリージョナルを使います。あるパーティションの認証情報は別のパーティションでは無効です。別パーティションに入るには、`GetWebIdentityToken` の JWT を相手側の `AssumeRoleWithWebIdentity` で交換します (2026 年 11 月からのクロスパーティションフェデレーション)。",
       },
     };
   if (a.fips) {

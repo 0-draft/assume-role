@@ -568,8 +568,8 @@ export const OPS: Op[] = [
     regionalOnly: true,
     since: 2025,
     purpose: {
-      en: "Outbound identity federation: get a JWT signed by AWS that proves who your workload is to an external service supporting OIDC. It returns no AWS credentials.",
-      ja: "アウトバウンド ID フェデレーション: ワークロードの身元を外部の OIDC 対応サービスに証明する、AWS 署名の JWT を得ます。AWS の認証情報は返しません。",
+      en: "Outbound identity federation: get a JWT signed by AWS that proves who your workload is to an external service supporting OIDC, or (since November 2026) to STS in another AWS partition via `AssumeRoleWithWebIdentity`. It returns no AWS credentials.",
+      ja: "アウトバウンド ID フェデレーション: ワークロードの身元を外部の OIDC 対応サービスに、または (2026 年 11 月から) `AssumeRoleWithWebIdentity` で別パーティションの STS に証明する、AWS 署名の JWT を得ます。AWS の認証情報は返しません。",
     },
     caller: {
       en: "An IAM role or user, typically a workload on EC2 or Lambda. The account must first run IAM `EnableOutboundWebIdentityFederation`, which creates its issuer URL.",

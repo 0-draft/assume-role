@@ -366,6 +366,19 @@ export const CATALOG: ConditionKey[] = [
     },
   },
   {
+    key: "aws:CrossPartitionSourceRegion",
+    family: "global",
+    type: "String",
+    when: {
+      en: "Role sessions from cross-partition federation only (not in the trust policy)",
+      ja: "クロスパーティションフェデレーションのロールセッションのみ (信頼ポリシーでは使えません)",
+    },
+    meaning: {
+      en: "The Region where the source partition's STS issued the `GetWebIdentityToken` JWT. Not transitive through role chaining.",
+      ja: "送信元パーティションの STS が `GetWebIdentityToken` の JWT を発行したリージョン。ロールチェーンには引き継がれません。",
+    },
+  },
+  {
     key: "aws:Ec2InstanceSourceVpc",
     family: "global",
     type: "String",

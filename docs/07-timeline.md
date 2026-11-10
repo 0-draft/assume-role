@@ -1,8 +1,8 @@
 # AWS STS Timeline
 
-_Last verified: 2026-10-10_
+_Last verified: 2026-11-11_
 
-This timeline lists the AWS Security Token Service (STS) launches and behavior changes that matter for design and operations, from the 2011 launch to October 2026. Each entry links to a primary source where one exists. Dates come from AWS What's New posts, AWS blogs, or the API reference. Entries marked "(unverified)" could not be tied to an official AWS source.
+This timeline lists the AWS Security Token Service (STS) launches and behavior changes that matter for design and operations, from the 2011 launch to November 2026. Each entry links to a primary source where one exists. Dates come from AWS What's New posts, AWS blogs, or the API reference. Entries marked "(unverified)" could not be tied to an official AWS source.
 
 ## At a glance
 
@@ -30,6 +30,7 @@ This timeline lists the AWS Security Token Service (STS) launches and behavior c
 | 2026-02 | IdP-specific OIDC claims as condition keys | Fine-grained GitHub, Google, CircleCI, OCI trust |
 | 2026-08 | Outbound identity federation in the AWS European Sovereign Cloud | Sovereign Region support |
 | 2026-09 | Single 4,096-byte session token limit with metrics; VPC endpoints for OIDC discovery | Predictable `PackedPolicyTooLarge`; private JWKS |
+| 2026-11 | Cross-partition identity federation | Temporary credentials across partitions without IAM user keys |
 
 ## Detailed entries
 
@@ -84,8 +85,9 @@ This timeline lists the AWS Security Token Service (STS) launches and behavior c
 - 2026-08: outbound identity federation becomes available in the AWS European Sovereign Cloud Region ([What's New](https://aws.amazon.com/about-aws/whats-new/2026/08/aws-iam-european-sovereign-cloud/)).
 - 2026-09: one 4,096-byte session token limit replaces the separate packed-policy and token limits. Responses add `SessionTokenSize` and `SessionTokenUtilization` (`PackedPolicySize` is deprecated). CloudWatch gains `AWS/STS` metrics, and the `MinimumSessionTokenSize` parameter supports testing ([What's New](https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts/), [AWS Security Blog](https://aws.amazon.com/blogs/security/aws-sts-simplifies-session-token-size-limits-and-adds-session-token-size-monitoring/)).
 - 2026-09: interface VPC endpoints for the outbound identity federation OIDC discovery and JWKS endpoints ([What's New](https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts-vpc-oidc/)).
+- 2026-11: cross-partition identity federation. A workload exchanges a `GetWebIdentityToken` JWT from its own partition for credentials in another partition with `AssumeRoleWithWebIdentity`, across `aws`, `aws-cn`, `aws-us-gov`, and `aws-eusc` ([What's New](https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/), [IAM User Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_cross_partition.html)).
 
-## Current API surface (2026-10)
+## Current API surface (2026-11)
 
 The STS API Reference lists 11 actions: `AssumeRole`, `AssumeRoleWithSAML`, `AssumeRoleWithWebIdentity`, `AssumeRoot`, `DecodeAuthorizationMessage`, `GetAccessKeyInfo`, `GetCallerIdentity`, `GetDelegatedAccessToken`, `GetFederationToken`, `GetSessionToken`, and `GetWebIdentityToken` ([STS API Reference: Actions](https://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html)).
 
@@ -135,6 +137,7 @@ The STS API Reference lists 11 actions: `AssumeRole`, `AssumeRoleWithSAML`, `Ass
 - [What's New 2026-09: STS session token size limits](https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts/)
 - [AWS Security Blog: AWS STS simplifies session token size limits](https://aws.amazon.com/blogs/security/aws-sts-simplifies-session-token-size-limits-and-adds-session-token-size-monitoring/)
 - [What's New 2026-09: VPC endpoints for OIDC discovery](https://aws.amazon.com/about-aws/whats-new/2026/09/aws-sts-vpc-oidc/)
+- [What's New 2026-11: STS cross-partition federation](https://aws.amazon.com/about-aws/whats-new/2026/11/aws-sts-cross-partition/)
 - [STS API Reference: Actions](https://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html)
 - [STS API Reference: AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
 - [STS API Reference: GetWebIdentityToken](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetWebIdentityToken.html)

@@ -27,7 +27,7 @@ This repository was called `assume-role` until 2026-11-08, when the former `call
 | 9 | Errors | Paste an error message and get the cause and the fix |
 | 10–11 | Timeline, glossary | STS history 2011–2026, 43 terms in EN/JA |
 
-The research behind every number lives in [`docs/`](docs/README.md), with sources. Facts were checked against AWS documentation, What's New posts, the AWS SDK endpoint data and the GitHub changelog on 2026-10-10. Where AWS sources disagree, the docs say so.
+The research behind every number lives in [`docs/`](docs/README.md), with sources. Facts were checked against AWS documentation, What's New posts, the AWS SDK endpoint data and the GitHub changelog on 2026-11-11. Where AWS sources disagree, the docs say so.
 
 The Signing chapter runs a real SigV4 and SigV4a implementation in the browser (WebCrypto plus `@noble/curves`). Its tests assert it byte for byte against the signature examples AWS publishes; how that was checked, and an error found in the AWS documentation along the way, is in [`docs/signing/`](docs/signing/README.md). That chapter and its notes came from the former `caller-identity` project, merged in on 2026-11-08.
 
