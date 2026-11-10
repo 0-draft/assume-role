@@ -157,7 +157,7 @@ export AWS_STS_REGIONAL_ENDPOINTS=regional
 
 ### Default behavior per SDK (current AWS table)
 
-From the [SDK Reference Guide](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html), as published on 2026-10-10. "Fallback" is what happens when a Regional endpoint should be used but no Region is configured.
+From the [SDK Reference Guide](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sts-regionalized-endpoints.html), as published on 2026-11-11 (unchanged since 2026-10-10). "Fallback" is what happens when a Regional endpoint should be used but no Region is configured.
 
 | SDK or tool | Supports setting | Default value | Default STS endpoint | Fallback with no Region |
 | --- | --- | --- | --- | --- |
@@ -327,7 +327,7 @@ There are 34 commercial Regions: 17 default-enabled and 17 opt-in. The Region li
 
 Notes:
 
-- The IAM "AWS STS Regions and endpoints" table, as published on 2026-10-10, omits `ap-east-2` (Taipei) and `ap-southeast-6` (New Zealand). The General Reference includes both, and the Account Management guide lists both as opt-in.
+- The IAM "AWS STS Regions and endpoints" table, as published on 2026-11-11, omits `ap-east-2` (Taipei) and `ap-southeast-6` (New Zealand). The General Reference includes both, and the Account Management guide lists both as opt-in.
 - "Not listed" means the Region is absent from the IAM User Guide's STS VPC endpoint list, which names 33 Regions as of 2026-10-10 ([IAM: interface VPC endpoints](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_interface_vpc_endpoints.html)). Whether those five Regions actually offer the endpoint is unverified. The list may simply be stale, because the PrivateLink service catalog lists `com.amazonaws.{region}.sts` without Region restrictions ([PrivateLink: AWS services that integrate](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)). Check with `aws ec2 describe-vpc-endpoint-services` in the target Region.
 - FIPS dual-stack hostnames (`sts-fips.<region>.api.aws`) exist for the same six Regions that have FIPS.
 

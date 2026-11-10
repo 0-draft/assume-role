@@ -597,6 +597,7 @@ GitHub Actions trust policy pinned to one repository and branch:
 | `aws:userid` | String | Always | See 10.4 |
 | `aws:PrincipalArn` | ARN | Signed requests | Matches the **role** ARN for role sessions; not converted to unique IDs |
 | `aws:AssumedRoot` | Bool | Credentials from `AssumeRoot` only | Distinguish centralized root sessions |
+| `aws:CrossPartitionSourceRegion` | String | Role sessions from cross-partition federation (`AssumeRoleWithWebIdentity` with a `GetWebIdentityToken` JWT); not in the trust-policy evaluation; not transitive through role chaining | SCP/RCP/identity-policy deny by the Region that issued the token (in the trust policy, use `issuer-host:source_region`) |
 | `aws:Ec2InstanceSourceVpc` | String | Requests signed with EC2 role credentials | Pin credentials to the VPC they were delivered to |
 | `aws:Ec2InstanceSourcePrivateIPv4` | IP | Requests signed with EC2 role credentials | Pin to delivery IP; always pair with the VPC key |
 | `aws:SourceArn`, `aws:SourceAccount` | ARN / String | Service-principal requests on behalf of a resource | Cross-service confused deputy |

@@ -30,8 +30,8 @@ export function DepartureBoard() {
         ja: "全リージョンの窓口を一枚のボードに",
       }}
       hint={{
-        en: "All 34 commercial Regions as of 2026-10-10. Type to filter by code or name, and switch which hostname family the board shows.",
-        ja: "2026-10-10 時点の商用 34 リージョンです。コードや名前で絞り込み、表示するホスト名の種類を切り替えられます。",
+        en: "All 34 commercial Regions as of 2026-11-11. Type to filter by code or name, and switch which hostname family the board shows.",
+        ja: "2026-11-11 時点の商用 34 リージョンです。コードや名前で絞り込み、表示するホスト名の種類を切り替えられます。",
       }}
     >
       <div className="flex flex-wrap items-end gap-4">

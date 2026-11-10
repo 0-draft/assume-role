@@ -1,7 +1,7 @@
 import type { L } from "@/i18n/lang";
 
 /**
- * Every operation in the STS API Reference (11 as of 2026-10-10), with the
+ * Every operation in the STS API Reference (11 as of 2026-11-11), with the
  * facts the chapter draws. Source: docs/03-api-operations.md, which cites the
  * API Reference page for each one. Values marked unverified there are either
  * left out here or labelled in the copy.

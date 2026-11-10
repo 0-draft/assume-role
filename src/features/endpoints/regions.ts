@@ -1,7 +1,7 @@
 import type { L } from "@/i18n/lang";
 
 /**
- * The 34 commercial Regions as of 2026-10-10 (docs/02-endpoints.md, "Commercial
+ * The 34 commercial Regions as of 2026-11-11 (docs/02-endpoints.md, "Commercial
  * Region endpoint table"). Hostnames are not stored: they follow one pattern per
  * family, built in hostname.ts, so the table cannot drift from the builder.
  */
